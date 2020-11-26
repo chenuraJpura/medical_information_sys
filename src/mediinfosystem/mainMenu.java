@@ -5,17 +5,18 @@
  */
 package mediinfosystem;
 
-import de.javasoft.synthetica.dark.SyntheticaDarkLookAndFeel;
-import java.awt.Color;
-import java.awt.Frame;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
 
-/**
- *
- * @author chenura_pc
- */
+import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.FlatPropertiesLaf;
+import com.formdev.flatlaf.IntelliJTheme;
+import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 public class mainMenu extends javax.swing.JFrame {
 
     /**
@@ -48,9 +49,13 @@ public class mainMenu extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         menu_show = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jPasswordField1 = new javax.swing.JPasswordField();
         content = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
 
@@ -180,15 +185,51 @@ public class mainMenu extends javax.swing.JFrame {
 
         menu_show.setBackground(new java.awt.Color(231, 233, 235));
 
+        jButton2.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(51, 51, 51));
+        jButton2.setText("Login");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel2.setText("User Name");
+
+        jLabel4.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel4.setText("Password");
+
         javax.swing.GroupLayout menu_showLayout = new javax.swing.GroupLayout(menu_show);
         menu_show.setLayout(menu_showLayout);
         menu_showLayout.setHorizontalGroup(
             menu_showLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 450, Short.MAX_VALUE)
+            .addGroup(menu_showLayout.createSequentialGroup()
+                .addGap(83, 83, 83)
+                .addGroup(menu_showLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel2)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                    .addComponent(jTextField1)
+                    .addComponent(jPasswordField1))
+                .addContainerGap(88, Short.MAX_VALUE))
         );
         menu_showLayout.setVerticalGroup(
             menu_showLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 660, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menu_showLayout.createSequentialGroup()
+                .addContainerGap(279, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(159, 159, 159))
         );
 
         left.add(menu_show, java.awt.BorderLayout.CENTER);
@@ -201,23 +242,15 @@ public class mainMenu extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(51, 51, 51));
         jPanel4.setPreferredSize(new java.awt.Dimension(400, 400));
 
-        jButton1.setText("jButton1");
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(151, 151, 151)
-                .addComponent(jButton1)
-                .addContainerGap(155, Short.MAX_VALUE))
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(180, 180, 180)
-                .addComponent(jButton1)
-                .addContainerGap(191, Short.MAX_VALUE))
+            .addGap(0, 400, Short.MAX_VALUE)
         );
 
         content.add(jPanel4, java.awt.BorderLayout.PAGE_END);
@@ -228,7 +261,6 @@ public class mainMenu extends javax.swing.JFrame {
         jLabel3.setBackground(new java.awt.Color(51, 51, 51));
         jLabel3.setForeground(new java.awt.Color(51, 51, 51));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/login_pic.png"))); // NOI18N
         jLabel3.setMaximumSize(new java.awt.Dimension(200, 150));
         jLabel3.setMinimumSize(new java.awt.Dimension(200, 150));
 
@@ -278,16 +310,26 @@ public class mainMenu extends javax.swing.JFrame {
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
     this.setExtendedState(JFrame.ICONIFIED);    }//GEN-LAST:event_jLabel1MouseClicked
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-try {
-            UIManager.setLookAndFeel(new SyntheticaDarkLookAndFeel());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    
+    public static void main(String args[]) throws UnsupportedLookAndFeelException {
         
+        try {
+            UIManager.setLookAndFeel( new FlatLightLaf());
+        } catch( Exception ex ) {
+        System.err.println( "Failed to initialize LaF" );
+        }
+    
+        
+        //BasicLookAndFeel darcula = new DarculaLaf();
+        //UIManager.setLookAndFeel(darcula);
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -301,14 +343,18 @@ try {
     private javax.swing.JLabel close_btn_img;
     private javax.swing.JPanel content;
     private javax.swing.JPanel header;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel left;
     private javax.swing.JLabel max_btn_img;
     private javax.swing.JPanel maximize;
