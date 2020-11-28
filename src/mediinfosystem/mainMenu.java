@@ -17,6 +17,8 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import view.appointmentAddGUI;
+import view.complainAddGUI;
+import view.homeAdminGUI;
 import view.postAddGUI;
 import view.visitorsAddGUI;
 
@@ -67,7 +69,6 @@ public class mainMenu extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setFont(new java.awt.Font("HelvLight", 0, 24)); // NOI18N
-        setMaximumSize(new java.awt.Dimension(1000, 1520));
         setUndecorated(true);
 
         header.setBackground(new java.awt.Color(51, 51, 51));
@@ -257,25 +258,29 @@ public class mainMenu extends javax.swing.JFrame {
             menu_showLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menu_showLayout.createSequentialGroup()
                 .addGroup(menu_showLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(menu_showLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(menu_showLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, menu_showLayout.createSequentialGroup()
+                            .addGap(54, 54, 54)
+                            .addGroup(menu_showLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel4)
+                                .addGroup(menu_showLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel2))))
                     .addGroup(menu_showLayout.createSequentialGroup()
-                        .addGap(75, 75, 75)
-                        .addGroup(menu_showLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel2)
-                            .addComponent(jTextField1)
-                            .addComponent(jPasswordField1)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(menu_showLayout.createSequentialGroup()
-                        .addGap(182, 182, 182)
+                        .addGap(178, 178, 178)
                         .addComponent(jLabel5)))
-                .addContainerGap(105, Short.MAX_VALUE))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
         menu_showLayout.setVerticalGroup(
             menu_showLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menu_showLayout.createSequentialGroup()
-                .addContainerGap(159, Short.MAX_VALUE)
+                .addContainerGap(165, Short.MAX_VALUE)
                 .addComponent(jLabel5)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -283,9 +288,9 @@ public class mainMenu extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
+                .addGap(42, 42, 42)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addContainerGap(146, Short.MAX_VALUE))
         );
 
         left.add(menu_show, java.awt.BorderLayout.CENTER);
@@ -373,7 +378,9 @@ public class mainMenu extends javax.swing.JFrame {
         } catch( Exception ex ) {
         System.err.println( "Failed to initialize LaF" );
         }
-        new postAddGUI().setVisible(true);
+        new homeAdminGUI().setVisible(true);
+        //new complainAddGUI().setVisible(true);
+        //new postAddGUI().setVisible(true);
         //new visitorsAddGUI().setVisible(true);
         //new appointmentAddGUI().setVisible(true);
         
