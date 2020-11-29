@@ -13,6 +13,7 @@ import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.FlatPropertiesLaf;
 import com.formdev.flatlaf.IntelliJTheme;
+import controllers.loginController;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -20,13 +21,13 @@ import view.appointmentAddGUI;
 import view.complainAddGUI;
 import view.homeAdminGUI;
 import view.postAddGUI;
+import view.userAddGUI;
 import view.visitorsAddGUI;
 
 public class mainMenu extends javax.swing.JFrame {
 
-    /**
-     * Creates new form mainMenu
-     */
+    int mousePx;
+    int mousePy;
     public mainMenu() {
         initComponents();
     }
@@ -57,16 +58,17 @@ public class mainMenu extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         menu_show = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        userName = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        userPass = new javax.swing.JPasswordField();
         jLabel5 = new javax.swing.JLabel();
+        warningLabel = new javax.swing.JLabel();
         content = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setFont(new java.awt.Font("HelvLight", 0, 24)); // NOI18N
         setUndecorated(true);
@@ -74,6 +76,16 @@ public class mainMenu extends javax.swing.JFrame {
         header.setBackground(new java.awt.Color(51, 51, 51));
         header.setForeground(new java.awt.Color(60, 63, 65));
         header.setPreferredSize(new java.awt.Dimension(800, 40));
+        header.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                headerMouseDragged(evt);
+            }
+        });
+        header.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                headerMousePressed(evt);
+            }
+        });
         header.setLayout(new java.awt.BorderLayout());
 
         min_max_close.setBackground(new java.awt.Color(51, 51, 51));
@@ -237,8 +249,9 @@ public class mainMenu extends javax.swing.JFrame {
             }
         });
 
-        jTextField1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 49, 83), 2, true));
-        jTextField1.setOpaque(false);
+        userName.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        userName.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 49, 83), 2, true));
+        userName.setOpaque(false);
 
         jLabel2.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(51, 51, 51));
@@ -248,9 +261,13 @@ public class mainMenu extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(51, 51, 51));
         jLabel4.setText("Password");
 
-        jPasswordField1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 49, 83), 2, true));
+        userPass.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        userPass.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 49, 83), 2, true));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/login_pic.png"))); // NOI18N
+
+        warningLabel.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        warningLabel.setForeground(new java.awt.Color(224, 49, 83));
 
         javax.swing.GroupLayout menu_showLayout = new javax.swing.GroupLayout(menu_show);
         menu_show.setLayout(menu_showLayout);
@@ -258,39 +275,39 @@ public class mainMenu extends javax.swing.JFrame {
             menu_showLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menu_showLayout.createSequentialGroup()
                 .addGroup(menu_showLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(menu_showLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(menu_showLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, menu_showLayout.createSequentialGroup()
-                            .addGap(54, 54, 54)
-                            .addGroup(menu_showLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(menu_showLayout.createSequentialGroup()
+                        .addGap(54, 54, 54)
+                        .addGroup(menu_showLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(warningLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(menu_showLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabel4)
-                                .addGroup(menu_showLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jLabel2))))
+                                .addComponent(userPass, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+                                .addComponent(userName, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+                                .addComponent(jLabel2))
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(menu_showLayout.createSequentialGroup()
                         .addGap(178, 178, 178)
                         .addComponent(jLabel5)))
-                .addContainerGap(106, Short.MAX_VALUE))
+                .addGap(106, 106, 106))
         );
         menu_showLayout.setVerticalGroup(
             menu_showLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menu_showLayout.createSequentialGroup()
-                .addContainerGap(165, Short.MAX_VALUE)
+                .addContainerGap(134, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
+                .addComponent(userPass, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(warningLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(146, Short.MAX_VALUE))
+                .addGap(167, 167, 167))
         );
 
         left.add(menu_show, java.awt.BorderLayout.CENTER);
@@ -364,8 +381,42 @@ public class mainMenu extends javax.swing.JFrame {
     this.setExtendedState(JFrame.ICONIFIED);    }//GEN-LAST:event_jLabel1MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        
+        if(userName.getText()!=null && userPass.getPassword()!=null){
+            
+            String userName=this.userName.getText();
+            
+            String userPass=new String(this.userPass.getPassword());
+                                   
+            String dbUserName="admin";
+            String dbPass="123";
+            
+            loginController loginObj=new loginController(userName,userPass,dbUserName,dbPass);
+            if(loginObj.loginChecker()){
+                new homeAdminGUI().setVisible(true);
+                this.setVisible(false);
+            
+            }else{
+                
+                warningLabel.setText("Login Details Are Wrong");
+                
+            }
+            
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void headerMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_headerMouseDragged
+        int xCordinate=evt.getXOnScreen();
+        int yCordinate=evt.getYOnScreen();
+        
+        this.setLocation(xCordinate-mousePx,yCordinate-mousePy);
+    }//GEN-LAST:event_headerMouseDragged
+
+    private void headerMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_headerMousePressed
+       
+        mousePx=evt.getX();
+        mousePy=evt.getY();
+    }//GEN-LAST:event_headerMousePressed
 
     /**
      * @param args the command line arguments
@@ -378,7 +429,8 @@ public class mainMenu extends javax.swing.JFrame {
         } catch( Exception ex ) {
         System.err.println( "Failed to initialize LaF" );
         }
-        new homeAdminGUI().setVisible(true);
+        new userAddGUI().setVisible(true);
+        //new homeAdminGUI().setVisible(true);
         //new complainAddGUI().setVisible(true);
         //new postAddGUI().setVisible(true);
         //new visitorsAddGUI().setVisible(true);
@@ -412,8 +464,6 @@ public class mainMenu extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel left;
     private javax.swing.JLabel max_btn_img;
     private javax.swing.JPanel maximize;
@@ -421,5 +471,8 @@ public class mainMenu extends javax.swing.JFrame {
     private javax.swing.JPanel menu_show;
     private javax.swing.JPanel min_max_close;
     private javax.swing.JPanel minmize;
+    private javax.swing.JTextField userName;
+    private javax.swing.JPasswordField userPass;
+    private javax.swing.JLabel warningLabel;
     // End of variables declaration//GEN-END:variables
 }
