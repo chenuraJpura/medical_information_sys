@@ -14,19 +14,27 @@ import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.FlatPropertiesLaf;
 import com.formdev.flatlaf.IntelliJTheme;
 import controllers.loginController;
+import java.awt.Color;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import view.appointmentAddGUI;
 import view.complainAddGUI;
 import view.homeAdminGUI;
 import view.postAddGUI;
+import view.refferenceAddViewGUI;
 import view.userAddGUI;
 import view.userViewGUI;
 import view.visitorsAddGUI;
 
+
+
 public class mainMenu extends javax.swing.JFrame {
 
+    public void changecolor(JPanel hover, Color rand){
+        hover.setBackground(rand);
+    }
     int mousePx;
     int mousePy;
     public mainMenu() {
@@ -58,7 +66,7 @@ public class mainMenu extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         menu_show = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        loginButton = new javax.swing.JButton();
         userName = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -85,6 +93,9 @@ public class mainMenu extends javax.swing.JFrame {
         header.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 headerMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                headerMouseReleased(evt);
             }
         });
         header.setLayout(new java.awt.BorderLayout());
@@ -240,18 +251,18 @@ public class mainMenu extends javax.swing.JFrame {
         menu_show.setMinimumSize(new java.awt.Dimension(500, 660));
         menu_show.setPreferredSize(new java.awt.Dimension(600, 660));
 
-        jButton2.setBackground(new java.awt.Color(224, 49, 83));
-        jButton2.setFont(new java.awt.Font("Montserrat", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Login");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        loginButton.setBackground(new java.awt.Color(224, 49, 83));
+        loginButton.setFont(new java.awt.Font("Montserrat", 1, 14)); // NOI18N
+        loginButton.setForeground(new java.awt.Color(255, 255, 255));
+        loginButton.setText("Login");
+        loginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                loginButtonActionPerformed(evt);
             }
         });
 
         userName.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
-        userName.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 49, 83), 2, true));
+        userName.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(224, 49, 83), 2));
         userName.setOpaque(false);
 
         jLabel2.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -263,7 +274,7 @@ public class mainMenu extends javax.swing.JFrame {
         jLabel4.setText("Password");
 
         userPass.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
-        userPass.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(224, 49, 83), 2, true));
+        userPass.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(224, 49, 83), 2));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/login_pic.png"))); // NOI18N
 
@@ -284,12 +295,12 @@ public class mainMenu extends javax.swing.JFrame {
                                 .addComponent(jLabel4)
                                 .addComponent(userPass, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
                                 .addComponent(userName, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
-                                .addComponent(jLabel2))
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(jLabel2)
+                                .addComponent(loginButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(menu_showLayout.createSequentialGroup()
                         .addGap(178, 178, 178)
                         .addComponent(jLabel5)))
-                .addGap(106, 106, 106))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
         menu_showLayout.setVerticalGroup(
             menu_showLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -304,10 +315,10 @@ public class mainMenu extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(userPass, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(warningLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(167, 167, 167))
         );
 
@@ -381,9 +392,11 @@ public class mainMenu extends javax.swing.JFrame {
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
     this.setExtendedState(JFrame.ICONIFIED);    }//GEN-LAST:event_jLabel1MouseClicked
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         
-        if(userName.getText()!=null && userPass.getPassword()!=null){
+        
+        
+        if(!userName.getText().equals("") && !userPass.getPassword().equals("")){
             
             String userName=this.userName.getText();
             
@@ -403,21 +416,42 @@ public class mainMenu extends javax.swing.JFrame {
                 
             }
             
+        }else{
+        
+                warningLabel.setText("Enter Username & Password");
+        
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+        
+    }//GEN-LAST:event_loginButtonActionPerformed
 
     private void headerMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_headerMouseDragged
         int xCordinate=evt.getXOnScreen();
         int yCordinate=evt.getYOnScreen();
-        
+        changecolor(jPanel5,new Color(12,16,45));
+        changecolor(min_max_close,new Color(12,16,45));
+        changecolor(close,new Color(12,16,45));
+        changecolor(minmize,new Color(12,16,45));
+        changecolor(maximize,new Color(12,16,45));
+
+
         this.setLocation(xCordinate-mousePx,yCordinate-mousePy);
     }//GEN-LAST:event_headerMouseDragged
 
     private void headerMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_headerMousePressed
-       
+        
         mousePx=evt.getX();
         mousePy=evt.getY();
     }//GEN-LAST:event_headerMousePressed
+
+    private void headerMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_headerMouseReleased
+        changecolor(jPanel5,new Color(51,51,51));
+        changecolor(min_max_close,new Color(51,51,51));
+        changecolor(close,new Color(51,51,51));
+        changecolor(minmize,new Color(51,51,51));
+        changecolor(maximize,new Color(51,51,51));
+
+        
+    }//GEN-LAST:event_headerMouseReleased
 
     /**
      * @param args the command line arguments
@@ -430,6 +464,7 @@ public class mainMenu extends javax.swing.JFrame {
         } catch( Exception ex ) {
         System.err.println( "Failed to initialize LaF" );
         }
+        //new refferenceAddViewGUI().setVisible(true);
         //new userViewGUI().setVisible(true);
         //new userAddGUI().setVisible(true);
         //new homeAdminGUI().setVisible(true);
@@ -454,7 +489,6 @@ public class mainMenu extends javax.swing.JFrame {
     private javax.swing.JLabel close_btn_img;
     private javax.swing.JPanel content;
     private javax.swing.JPanel header;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -467,6 +501,7 @@ public class mainMenu extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel left;
+    private javax.swing.JButton loginButton;
     private javax.swing.JLabel max_btn_img;
     private javax.swing.JPanel maximize;
     private javax.swing.JPanel menuSection;

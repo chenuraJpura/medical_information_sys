@@ -1,5 +1,7 @@
 package view;
 
+import javax.swing.JFrame;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -32,7 +34,7 @@ public class appointmentAddGUI extends javax.swing.JFrame {
         header = new javax.swing.JPanel();
         min_max_close = new javax.swing.JPanel();
         minmize = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        minimizeBtn = new javax.swing.JLabel();
         close = new javax.swing.JPanel();
         close_btn_img = new javax.swing.JLabel();
         maximize = new javax.swing.JPanel();
@@ -85,15 +87,15 @@ public class appointmentAddGUI extends javax.swing.JFrame {
         minmize.setPreferredSize(new java.awt.Dimension(100, 30));
         minmize.setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setBackground(new java.awt.Color(122, 134, 140));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/min_button.png"))); // NOI18N
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        minimizeBtn.setBackground(new java.awt.Color(122, 134, 140));
+        minimizeBtn.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        minimizeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/min_button.png"))); // NOI18N
+        minimizeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                minimizeBtnMouseClicked(evt);
             }
         });
-        minmize.add(jLabel1, java.awt.BorderLayout.CENTER);
+        minmize.add(minimizeBtn, java.awt.BorderLayout.CENTER);
 
         min_max_close.add(minmize, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 80, -1));
 
@@ -295,7 +297,7 @@ public class appointmentAddGUI extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(48, 48, 48))
-                            .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
+                            .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -382,7 +384,6 @@ public class appointmentAddGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -403,9 +404,9 @@ public class appointmentAddGUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-
-    }//GEN-LAST:event_jLabel1MouseClicked
+    private void minimizeBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeBtnMouseClicked
+        this.setExtendedState(JFrame.ICONIFIED);
+    }//GEN-LAST:event_minimizeBtnMouseClicked
 
     private void close_btn_imgMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_close_btn_imgMouseClicked
         System.exit(0);
@@ -493,7 +494,6 @@ public class appointmentAddGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -525,6 +525,7 @@ public class appointmentAddGUI extends javax.swing.JFrame {
     private javax.swing.JLabel max_btn_img;
     private javax.swing.JPanel maximize;
     private javax.swing.JPanel min_max_close;
+    private javax.swing.JLabel minimizeBtn;
     private javax.swing.JPanel minmize;
     // End of variables declaration//GEN-END:variables
 }
