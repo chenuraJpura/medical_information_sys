@@ -22,6 +22,7 @@ import view.complainAddGUI;
 import view.homeAdminGUI;
 import view.postAddGUI;
 import view.userAddGUI;
+import view.userViewGUI;
 import view.visitorsAddGUI;
 
 public class mainMenu extends javax.swing.JFrame {
@@ -429,12 +430,13 @@ public class mainMenu extends javax.swing.JFrame {
         } catch( Exception ex ) {
         System.err.println( "Failed to initialize LaF" );
         }
-        new userAddGUI().setVisible(true);
+        //new userViewGUI().setVisible(true);
+        //new userAddGUI().setVisible(true);
         //new homeAdminGUI().setVisible(true);
         //new complainAddGUI().setVisible(true);
         //new postAddGUI().setVisible(true);
         //new visitorsAddGUI().setVisible(true);
-        //new appointmentAddGUI().setVisible(true);
+        new appointmentAddGUI().setVisible(true);
         
         //BasicLookAndFeel darcula = new DarculaLaf();
         //UIManager.setLookAndFeel(darcula);
