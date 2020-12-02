@@ -76,6 +76,7 @@ public class mainMenu extends javax.swing.JFrame {
         content = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -361,6 +362,11 @@ public class mainMenu extends javax.swing.JFrame {
 
         content.add(jPanel8, java.awt.BorderLayout.PAGE_END);
 
+        jPanel6.setBackground(new java.awt.Color(51, 51, 51));
+        jPanel6.setForeground(new java.awt.Color(51, 51, 51));
+        jPanel6.setLayout(new java.awt.BorderLayout());
+        content.add(jPanel6, java.awt.BorderLayout.CENTER);
+
         getContentPane().add(content, java.awt.BorderLayout.CENTER);
 
         setSize(new java.awt.Dimension(900, 700));
@@ -467,11 +473,11 @@ public class mainMenu extends javax.swing.JFrame {
         //new refferenceAddViewGUI().setVisible(true);
         //new userViewGUI().setVisible(true);
         //new userAddGUI().setVisible(true);
-        //new homeAdminGUI().setVisible(true);
+        new homeAdminGUI().setVisible(true);
         //new complainAddGUI().setVisible(true);
         //new postAddGUI().setVisible(true);
         //new visitorsAddGUI().setVisible(true);
-        new appointmentAddGUI().setVisible(true);
+        //new appointmentAddGUI().setVisible(true);
         
         //BasicLookAndFeel darcula = new DarculaLaf();
         //UIManager.setLookAndFeel(darcula);
@@ -499,6 +505,7 @@ public class mainMenu extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel left;
     private javax.swing.JButton loginButton;

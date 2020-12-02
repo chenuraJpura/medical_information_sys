@@ -2,13 +2,14 @@
 package controllers;
 
 public class appointmentController {
+    //
     private String appPatientName;
     private date appDate;
     private time appTime;
     private String appSymptoms;
     private String appConclution;
     private String appStatus;
-
+    //default constructor
     public appointmentController(String appPatientName, date appDate, time appTime, String appSymptoms, String appConclution, String appStatus) {
         this.appPatientName = appPatientName;
         this.appDate = appDate;

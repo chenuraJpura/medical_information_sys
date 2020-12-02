@@ -197,7 +197,7 @@ public class complainAddGUI extends javax.swing.JFrame {
         );
         backToMenuBtnLayout.setVerticalGroup(
             backToMenuBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGap(0, 116, Short.MAX_VALUE)
         );
 
         jPanel1.add(backToMenuBtn, java.awt.BorderLayout.PAGE_START);
