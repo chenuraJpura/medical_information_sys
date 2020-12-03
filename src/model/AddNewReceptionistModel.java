@@ -10,7 +10,7 @@ import java.io.IOException;
  *
  * @author chenura_pc
  */
-public class AddNewRecetionistModel {
+public class AddNewReceptionistModel{
     public static void writingTXT(String receptionistString){//writing to objcet to file 
     BufferedWriter bw = null;
       try {//try catch start

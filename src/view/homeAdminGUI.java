@@ -12,7 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import model.AddNewPatientModel;
-import model.AddNewRecetionistModel;
+import model.AddNewReceptionistModel;
+
 
 /**
  *
@@ -2141,7 +2142,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
                         marriedState.getSelection().getActionCommand()
                     );
                     //passing the value to model for write txt
-                    AddNewRecetionistModel.writingTXT(newReceptionist.toString());
+                    AddNewReceptionistModel.writingTXT(newReceptionist.toString());
 
                 }
             }
