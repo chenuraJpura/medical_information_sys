@@ -7,8 +7,9 @@ public class userController {
     private String userLastName;
     private enum userGender{
         MALE,
-        FEMALE
+        FEMALE,
     }
+    private userGender userGen;
     private int userPhoneNo;
     private String userNIC;
     private date userDOB;
@@ -17,17 +18,56 @@ public class userController {
         MARRIED,
         UNMARRIED
     }
-
+    private userMarital userMarried;
     
+    public void setUserMarital(String marriedState){
+        switch (marriedState) {
+            case "MARRIED":
+            this.userMarried=userMarried.MARRIED;
+            break;
+            
+            case "UNMARRIED":
+            this.userMarried=userMarried.UNMARRIED;
+            break;
+        
+        }
+    }
     
-    public userController(String userName, String userFirstName, String userLastName, int userPhoneNo, String userNIC, date userDOB, String userAddress) {
+    public void setUserGender(String selectedGen){
+        switch (selectedGen) {
+            case "MALE":
+            this.userGen=userGender.MALE;
+            break;
+            
+            case "FEMALE":
+            this.userGen=userGender.FEMALE;
+            break;
+        }
+    }
+    
+    public userController(String userName,
+            String userFirstName,
+            String userLastName,
+            int userPhoneNo,
+            String userNIC,
+            date userDOB,
+            String userAddress,
+            String userGender,
+            String mariedState
+    ) {
         this.userName = userName;
         this.userFirstName = userFirstName;
         this.userLastName = userLastName;
         this.userPhoneNo = userPhoneNo;
+        setUserGender(userGender);
+        setUserMarital(mariedState);
         this.userNIC = userNIC;
         this.userDOB = userDOB;
         this.userAddress = userAddress;
+    }
+
+    public userMarital getUserMarried() {
+        return userMarried;
     }
 
     public String getUserName() {
@@ -84,6 +124,10 @@ public class userController {
 
     public void setUserAddress(String userAddress) {
         this.userAddress = userAddress;
+    }
+
+    public userGender getUserGen() {
+        return userGen;
     }
     
     
