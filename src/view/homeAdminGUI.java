@@ -1,6 +1,7 @@
 
 package view;
 
+import controllers.complainsController;
 import controllers.date;
 import controllers.patient;
 import controllers.receptionist;
@@ -11,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import model.AddNewComplain;
 import model.AddNewPatientModel;
 import model.AddNewReceptionistModel;
 
@@ -178,13 +180,21 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jLabel45 = new javax.swing.JLabel();
+        complainWarning = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jLabel51 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        AddNewComplainName = new javax.swing.JTextField();
+        AddNewComplainPhoneNumber = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea4 = new javax.swing.JTextArea();
-        jButton6 = new javax.swing.JButton();
+        AddNewComplainDesTextArea = new javax.swing.JTextArea();
+        AddNewComplainBtn = new javax.swing.JButton();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        AddNewComplainNote = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel67 = new javax.swing.JLabel();
+        jLabel68 = new javax.swing.JLabel();
+        AddNewComplainReferenceDepartment = new javax.swing.JComboBox<>();
+        jLabel69 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         referencePanel = new javax.swing.JPanel();
         userPanel = new javax.swing.JPanel();
@@ -1318,6 +1328,8 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel45.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel45.setText("Add new Complain");
 
+        complainWarning.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -1325,11 +1337,18 @@ public class homeAdminGUI extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jLabel45)
-                .addContainerGap(494, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
+                .addComponent(complainWarning, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel45, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(complainWarning, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel45, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel1.add(jPanel7, java.awt.BorderLayout.PAGE_START);
@@ -1339,31 +1358,59 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel51.setForeground(new java.awt.Color(51, 51, 51));
         jLabel51.setText("Your Name");
 
-        jTextField3.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        AddNewComplainName.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        AddNewComplainName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                AddNewComplainNameActionPerformed(evt);
             }
         });
 
-        jTextField4.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        AddNewComplainPhoneNumber.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        AddNewComplainPhoneNumber.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                AddNewComplainPhoneNumberActionPerformed(evt);
             }
         });
 
-        jTextArea4.setColumns(20);
-        jTextArea4.setRows(5);
-        jScrollPane4.setViewportView(jTextArea4);
+        AddNewComplainDesTextArea.setColumns(20);
+        AddNewComplainDesTextArea.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        AddNewComplainDesTextArea.setRows(5);
+        jScrollPane4.setViewportView(AddNewComplainDesTextArea);
 
-        jButton6.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton6.setText("Add Appointment");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+        AddNewComplainBtn.setBackground(new java.awt.Color(255, 0, 102));
+        AddNewComplainBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        AddNewComplainBtn.setForeground(new java.awt.Color(255, 255, 255));
+        AddNewComplainBtn.setText("Add Complain");
+        AddNewComplainBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AddNewComplainBtnMouseClicked(evt);
             }
         });
+        AddNewComplainBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddNewComplainBtnActionPerformed(evt);
+            }
+        });
+
+        AddNewComplainNote.setColumns(20);
+        AddNewComplainNote.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        AddNewComplainNote.setRows(5);
+        jScrollPane5.setViewportView(AddNewComplainNote);
+
+        jLabel1.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLabel1.setText("Phone Number");
+
+        jLabel67.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLabel67.setText("Description");
+
+        jLabel68.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLabel68.setText("Note");
+
+        AddNewComplainReferenceDepartment.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        AddNewComplainReferenceDepartment.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Out-Patient & Front-Office Department", "Pathology Department", "Pharmacy Department", "Radiology Department", "Finance Department", "Human Resources Department" }));
+
+        jLabel69.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLabel69.setText("Relvent Department");
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -1372,13 +1419,20 @@ public class homeAdminGUI extends javax.swing.JFrame {
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField3)
-                    .addComponent(jTextField4)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(AddNewComplainName)
+                    .addComponent(AddNewComplainPhoneNumber)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                    .addComponent(AddNewComplainBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(AddNewComplainReferenceDepartment, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addComponent(jLabel51)
-                        .addGap(0, 258, Short.MAX_VALUE))
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel51)
+                            .addComponent(jLabel68, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel67)
+                            .addComponent(jLabel69)
+                            .addComponent(jLabel1))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(328, 328, 328))
         );
         jPanel11Layout.setVerticalGroup(
@@ -1387,14 +1441,26 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 .addGap(47, 47, 47)
                 .addComponent(jLabel51)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addComponent(AddNewComplainName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(AddNewComplainPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
+                .addComponent(jLabel69)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(AddNewComplainReferenceDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel67)
+                .addGap(3, 3, 3)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel68)
+                .addGap(11, 11, 11)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(AddNewComplainBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel11, java.awt.BorderLayout.CENTER);
@@ -2008,17 +2074,17 @@ public class homeAdminGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox5ActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void AddNewComplainNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewComplainNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_AddNewComplainNameActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void AddNewComplainPhoneNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewComplainPhoneNumberActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_AddNewComplainPhoneNumberActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void AddNewComplainBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewComplainBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_AddNewComplainBtnActionPerformed
 
     private void AddNewStaffIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewStaffIDActionPerformed
         // TODO add your handling code here:
@@ -2167,6 +2233,31 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private void addNewUserFirstNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewUserFirstNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_addNewUserFirstNameActionPerformed
+
+    private void AddNewComplainBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddNewComplainBtnMouseClicked
+        
+        boolean textField7=AddNewComplainName.getText().equals("");
+        boolean textField8=AddNewComplainPhoneNumber.getText().equals("");
+        boolean textField9=AddNewComplainDesTextArea.getText().equals("");
+        boolean textField10=AddNewComplainNote.getText().equals("");
+        
+        if(!(textField7 || textField8 || textField9 || textField10 )){
+                
+                complainWarning.setText("Sumbiting the Complain");
+                date complainDateObj=new date();
+                complainsController newComplain=new complainsController(
+                AddNewComplainName.getText(),
+                Integer.parseInt(AddNewComplainPhoneNumber.getText()),
+                complainDateObj,
+                AddNewComplainDesTextArea.getText(),
+                "no-action-taken",
+                AddNewComplainNote.getText(),
+                AddNewComplainReferenceDepartment.getSelectedItem().toString());
+                AddNewComplain.writingTXT(newComplain.toString());
+        }else{
+                complainWarning.setText("Please fill all fields");
+        }        
+    }//GEN-LAST:event_AddNewComplainBtnMouseClicked
     
     
     /**
@@ -2205,6 +2296,12 @@ public class homeAdminGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AddNewComplainBtn;
+    private javax.swing.JTextArea AddNewComplainDesTextArea;
+    private javax.swing.JTextField AddNewComplainName;
+    private javax.swing.JTextArea AddNewComplainNote;
+    private javax.swing.JTextField AddNewComplainPhoneNumber;
+    private javax.swing.JComboBox<String> AddNewComplainReferenceDepartment;
     private javax.swing.JTextField AddNewStaffID;
     private javax.swing.JSpinner AddNewUserDOBDay;
     private javax.swing.JSpinner AddNewUserDOBMoth;
@@ -2233,6 +2330,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JLabel close_btn_img;
     private javax.swing.JPanel complain;
     private javax.swing.JPanel complainPanel;
+    private javax.swing.JLabel complainWarning;
     private javax.swing.JPanel content;
     private javax.swing.JPanel dispatchTab;
     private javax.swing.JLabel emailLabel;
@@ -2243,11 +2341,11 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox5;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -2310,6 +2408,9 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel64;
     private javax.swing.JLabel jLabel65;
     private javax.swing.JLabel jLabel66;
+    private javax.swing.JLabel jLabel67;
+    private javax.swing.JLabel jLabel68;
+    private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -2334,6 +2435,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JSpinner jSpinner10;
     private javax.swing.JSpinner jSpinner11;
@@ -2355,7 +2457,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextArea jTextArea3;
-    private javax.swing.JTextArea jTextArea4;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
@@ -2366,8 +2467,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField20;
     private javax.swing.JTextField jTextField21;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;

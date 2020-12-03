@@ -2,7 +2,7 @@
 package controllers;
 
 public class appointmentController {
-    //
+    //appointment var defined
     private String appPatientName;
     private date appDate;
     private time appTime;
@@ -26,7 +26,7 @@ public class appointmentController {
     public void setAppPatientName(String appPatientName) {
         this.appPatientName = appPatientName;
     }
-
+//getter and setter
     public date getAppDate() {
         return appDate;
     }
@@ -44,7 +44,7 @@ public class appointmentController {
     }
 
     public String getAppSymptoms() {
-        return appSymptoms;
+        return this.appSymptoms;
     }
 
     public void setAppSymptoms(String appSymptoms) {

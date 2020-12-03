@@ -3,23 +3,41 @@ package controllers;
 
 public class complainsController {
     
-    private enum complainType{
-    
-    }
     private String complainByName;
     private int    complainPhoneNo;
     private date   complainDateObj;
+    private String complainReference;
     private String complainDescription;
     private String complainActionTaken;
     private String complainNote;
 
-    public complainsController(String complainByName, int complainPhoneNo, date complainDateObj, String complainDescription, String complainActionTaken, String complainNote) {
+    
+    
+    @Override
+    public String toString(){
+        return getComplainByName()+","+
+                getComplainPhoneNo()+","+
+                getComplainReference()+","+
+                getComplainDateObj().toString()+","+
+                getComplainDescription()+","+
+                getComplainActionTaken()+","+
+                getComplainNote();
+    }
+    
+    public complainsController(String complainByName,
+            int complainPhoneNo,
+            date complainDateObj,
+            String complainDescription,
+            String complainActionTaken,
+            String complainNote,
+            String complainRefference) {
         this.complainByName = complainByName;
         this.complainPhoneNo = complainPhoneNo;
         this.complainDateObj = complainDateObj;
         this.complainDescription = complainDescription;
         this.complainActionTaken = complainActionTaken;
         this.complainNote = complainNote;
+        this.complainReference=complainRefference;
     }
 
     public String getComplainByName() {
@@ -68,6 +86,14 @@ public class complainsController {
 
     public void setComplainNote(String complainNote) {
         this.complainNote = complainNote;
+    }
+
+    public String getComplainReference() {
+        return complainReference;
+    }
+
+    public void setComplainReference(String complainReference) {
+        this.complainReference = complainReference;
     }
     
     
