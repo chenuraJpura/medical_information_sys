@@ -1,14 +1,59 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package controllers;
 
-/**
- *
- * @author chenura_pc
- */
+import com.bulenkov.darcula.ui.DarculaButtonPainter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class time {
+    private int minutes;
+    private int hours;
+    private String AmPmState;
+
+    public time(int minutes, int hours, String AmPmState) {
+        this.minutes = minutes;
+        this.hours = hours;
+        this.AmPmState = AmPmState;
+    }
     
+    public time(){
+        DateTimeFormatter hoursFormat = DateTimeFormatter.ofPattern("HH");
+        DateTimeFormatter minutesFormat = DateTimeFormatter.ofPattern("mm");
+        DateTimeFormatter AmPmFormat = DateTimeFormatter.ofPattern("a");
+        
+        LocalDateTime now = LocalDateTime.now();  
+        this.hours=Integer.parseInt(hoursFormat.format(now));
+        this.minutes=Integer.parseInt(minutesFormat.format(now));
+        this.AmPmState=AmPmFormat.format(now);
+    }
+
+    public int getMinutes() {
+        return minutes;
+    }
+
+    public void setMinutes(int minutes) {
+        this.minutes = minutes;
+    }
+
+    public int getHours() {
+        return hours;
+    }
+
+    public void setHours(int hours) {
+        this.hours = hours;
+    }
+
+    public String getAmPmState() {
+        return AmPmState;
+    }
+
+    public void setAmPmState(String AmPmState) {
+        this.AmPmState = AmPmState;
+    }
+    
+    @Override
+    public String toString(){
+        return getHours()+":"+
+                getMinutes()+getAmPmState();
+    }
 }

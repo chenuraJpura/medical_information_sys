@@ -1,10 +1,12 @@
 
 package view;
 
+import controllers.appointmentController;
 import controllers.complainsController;
 import controllers.date;
 import controllers.patient;
 import controllers.receptionist;
+import controllers.time;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.ButtonModel;
@@ -12,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import model.AddNewAppointmentModel;
 import model.AddNewComplain;
 import model.AddNewPatientModel;
 import model.AddNewReceptionistModel;
@@ -76,29 +79,30 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         newAppPanel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField1 = new javax.swing.JTextField();
+        addNewAppointmentSymptoms = new javax.swing.JTextField();
+        addNewAppointmentPatientName = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        AddNewAppointmentBtn = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jSpinner1 = new javax.swing.JSpinner();
-        jSpinner2 = new javax.swing.JSpinner();
+        addNewAppointmentConclution = new javax.swing.JTextField();
+        AddNewAppointmentAMPM = new javax.swing.JComboBox<>();
+        AddNewAppointmentMinutes = new javax.swing.JSpinner();
+        AddNewAppointmentHours = new javax.swing.JSpinner();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
-        jSpinner3 = new javax.swing.JSpinner();
-        jSpinner4 = new javax.swing.JSpinner();
-        jSpinner5 = new javax.swing.JSpinner();
+        addNewAppointmentDay = new javax.swing.JSpinner();
+        addNewAppointmentMonth = new javax.swing.JSpinner();
+        addNewAppointmentYear = new javax.swing.JSpinner();
+        addNewAppointmentNotficationLabel = new javax.swing.JLabel();
         viewAppPanel = new javax.swing.JPanel();
         visitorsPanel = new javax.swing.JPanel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
@@ -563,17 +567,17 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(246, 250, 251));
         jPanel2.setPreferredSize(new java.awt.Dimension(300, 531));
 
-        jTextField2.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        addNewAppointmentSymptoms.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        addNewAppointmentSymptoms.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                addNewAppointmentSymptomsActionPerformed(evt);
             }
         });
 
-        jTextField1.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        addNewAppointmentPatientName.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        addNewAppointmentPatientName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                addNewAppointmentPatientNameActionPerformed(evt);
             }
         });
 
@@ -598,11 +602,16 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel12.setText("Appointment Date");
 
-        jButton2.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton2.setText("Add Appointment");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        AddNewAppointmentBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        AddNewAppointmentBtn.setText("Add Appointment");
+        AddNewAppointmentBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AddNewAppointmentBtnMouseClicked(evt);
+            }
+        });
+        AddNewAppointmentBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                AddNewAppointmentBtnActionPerformed(evt);
             }
         });
 
@@ -615,16 +624,19 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel15.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         jLabel15.setText("Year");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AM", "PM" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        AddNewAppointmentAMPM.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        AddNewAppointmentAMPM.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AM", "PM" }));
+        AddNewAppointmentAMPM.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                AddNewAppointmentAMPMActionPerformed(evt);
             }
         });
 
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
+        AddNewAppointmentMinutes.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        AddNewAppointmentMinutes.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
 
-        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(1, 1, 12, 1));
+        AddNewAppointmentHours.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        AddNewAppointmentHours.setModel(new javax.swing.SpinnerNumberModel(1, 1, 12, 1));
 
         jLabel16.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         jLabel16.setText("Hours");
@@ -643,44 +655,53 @@ public class homeAdminGUI extends javax.swing.JFrame {
             }
         });
 
+        addNewAppointmentDay.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+
+        addNewAppointmentMonth.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+
+        addNewAppointmentYear.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+
+        addNewAppointmentNotficationLabel.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(127, 127, 127)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1)
-                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField2)
-                    .addComponent(jTextField7)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(addNewAppointmentNotficationLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(addNewAppointmentPatientName, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(addNewAppointmentSymptoms, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(addNewAppointmentConclution, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel13)
-                            .addComponent(jSpinner3))
+                            .addComponent(addNewAppointmentDay))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel14)
-                            .addComponent(jSpinner4))
+                            .addComponent(addNewAppointmentMonth))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSpinner5)
+                            .addComponent(addNewAppointmentYear)
                             .addComponent(jLabel15))
                         .addGap(134, 134, 134))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel16)
-                                    .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(AddNewAppointmentHours, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(12, 12, 12)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(AddNewAppointmentMinutes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(AddNewAppointmentAMPM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel17)))
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(AddNewAppointmentBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7)
                             .addComponent(jLabel19)
                             .addComponent(jLabel9)
@@ -688,13 +709,15 @@ public class homeAdminGUI extends javax.swing.JFrame {
                             .addComponent(jLabel10)
                             .addComponent(jLabel12)
                             .addComponent(jLabel8))
-                        .addGap(100, 100, 100)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(223, 223, 223))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(56, 56, 56)
+                .addGap(28, 28, 28)
+                .addComponent(addNewAppointmentNotficationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel19)
@@ -703,15 +726,15 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 .addGap(4, 4, 4)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1)
+                .addComponent(addNewAppointmentPatientName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel11)
                 .addGap(5, 5, 5)
-                .addComponent(jTextField2)
+                .addComponent(addNewAppointmentSymptoms)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField7)
+                .addComponent(addNewAppointmentConclution)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -722,12 +745,12 @@ public class homeAdminGUI extends javax.swing.JFrame {
                             .addComponent(jLabel14))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jSpinner3)
-                            .addComponent(jSpinner4)))
+                            .addComponent(addNewAppointmentDay)
+                            .addComponent(addNewAppointmentMonth)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSpinner5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(addNewAppointmentYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -736,11 +759,11 @@ public class homeAdminGUI extends javax.swing.JFrame {
                     .addComponent(jLabel17))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jSpinner2)
-                    .addComponent(jSpinner1)
-                    .addComponent(jComboBox1))
+                    .addComponent(AddNewAppointmentHours)
+                    .addComponent(AddNewAppointmentMinutes)
+                    .addComponent(AddNewAppointmentAMPM))
                 .addGap(18, 18, 18)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(AddNewAppointmentBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(107, 107, 107))
         );
 
@@ -1806,11 +1829,11 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel17Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(userType, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                        .addComponent(userType)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel53, javax.swing.GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                        .addComponent(addNewUserName, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
+                        .addComponent(jLabel53, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(addNewUserName))
                     .addComponent(addNewUserAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1822,7 +1845,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
                         .addComponent(addNewUserFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel17Layout.createSequentialGroup()
                         .addGap(24, 24, 24)
-                        .addComponent(addNewUserAllergies, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)))
+                        .addComponent(addNewUserAllergies)))
                 .addGap(6, 6, 6)
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel56, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1843,11 +1866,11 @@ public class homeAdminGUI extends javax.swing.JFrame {
                     .addComponent(addNewUserPhoneNo)
                     .addComponent(AddNewStaffID, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel62, javax.swing.GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)
+                .addComponent(jLabel62, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel17Layout.createSequentialGroup()
-                        .addComponent(addNewUserNIC, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                        .addComponent(addNewUserNIC)
                         .addGap(13, 13, 13)
                         .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(AddNewUserGenderMale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1857,7 +1880,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
                         .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel52, javax.swing.GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)
+                .addComponent(jLabel52, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel17Layout.createSequentialGroup()
@@ -1868,7 +1891,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
                         .addGap(1, 1, 1)
                         .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel17Layout.createSequentialGroup()
-                                .addComponent(jLabel60, javax.swing.GroupLayout.DEFAULT_SIZE, 16, Short.MAX_VALUE)
+                                .addComponent(jLabel60, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(AddNewUserDOBMoth))
                             .addGroup(jPanel17Layout.createSequentialGroup()
@@ -1879,7 +1902,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel17Layout.createSequentialGroup()
                         .addGap(11, 11, 11)
-                        .addComponent(jLabel63, javax.swing.GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)
+                        .addComponent(jLabel63, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(addNewUserMarriedState, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -2038,21 +2061,21 @@ public class homeAdminGUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_menuIconClick
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void addNewAppointmentSymptomsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewAppointmentSymptomsActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_addNewAppointmentSymptomsActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void addNewAppointmentPatientNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewAppointmentPatientNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_addNewAppointmentPatientNameActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void AddNewAppointmentBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewAppointmentBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_AddNewAppointmentBtnActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void AddNewAppointmentAMPMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewAppointmentAMPMActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_AddNewAppointmentAMPMActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
         // TODO add your handling code here:
@@ -2258,6 +2281,50 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 complainWarning.setText("Please fill all fields");
         }        
     }//GEN-LAST:event_AddNewComplainBtnMouseClicked
+
+    private void AddNewAppointmentBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddNewAppointmentBtnMouseClicked
+        boolean textField11=addNewAppointmentPatientName.getText().equals("");
+        boolean textField12=addNewAppointmentSymptoms.getText().equals("");
+        boolean textField13=addNewAppointmentConclution.getText().equals("");
+        
+        if(!(textField11 || textField12 || textField13)){
+                
+                addNewAppointmentNotficationLabel.setText("Sumbiting the Complain");
+                date appointmentDateObj=new date(
+                (Integer)addNewAppointmentDay.getValue(),
+                (Integer)addNewAppointmentMonth.getValue(),
+                (Integer)addNewAppointmentYear.getValue()
+                );
+                time appointmentTimeObj=new time(
+                (Integer)AddNewAppointmentMinutes.getValue(),
+                (Integer)AddNewAppointmentHours.getValue(),
+                AddNewAppointmentAMPM.getSelectedItem().toString()
+                );
+                appointmentController addNewApp=new appointmentController(
+                        addNewAppointmentPatientName.getText(),
+                        appointmentDateObj,
+                        appointmentTimeObj,
+                        addNewAppointmentSymptoms.getText(),
+                        addNewAppointmentConclution.getText(),
+                        "incoming");
+                
+                              
+                AddNewAppointmentModel.writingTXT(addNewApp.toString());
+        
+                
+        }else{
+                addNewAppointmentNotficationLabel.setText("Please fill all fields");
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_AddNewAppointmentBtnMouseClicked
     
     
     /**
@@ -2296,6 +2363,10 @@ public class homeAdminGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> AddNewAppointmentAMPM;
+    private javax.swing.JButton AddNewAppointmentBtn;
+    private javax.swing.JSpinner AddNewAppointmentHours;
+    private javax.swing.JSpinner AddNewAppointmentMinutes;
     private javax.swing.JButton AddNewComplainBtn;
     private javax.swing.JTextArea AddNewComplainDesTextArea;
     private javax.swing.JTextField AddNewComplainName;
@@ -2309,6 +2380,13 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JRadioButton AddNewUserGenderFemale;
     private javax.swing.JRadioButton AddNewUserGenderMale;
     private javax.swing.JLabel StaffIDLabel;
+    private javax.swing.JTextField addNewAppointmentConclution;
+    private javax.swing.JSpinner addNewAppointmentDay;
+    private javax.swing.JSpinner addNewAppointmentMonth;
+    private javax.swing.JLabel addNewAppointmentNotficationLabel;
+    private javax.swing.JTextField addNewAppointmentPatientName;
+    private javax.swing.JTextField addNewAppointmentSymptoms;
+    private javax.swing.JSpinner addNewAppointmentYear;
     private javax.swing.JScrollPane addNewUserAddress;
     private javax.swing.JTextArea addNewUserAddressTextArea;
     private javax.swing.JTextField addNewUserAllergies;
@@ -2337,12 +2415,10 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JTextField emailText;
     private javax.swing.ButtonGroup genderGroup;
     private javax.swing.JPanel header;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JLabel jLabel1;
@@ -2436,15 +2512,10 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JSpinner jSpinner10;
     private javax.swing.JSpinner jSpinner11;
     private javax.swing.JSpinner jSpinner14;
     private javax.swing.JSpinner jSpinner15;
-    private javax.swing.JSpinner jSpinner2;
-    private javax.swing.JSpinner jSpinner3;
-    private javax.swing.JSpinner jSpinner4;
-    private javax.swing.JSpinner jSpinner5;
     private javax.swing.JSpinner jSpinner6;
     private javax.swing.JSpinner jSpinner7;
     private javax.swing.JSpinner jSpinner8;
@@ -2457,19 +2528,16 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextArea jTextArea3;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField13;
     private javax.swing.JTextField jTextField14;
     private javax.swing.JTextField jTextField15;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField20;
     private javax.swing.JTextField jTextField21;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     private javax.swing.ButtonGroup marriedState;

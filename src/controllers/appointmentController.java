@@ -19,6 +19,16 @@ public class appointmentController {
         this.appStatus = appStatus;
     }
 
+    @Override
+    public String toString(){
+        return getAppPatientName()+","+
+               appDate.toString()+","+
+               appTime.toString()+","+
+               getAppSymptoms()+","+
+               getAppConclution()+","+
+               getAppStatus() ;
+    }
+    
     public String getAppPatientName() {
         return appPatientName;
     }
