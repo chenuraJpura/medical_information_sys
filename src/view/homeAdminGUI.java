@@ -4,9 +4,12 @@ package view;
 import controllers.appointmentController;
 import controllers.complainsController;
 import controllers.date;
+import controllers.dispatchPostController;
 import controllers.patient;
 import controllers.receptionist;
+import controllers.recievedPostController;
 import controllers.time;
+import controllers.visitorsController;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.ButtonModel;
@@ -16,8 +19,11 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import model.AddNewAppointmentModel;
 import model.AddNewComplain;
+import model.AddNewDispatchPostModel;
 import model.AddNewPatientModel;
 import model.AddNewReceptionistModel;
+import model.AddNewRecievedPostModel;
+import model.AddNewVisitorsModel;
 
 
 /**
@@ -109,26 +115,27 @@ public class homeAdminGUI extends javax.swing.JFrame {
         addVisitors = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel36 = new javax.swing.JLabel();
+        VisitorRecordNotification = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
-        jTextField12 = new javax.swing.JTextField();
-        jTextField13 = new javax.swing.JTextField();
+        VisitorRecordNIC = new javax.swing.JTextField();
+        VisitorRecordName = new javax.swing.JTextField();
         jLabel37 = new javax.swing.JLabel();
         jLabel38 = new javax.swing.JLabel();
         jLabel39 = new javax.swing.JLabel();
         jLabel40 = new javax.swing.JLabel();
         jLabel41 = new javax.swing.JLabel();
         jLabel42 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
-        jTextField14 = new javax.swing.JTextField();
-        jComboBox5 = new javax.swing.JComboBox<>();
-        jSpinner10 = new javax.swing.JSpinner();
-        jSpinner11 = new javax.swing.JSpinner();
+        AddNewVisitorRecord = new javax.swing.JButton();
+        VisitorRecordPurpose = new javax.swing.JTextField();
+        VisitorRecordAmPmState = new javax.swing.JComboBox<>();
+        VisitorRecordOutMinutes = new javax.swing.JSpinner();
+        VisitorRecordOutHours = new javax.swing.JSpinner();
         jLabel43 = new javax.swing.JLabel();
         jLabel44 = new javax.swing.JLabel();
-        jTextField15 = new javax.swing.JTextField();
+        VisitorRecordPhoneNo = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
+        VisitorRecordNote = new javax.swing.JTextArea();
         viewVisitors = new javax.swing.JPanel();
         postalPanel = new javax.swing.JPanel();
         jTabbedPane3 = new javax.swing.JTabbedPane();
@@ -136,6 +143,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
         jLabel55 = new javax.swing.JLabel();
+        recievedPostNotification = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
@@ -146,19 +154,20 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel33 = new javax.swing.JLabel();
         jLabel34 = new javax.swing.JLabel();
         jLabel35 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
-        jTextField21 = new javax.swing.JTextField();
+        RecievedPostFrom = new javax.swing.JTextField();
+        RecievedPostRefNo = new javax.swing.JTextField();
+        RecievedPostAddress = new javax.swing.JTextField();
+        RecievedPostTo = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jSpinner6 = new javax.swing.JSpinner();
-        jSpinner14 = new javax.swing.JSpinner();
-        jSpinner15 = new javax.swing.JSpinner();
-        jButton4 = new javax.swing.JButton();
+        RecievedPostNote = new javax.swing.JTextArea();
+        RecievedPostDay = new javax.swing.JSpinner();
+        RecievedPostMonth = new javax.swing.JSpinner();
+        RecievedPostYear = new javax.swing.JSpinner();
+        AddNewRecievedPost = new javax.swing.JButton();
         dispatchTab = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel54 = new javax.swing.JLabel();
+        dispatchPostNotification = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
@@ -169,16 +178,16 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
-        jTextField10 = new javax.swing.JTextField();
-        jTextField11 = new javax.swing.JTextField();
-        jTextField20 = new javax.swing.JTextField();
+        DispatchPostTo = new javax.swing.JTextField();
+        DispatchPostRefNo = new javax.swing.JTextField();
+        DispatchPostAddress = new javax.swing.JTextField();
+        DispatchPostFrom = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
-        jSpinner7 = new javax.swing.JSpinner();
-        jSpinner8 = new javax.swing.JSpinner();
-        jSpinner9 = new javax.swing.JSpinner();
-        jButton3 = new javax.swing.JButton();
+        DispatchPostNote = new javax.swing.JTextArea();
+        DispatchPostDay = new javax.swing.JSpinner();
+        DispatchPostMonth = new javax.swing.JSpinner();
+        DispatchPostYear = new javax.swing.JSpinner();
+        AddNewDispatchPost = new javax.swing.JButton();
         complainPanel = new javax.swing.JPanel();
         jTabbedPane4 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
@@ -806,6 +815,9 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel36.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel36.setText("Add new visitors Record");
 
+        VisitorRecordNotification.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
+        VisitorRecordNotification.setForeground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -813,11 +825,14 @@ public class homeAdminGUI extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jLabel36)
-                .addContainerGap(445, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 181, Short.MAX_VALUE)
+                .addComponent(VisitorRecordNotification, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel36, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(VisitorRecordNotification, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         addVisitors.add(jPanel6, java.awt.BorderLayout.PAGE_START);
@@ -837,17 +852,19 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         jPanel10.setPreferredSize(new java.awt.Dimension(600, 627));
 
-        jTextField12.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
-        jTextField12.addActionListener(new java.awt.event.ActionListener() {
+        VisitorRecordNIC.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        VisitorRecordNIC.setPreferredSize(new java.awt.Dimension(303, 30));
+        VisitorRecordNIC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField12ActionPerformed(evt);
+                VisitorRecordNICActionPerformed(evt);
             }
         });
 
-        jTextField13.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
-        jTextField13.addActionListener(new java.awt.event.ActionListener() {
+        VisitorRecordName.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        VisitorRecordName.setPreferredSize(new java.awt.Dimension(303, 30));
+        VisitorRecordName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField13ActionPerformed(evt);
+                VisitorRecordNameActionPerformed(evt);
             }
         });
 
@@ -879,24 +896,35 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel42.setForeground(new java.awt.Color(51, 51, 51));
         jLabel42.setText("Visitor Out Time");
 
-        jButton5.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton5.setText("Add Appointment");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        AddNewVisitorRecord.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        AddNewVisitorRecord.setText("Add Appointment");
+        AddNewVisitorRecord.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AddNewVisitorRecordMouseClicked(evt);
+            }
+        });
+        AddNewVisitorRecord.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                AddNewVisitorRecordActionPerformed(evt);
             }
         });
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AM", "PM" }));
-        jComboBox5.addActionListener(new java.awt.event.ActionListener() {
+        VisitorRecordPurpose.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        VisitorRecordPurpose.setPreferredSize(new java.awt.Dimension(303, 30));
+
+        VisitorRecordAmPmState.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        VisitorRecordAmPmState.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AM", "PM" }));
+        VisitorRecordAmPmState.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox5ActionPerformed(evt);
+                VisitorRecordAmPmStateActionPerformed(evt);
             }
         });
 
-        jSpinner10.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
+        VisitorRecordOutMinutes.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        VisitorRecordOutMinutes.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
 
-        jSpinner11.setModel(new javax.swing.SpinnerNumberModel(1, 1, 12, 1));
+        VisitorRecordOutHours.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        VisitorRecordOutHours.setModel(new javax.swing.SpinnerNumberModel(1, 1, 12, 1));
 
         jLabel43.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         jLabel43.setText("Hours");
@@ -904,9 +932,13 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel44.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         jLabel44.setText("Minutes");
 
-        jTextArea3.setColumns(20);
-        jTextArea3.setRows(5);
-        jScrollPane3.setViewportView(jTextArea3);
+        VisitorRecordPhoneNo.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        VisitorRecordPhoneNo.setPreferredSize(new java.awt.Dimension(303, 30));
+
+        VisitorRecordNote.setColumns(20);
+        VisitorRecordNote.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        VisitorRecordNote.setRows(5);
+        jScrollPane3.setViewportView(VisitorRecordNote);
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -914,32 +946,31 @@ public class homeAdminGUI extends javax.swing.JFrame {
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSpinner11, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel43))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel44)
-                            .addComponent(jSpinner10, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTextField14, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField13, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField12, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                        .addComponent(jLabel39)
-                        .addGap(220, 220, 220))
-                    .addComponent(jLabel40)
-                    .addComponent(jLabel41)
-                    .addComponent(jLabel37)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel39)
                     .addComponent(jLabel42)
-                    .addComponent(jLabel38)
-                    .addComponent(jTextField15)
-                    .addComponent(jScrollPane3)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(263, Short.MAX_VALUE))
+                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel10Layout.createSequentialGroup()
+                            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(VisitorRecordOutHours, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel43))
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel44)
+                                .addComponent(VisitorRecordOutMinutes, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(18, 18, 18)
+                            .addComponent(VisitorRecordAmPmState, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(VisitorRecordPurpose, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
+                        .addComponent(VisitorRecordName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(VisitorRecordNIC, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel40)
+                        .addComponent(jLabel41)
+                        .addComponent(jLabel37)
+                        .addComponent(jLabel38)
+                        .addComponent(jScrollPane3)
+                        .addComponent(AddNewVisitorRecord, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(VisitorRecordPhoneNo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(138, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -947,40 +978,40 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 .addGap(44, 44, 44)
                 .addComponent(jLabel39)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(VisitorRecordName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel41)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(VisitorRecordNIC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel40, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(VisitorRecordPurpose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel38)
-                .addGap(3, 3, 3)
-                .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(VisitorRecordPhoneNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel42)
-                .addGap(3, 3, 3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                         .addComponent(jLabel43)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSpinner11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(VisitorRecordOutHours, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                         .addComponent(jLabel44)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jSpinner10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(VisitorRecordOutMinutes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(VisitorRecordAmPmState, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel37)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(574, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(AddNewVisitorRecord, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(528, Short.MAX_VALUE))
         );
 
         addVisitors.add(jPanel10, java.awt.BorderLayout.CENTER);
@@ -1022,6 +1053,10 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel55.setForeground(new java.awt.Color(255, 255, 255));
         jLabel55.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel55.setText("Add new Recieved Post");
+        jLabel55.setPreferredSize(new java.awt.Dimension(219, 50));
+
+        recievedPostNotification.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
+        recievedPostNotification.setPreferredSize(new java.awt.Dimension(45, 50));
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
@@ -1029,12 +1064,18 @@ public class homeAdminGUI extends javax.swing.JFrame {
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(jLabel55)
-                .addContainerGap(451, Short.MAX_VALUE))
+                .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 196, Short.MAX_VALUE)
+                .addComponent(recievedPostNotification, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel55, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addComponent(recievedPostNotification, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanel5.add(jPanel14, java.awt.BorderLayout.PAGE_START);
@@ -1066,32 +1107,41 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel35.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel35.setText("Year");
 
-        jTextField5.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        RecievedPostFrom.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        RecievedPostFrom.setPreferredSize(new java.awt.Dimension(64, 30));
 
-        jTextField6.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        RecievedPostRefNo.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        RecievedPostRefNo.setPreferredSize(new java.awt.Dimension(64, 30));
 
-        jTextField8.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        RecievedPostAddress.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        RecievedPostAddress.setPreferredSize(new java.awt.Dimension(64, 30));
 
-        jTextField21.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        RecievedPostTo.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        RecievedPostTo.setPreferredSize(new java.awt.Dimension(64, 30));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        RecievedPostNote.setColumns(20);
+        RecievedPostNote.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        RecievedPostNote.setRows(5);
+        jScrollPane1.setViewportView(RecievedPostNote);
 
-        jSpinner6.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
-        jSpinner6.setModel(new javax.swing.SpinnerNumberModel(1, 1, 31, 1));
+        RecievedPostDay.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        RecievedPostDay.setModel(new javax.swing.SpinnerNumberModel(1, 1, 31, 1));
 
-        jSpinner14.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
-        jSpinner14.setModel(new javax.swing.SpinnerNumberModel(1, 1, 12, 1));
+        RecievedPostMonth.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        RecievedPostMonth.setModel(new javax.swing.SpinnerNumberModel(1, 1, 12, 1));
 
-        jSpinner15.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
-        jSpinner15.setModel(new javax.swing.SpinnerNumberModel(2000, 2000, 2050, 1));
+        RecievedPostYear.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        RecievedPostYear.setModel(new javax.swing.SpinnerNumberModel(2000, 2000, 2050, 1));
 
-        jButton4.setBackground(new java.awt.Color(0, 153, 153));
-        jButton4.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("Add Post");
+        AddNewRecievedPost.setBackground(new java.awt.Color(0, 153, 153));
+        AddNewRecievedPost.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        AddNewRecievedPost.setForeground(new java.awt.Color(255, 255, 255));
+        AddNewRecievedPost.setText("Add Post");
+        AddNewRecievedPost.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AddNewRecievedPostMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -1110,34 +1160,34 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSpinner6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(RecievedPostDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel33))
                         .addGap(59, 59, 59)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSpinner14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(RecievedPostMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel34))
                         .addGap(65, 65, 65)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel35)
-                            .addComponent(jSpinner15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(RecievedPostYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextField21, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextField8, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(RecievedPostTo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(RecievedPostAddress, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(RecievedPostRefNo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(RecievedPostFrom, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(AddNewRecievedPost, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(129, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap(70, Short.MAX_VALUE)
+                .addContainerGap(60, Short.MAX_VALUE)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel32)
-                    .addComponent(jSpinner6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSpinner14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSpinner15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(RecievedPostDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(RecievedPostMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(RecievedPostYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel33)
@@ -1145,27 +1195,27 @@ public class homeAdminGUI extends javax.swing.JFrame {
                     .addComponent(jLabel35))
                 .addGap(7, 7, 7)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(RecievedPostFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(RecievedPostRefNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel28))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(RecievedPostAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel29))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(RecievedPostTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel30))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel31)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addComponent(AddNewRecievedPost, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         jPanel5.add(jPanel8, java.awt.BorderLayout.CENTER);
@@ -1184,6 +1234,9 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel54.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel54.setText("Add new Dispatch Post");
 
+        dispatchPostNotification.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
+        dispatchPostNotification.setPreferredSize(new java.awt.Dimension(45, 50));
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -1191,11 +1244,13 @@ public class homeAdminGUI extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jLabel54)
-                .addContainerGap(453, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 198, Short.MAX_VALUE)
+                .addComponent(dispatchPostNotification, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel54, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+            .addComponent(jLabel54, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(dispatchPostNotification, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         dispatchTab.add(jPanel3, java.awt.BorderLayout.PAGE_START);
@@ -1227,32 +1282,41 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel27.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel27.setText("Year");
 
-        jTextField9.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        DispatchPostTo.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        DispatchPostTo.setPreferredSize(new java.awt.Dimension(64, 30));
 
-        jTextField10.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        DispatchPostRefNo.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        DispatchPostRefNo.setPreferredSize(new java.awt.Dimension(64, 30));
 
-        jTextField11.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        DispatchPostAddress.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        DispatchPostAddress.setPreferredSize(new java.awt.Dimension(64, 30));
 
-        jTextField20.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        DispatchPostFrom.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        DispatchPostFrom.setPreferredSize(new java.awt.Dimension(64, 30));
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
+        DispatchPostNote.setColumns(20);
+        DispatchPostNote.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        DispatchPostNote.setRows(5);
+        jScrollPane2.setViewportView(DispatchPostNote);
 
-        jSpinner7.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
-        jSpinner7.setModel(new javax.swing.SpinnerNumberModel(1, 1, 31, 1));
+        DispatchPostDay.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        DispatchPostDay.setModel(new javax.swing.SpinnerNumberModel(1, 1, 31, 1));
 
-        jSpinner8.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
-        jSpinner8.setModel(new javax.swing.SpinnerNumberModel(1, 1, 12, 1));
+        DispatchPostMonth.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        DispatchPostMonth.setModel(new javax.swing.SpinnerNumberModel(1, 1, 12, 1));
 
-        jSpinner9.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
-        jSpinner9.setModel(new javax.swing.SpinnerNumberModel(2000, 2000, 2050, 1));
+        DispatchPostYear.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        DispatchPostYear.setModel(new javax.swing.SpinnerNumberModel(2000, 2000, 2050, 1));
 
-        jButton3.setBackground(new java.awt.Color(224, 49, 83));
-        jButton3.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Add Post");
+        AddNewDispatchPost.setBackground(new java.awt.Color(224, 49, 83));
+        AddNewDispatchPost.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        AddNewDispatchPost.setForeground(new java.awt.Color(255, 255, 255));
+        AddNewDispatchPost.setText("Add Post");
+        AddNewDispatchPost.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AddNewDispatchPostMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
@@ -1271,34 +1335,34 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel13Layout.createSequentialGroup()
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSpinner7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(DispatchPostDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel25))
                         .addGap(59, 59, 59)
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSpinner8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(DispatchPostMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel26))
                         .addGap(65, 65, 65)
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel27)
-                            .addComponent(jSpinner9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(DispatchPostYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextField20, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextField11, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextField10, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextField9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(DispatchPostFrom, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(DispatchPostAddress, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(DispatchPostRefNo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(DispatchPostTo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(AddNewDispatchPost, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(129, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
-                .addContainerGap(70, Short.MAX_VALUE)
+                .addContainerGap(60, Short.MAX_VALUE)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel24)
-                    .addComponent(jSpinner7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSpinner8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSpinner9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(DispatchPostDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DispatchPostMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DispatchPostYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel25)
@@ -1306,27 +1370,27 @@ public class homeAdminGUI extends javax.swing.JFrame {
                     .addComponent(jLabel27))
                 .addGap(7, 7, 7)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DispatchPostTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel18))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DispatchPostRefNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel20))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DispatchPostAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel21))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DispatchPostFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel22))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel23)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addComponent(AddNewDispatchPost, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(61, Short.MAX_VALUE))
         );
 
         dispatchTab.add(jPanel13, java.awt.BorderLayout.CENTER);
@@ -2081,22 +2145,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
-    private void jTextField12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField12ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField12ActionPerformed
-
-    private void jTextField13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField13ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField13ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void jComboBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox5ActionPerformed
-
     private void AddNewComplainNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewComplainNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_AddNewComplainNameActionPerformed
@@ -2325,6 +2373,127 @@ public class homeAdminGUI extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_AddNewAppointmentBtnMouseClicked
+
+    private void VisitorRecordAmPmStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisitorRecordAmPmStateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VisitorRecordAmPmStateActionPerformed
+
+    private void AddNewVisitorRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewVisitorRecordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AddNewVisitorRecordActionPerformed
+
+    private void VisitorRecordNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisitorRecordNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VisitorRecordNameActionPerformed
+
+    private void VisitorRecordNICActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisitorRecordNICActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VisitorRecordNICActionPerformed
+
+    private void AddNewVisitorRecordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddNewVisitorRecordMouseClicked
+        boolean textField14=VisitorRecordName.getText().equals("");
+        boolean textField15=VisitorRecordPhoneNo.getText().equals("");
+        boolean textField16=VisitorRecordPurpose.getText().equals("");
+        boolean textField17=VisitorRecordNIC.getText().equals("");
+        if(!(textField14 || textField15 || textField16 || textField17)){
+            VisitorRecordNotification.setText("Sumbiting Record");
+            //craeting date/time object for get current date/time
+            
+            date visitorCurrentDateObj=new date();
+            
+            time visitorInTimeObj=new time();
+            
+            time visitorOutTimeObj=new time(
+                    (Integer)VisitorRecordOutMinutes.getValue(),
+                    (Integer)VisitorRecordOutHours.getValue(),
+                    VisitorRecordAmPmState.getSelectedItem().toString()
+            );
+            
+            //creating new record objcet
+            visitorsController addNewVisitorRecordObj=new visitorsController(
+                    VisitorRecordNIC.getText(),
+                    VisitorRecordName.getText(),
+                    VisitorRecordPurpose.getText(),
+                    Integer.parseInt(VisitorRecordPhoneNo.getText()),
+                    visitorCurrentDateObj,
+                    visitorInTimeObj,
+                    visitorOutTimeObj,
+                    VisitorRecordNote.getText());
+            AddNewVisitorsModel.writingTXT(addNewVisitorRecordObj.toString());
+            
+
+        }else{
+                VisitorRecordNotification.setText("Please fill the Fields");
+        
+        }
+    }//GEN-LAST:event_AddNewVisitorRecordMouseClicked
+
+    private void AddNewDispatchPostMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddNewDispatchPostMouseClicked
+                boolean textField23=DispatchPostFrom.getText().equals("");
+                boolean textField24=DispatchPostTo.getText().equals("");
+                boolean textField25=DispatchPostRefNo.getText().equals("");
+                boolean textField26=DispatchPostNote.getText().equals("");
+                boolean textField27=DispatchPostAddress.getText().equals("");
+        if(!(textField23 || textField24 || textField25 || textField26 || textField27)){
+            dispatchPostNotification.setText("Sumbiting Record");
+            //craeting date/time object for get current date/time
+            
+            date postalDispatchDateObj=new date(
+                    (Integer)DispatchPostDay.getValue(),
+                    (Integer)DispatchPostMonth.getValue(),
+                    (Integer)DispatchPostYear.getValue()
+            );
+            
+            //creating new record objcet
+            dispatchPostController newDispatchPostObj=new dispatchPostController(
+                    DispatchPostTo.getText(),
+                    DispatchPostAddress.getText(),
+                    DispatchPostFrom.getText(),
+                    Integer.parseInt(DispatchPostRefNo.getText()),
+                    DispatchPostNote.getText(),
+                    postalDispatchDateObj);
+            
+            
+            AddNewDispatchPostModel.writingTXT(newDispatchPostObj.toString());
+        }else{
+                dispatchPostNotification.setText("Please Fill The Fields");
+        }
+        
+        
+        
+        
+    }//GEN-LAST:event_AddNewDispatchPostMouseClicked
+
+    private void AddNewRecievedPostMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddNewRecievedPostMouseClicked
+                boolean textField18=RecievedPostFrom.getText().equals("");
+                boolean textField19=RecievedPostTo.getText().equals("");
+                boolean textField20=RecievedPostRefNo.getText().equals("");
+                boolean textField21=RecievedPostNote.getText().equals("");
+                boolean textField22=RecievedPostAddress.getText().equals("");
+        if(!(textField18 || textField19 || textField20 || textField21 || textField22)){
+            recievedPostNotification.setText("Sumbiting Record");
+            //craeting date/time object for get current date/time
+            
+            date postalRecievedDateObj=new date(
+                    (Integer)RecievedPostDay.getValue(),
+                    (Integer)RecievedPostMonth.getValue(),
+                    (Integer)RecievedPostYear.getValue()
+            );
+            
+            //creating new record objcet
+            recievedPostController newRecievedPostObj=new recievedPostController(
+                    RecievedPostFrom.getText(),
+                    RecievedPostAddress.getText(),
+                    RecievedPostTo.getText(),
+                    Integer.parseInt(RecievedPostRefNo.getText()),
+                    RecievedPostNote.getText(),
+                    postalRecievedDateObj);
+            
+            AddNewRecievedPostModel.writingTXT(newRecievedPostObj.toString());
+        }else{
+                recievedPostNotification.setText("Please Fill The Fields");
+        }
+    }//GEN-LAST:event_AddNewRecievedPostMouseClicked
     
     
     /**
@@ -2373,13 +2542,41 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JTextArea AddNewComplainNote;
     private javax.swing.JTextField AddNewComplainPhoneNumber;
     private javax.swing.JComboBox<String> AddNewComplainReferenceDepartment;
+    private javax.swing.JButton AddNewDispatchPost;
+    private javax.swing.JButton AddNewRecievedPost;
     private javax.swing.JTextField AddNewStaffID;
     private javax.swing.JSpinner AddNewUserDOBDay;
     private javax.swing.JSpinner AddNewUserDOBMoth;
     private javax.swing.JSpinner AddNewUserDOBYear;
     private javax.swing.JRadioButton AddNewUserGenderFemale;
     private javax.swing.JRadioButton AddNewUserGenderMale;
+    private javax.swing.JButton AddNewVisitorRecord;
+    private javax.swing.JTextField DispatchPostAddress;
+    private javax.swing.JSpinner DispatchPostDay;
+    private javax.swing.JTextField DispatchPostFrom;
+    private javax.swing.JSpinner DispatchPostMonth;
+    private javax.swing.JTextArea DispatchPostNote;
+    private javax.swing.JTextField DispatchPostRefNo;
+    private javax.swing.JTextField DispatchPostTo;
+    private javax.swing.JSpinner DispatchPostYear;
+    private javax.swing.JTextField RecievedPostAddress;
+    private javax.swing.JSpinner RecievedPostDay;
+    private javax.swing.JTextField RecievedPostFrom;
+    private javax.swing.JSpinner RecievedPostMonth;
+    private javax.swing.JTextArea RecievedPostNote;
+    private javax.swing.JTextField RecievedPostRefNo;
+    private javax.swing.JTextField RecievedPostTo;
+    private javax.swing.JSpinner RecievedPostYear;
     private javax.swing.JLabel StaffIDLabel;
+    private javax.swing.JComboBox<String> VisitorRecordAmPmState;
+    private javax.swing.JTextField VisitorRecordNIC;
+    private javax.swing.JTextField VisitorRecordName;
+    private javax.swing.JTextArea VisitorRecordNote;
+    private javax.swing.JLabel VisitorRecordNotification;
+    private javax.swing.JSpinner VisitorRecordOutHours;
+    private javax.swing.JSpinner VisitorRecordOutMinutes;
+    private javax.swing.JTextField VisitorRecordPhoneNo;
+    private javax.swing.JTextField VisitorRecordPurpose;
     private javax.swing.JTextField addNewAppointmentConclution;
     private javax.swing.JSpinner addNewAppointmentDay;
     private javax.swing.JSpinner addNewAppointmentMonth;
@@ -2410,17 +2607,14 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JPanel complainPanel;
     private javax.swing.JLabel complainWarning;
     private javax.swing.JPanel content;
+    private javax.swing.JLabel dispatchPostNotification;
     private javax.swing.JPanel dispatchTab;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JTextField emailText;
     private javax.swing.ButtonGroup genderGroup;
     private javax.swing.JPanel header;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2512,34 +2706,11 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JSpinner jSpinner10;
-    private javax.swing.JSpinner jSpinner11;
-    private javax.swing.JSpinner jSpinner14;
-    private javax.swing.JSpinner jSpinner15;
-    private javax.swing.JSpinner jSpinner6;
-    private javax.swing.JSpinner jSpinner7;
-    private javax.swing.JSpinner jSpinner8;
-    private javax.swing.JSpinner jSpinner9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JTabbedPane jTabbedPane5;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextArea jTextArea3;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField15;
-    private javax.swing.JTextField jTextField20;
-    private javax.swing.JTextField jTextField21;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
     private javax.swing.ButtonGroup marriedState;
     private javax.swing.JLabel max_btn_img;
     private javax.swing.JPanel maximize;
@@ -2549,6 +2720,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JPanel newAppPanel;
     private javax.swing.JPanel postal;
     private javax.swing.JPanel postalPanel;
+    private javax.swing.JLabel recievedPostNotification;
     private javax.swing.JPanel recievedTab;
     private javax.swing.JPanel reference;
     private javax.swing.JPanel referencePanel;
