@@ -1,26 +1,26 @@
 
 package controllers;
 
-public class appointmentController {//start of the ap
-    //appointment var defined
+public class appointmentController {//start of the appointment controller
+    //Declare the variables of appointment controller
     private String appPatientName;
     private date appDate;
     private time appTime;
     private String appSymptoms;
     private String appConclution;
     private String appStatus;
-    //default constructor
+    //Create the default constructor
     public appointmentController(String appPatientName, date appDate, time appTime, String appSymptoms, String appConclution, String appStatus) {
-        this.appPatientName = appPatientName;
-        this.appDate = appDate;
-        this.appTime = appTime;
-        this.appSymptoms = appSymptoms;
-        this.appConclution = appConclution;
-        this.appStatus = appStatus;
+        this.setAppPatientName(appPatientName);
+        this.setAppDate (appDate);
+        this.setAppTime (appTime);
+        this.setAppSymptoms (appSymptoms);
+        this.setAppConclution (appConclution);
+        this.setAppStatus (appStatus);
     }
 
     @Override
-    public String toString(){//this is 
+    public String toString(){//here return the values by toString methode
         return getAppPatientName()+","+
                appDate.toString()+","+
                appTime.toString()+","+
@@ -28,7 +28,7 @@ public class appointmentController {//start of the ap
                getAppConclution()+","+
                getAppStatus() ;
     }
-    
+    // getters and setters
     public String getAppPatientName() {
         return this.appPatientName;
     }
@@ -36,7 +36,7 @@ public class appointmentController {//start of the ap
     public void setAppPatientName(String appPatientName) {
         this.appPatientName = appPatientName;
     }
-//getter and setter
+
     public date getAppDate() {
         return appDate;
     }
@@ -77,10 +77,7 @@ public class appointmentController {//start of the ap
         this.appStatus = appStatus;
     }
     
-    
+    //end of the getters and setters
     
 
-
-
-    
-}
+}// end of the appointment controller
