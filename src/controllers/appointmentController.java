@@ -1,7 +1,7 @@
 
 package controllers;
 
-public class appointmentController {
+public class appointmentController {//start of the ap
     //appointment var defined
     private String appPatientName;
     private date appDate;
@@ -20,7 +20,7 @@ public class appointmentController {
     }
 
     @Override
-    public String toString(){
+    public String toString(){//this is 
         return getAppPatientName()+","+
                appDate.toString()+","+
                appTime.toString()+","+
@@ -30,7 +30,7 @@ public class appointmentController {
     }
     
     public String getAppPatientName() {
-        return appPatientName;
+        return this.appPatientName;
     }
 
     public void setAppPatientName(String appPatientName) {
