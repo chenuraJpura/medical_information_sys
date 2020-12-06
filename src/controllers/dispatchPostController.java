@@ -27,8 +27,6 @@ public class dispatchPostController extends postalController{
                 super.getPostDateObj().toString();
     }
 
-
-    
     public String getDispatchToName() {
         return dispatchToName;
     }

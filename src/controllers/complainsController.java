@@ -1,6 +1,9 @@
 
 package controllers;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+
 public class complainsController {
     
     private String complainByName;
@@ -15,13 +18,13 @@ public class complainsController {
     
     @Override
     public String toString(){
-        return getComplainByName()+","+
+        return  getComplainByName()+","+
                 getComplainPhoneNo()+","+
-                getComplainReference()+","+
                 getComplainDateObj().toString()+","+
                 getComplainDescription()+","+
                 getComplainActionTaken()+","+
-                getComplainNote();
+                getComplainNote()+","+
+                getComplainReference();
     }
     
     public complainsController(String complainByName,
@@ -96,7 +99,16 @@ public class complainsController {
         this.complainReference = complainReference;
     }
     
+    public static void readComplain(BufferedReader br)throws IOException{
+       
+    String complainLine = br.readLine();
     
+    String[] resultString = complainLine.split("[,]", 0);
+    for(String textField: resultString) {
+          System.out.println(textField);
+       }
+          
+    }
 
 
 

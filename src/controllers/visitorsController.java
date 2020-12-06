@@ -12,6 +12,17 @@ public class visitorsController {
     private time visitOutTimeObj;
     private String visitNotes;
 
+    @Override
+    public String toString(){
+        return getVisitID()+","+
+               getVisitName()+","+
+               getVisitPurpose()+","+
+               getVisitDateObj().toString()+","+
+               getVisitInTimeObj().toString()+","+
+               getVisitOutTimeObj().toString()+","+
+               getVisitNotes(); 
+    }
+    
     public visitorsController(String visitID,
             String visitName,
             String visitPurpose,
@@ -94,16 +105,7 @@ public class visitorsController {
         this.visitNotes = visitNotes;
     }
     
-    @Override
-    public String toString(){
-        return getVisitID()+","+
-               getVisitName()+","+
-               getVisitPurpose()+","+
-               getVisitNotes()+","+
-               getVisitInTimeObj().toString()+","+
-               getVisitOutTimeObj().toString()+","+
-               getVisitNotes(); 
-    }
+ 
 
 
 

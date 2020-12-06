@@ -27,6 +27,20 @@ public class medicalOfficers extends userController{
         this.medicalStaffID = medicalStaffID;
         this.medicalStaffEmail = medicalStaffEmail;
     }
+    @Override
+    public String toString() {
+        return getMedicalStaffID()+","+
+               getMedicalStaffEmail()+","+ 
+               super.getUserName()+","+
+               super.getUserFirstName()+","+
+               super.getUserLastName()+","+
+               super.getUserPhoneNo()+","+
+               super.getUserNIC()+","+
+               super.getUserDOB().toString()+","+
+               super.getUserAddress()+","+
+               super.getUserGen()+","+
+               super.getUserMarried();
+    }
 
     public int getMedicalStaffID() {
         return medicalStaffID;
