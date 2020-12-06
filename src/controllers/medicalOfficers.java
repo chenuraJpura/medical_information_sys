@@ -4,9 +4,11 @@ package controllers;
 public class medicalOfficers extends userController{
     private int medicalStaffID;
     private String medicalStaffEmail;
+    private String medicalSpecializedArea;
 
     public medicalOfficers(int medicalStaffID,
             String medicalStaffEmail,
+            String medicalSpecializedArea,
             String userName,
             String userFirstName,
             String userLastName,
@@ -26,11 +28,13 @@ public class medicalOfficers extends userController{
                 mariedState);
         this.medicalStaffID = medicalStaffID;
         this.medicalStaffEmail = medicalStaffEmail;
+        this.medicalSpecializedArea=medicalSpecializedArea;
     }
     @Override
     public String toString() {
         return getMedicalStaffID()+","+
-               getMedicalStaffEmail()+","+ 
+               getMedicalStaffEmail()+","+
+               getMedicalSpecializedArea()+","+
                super.getUserName()+","+
                super.getUserFirstName()+","+
                super.getUserLastName()+","+
@@ -42,6 +46,16 @@ public class medicalOfficers extends userController{
                super.getUserMarried();
     }
 
+    public String getMedicalSpecializedArea() {
+        return medicalSpecializedArea;
+    }
+
+    public void setMedicalSpecializedArea(String medicalSpecializedArea) {
+        this.medicalSpecializedArea = medicalSpecializedArea;
+    }
+
+    
+    
     public int getMedicalStaffID() {
         return medicalStaffID;
     }
