@@ -1,6 +1,7 @@
 package controllers;
 
 public class patient extends userController{
+    
     private enum patientBloodGroup{
         A,
         B,
@@ -12,9 +13,9 @@ public class patient extends userController{
         O_Negative
     };
     private patientBloodGroup bloodGroup;
-   private String patientAllergies;
+    private String patientAllergies;
 
-   public void setBloodGroup(String bloodG){
+    public void setBloodGroup(String bloodG){
        switch (bloodG) {
             case "A":
             this.bloodGroup=patientBloodGroup.A;
@@ -69,8 +70,25 @@ public class patient extends userController{
                 userAddress,userGender,userMarriedState);
         this.patientAllergies = patientAllergies;
         setBloodGroup(patientBloodGroup);
-  }
-
+        loginController newPatientLoginObj=new loginController(getUserName(),"PT");
+        newPatientLoginObj.storeNewUserData(getUserNIC());
+    
+    }
+    @Override
+    public String toString() {
+        return super.getUserName()+","+
+               super.getUserFirstName()+","+
+               super.getUserLastName()+","+
+               super.getUserPhoneNo()+","+
+               super.getUserNIC()+","+
+               super.getUserDOB().toString()+","+
+               super.getUserAddress()+","+
+               this.getBloodGroup()+","+
+               super.getUserGen()+","+
+               super.getUserMarried()+","+
+               this.getPatientAllergies();
+    }
+   
     public String getPatientAllergies() {
         return patientAllergies;
     }
@@ -79,19 +97,9 @@ public class patient extends userController{
         this.patientAllergies = patientAllergies;
     }
 
-    @Override
-    public String toString() {
-        return super.getUserName()+","+
-               super.getUserFirstName()+","+
-               super.getUserLastName()+","+
-               super.getUserGen()+","+
-               super.getUserMarried()+","+
-               super.getUserPhoneNo()+","+
-               super.getUserNIC()+","+
-               super.getUserDOB()+","+
-               this.getPatientAllergies()+","+
-               this.bloodGroup; //To change body of generated methods, choose Tools | Templates.
+    public patientBloodGroup getBloodGroup() {
+        return bloodGroup;
     }
-   
+    
     
 }

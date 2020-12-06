@@ -9,6 +9,14 @@ public class date {
     private int month;
     private int year;
 
+    public date(String dateString){
+        String[] resultString=dateString.split("[/]", 0);
+            this.day=Integer.parseInt(resultString[0]);
+            this.month=Integer.parseInt(resultString[1]);
+            this.year=Integer.parseInt(resultString[2]);
+            
+    }
+
     public date(int day, int month, int year) {
         this.day = day;
         this.month = month;
@@ -39,7 +47,7 @@ public class date {
     }
     
     public String toString(){
-        return this.day+"\\"+this.month+"\\"+this.year;
+        return this.day+"//"+this.month+"//"+this.year;
     }
     
     
