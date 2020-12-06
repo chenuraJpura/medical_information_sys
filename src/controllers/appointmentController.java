@@ -1,8 +1,11 @@
+/*
 
+*/
 package controllers;
 
 public class appointmentController {//start of the appointment controller
     //Declare the variables of appointment controller
+
     private String appPatientName;
     private date appDate;
     private time appTime;
