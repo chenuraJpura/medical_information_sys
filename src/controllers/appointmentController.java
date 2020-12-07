@@ -1,26 +1,32 @@
-
+/*
+Name       : medical information system (Team 09)
+version    : 2.0
+Title      : appointmentController.java
+Description: handle the appointmentController class
+*/
 package controllers;
 
-public class appointmentController {
-    //appointment var defined
+public class appointmentController {//start of the appointment controller
+    //Declare the variables of appointment controller
+
     private String appPatientName;
     private date appDate;
     private time appTime;
     private String appSymptoms;
     private String appConclution;
     private String appStatus;
-    //default constructor
+    //Create the default constructor
     public appointmentController(String appPatientName, date appDate, time appTime, String appSymptoms, String appConclution, String appStatus) {
-        this.appPatientName = appPatientName;
-        this.appDate = appDate;
-        this.appTime = appTime;
-        this.appSymptoms = appSymptoms;
-        this.appConclution = appConclution;
-        this.appStatus = appStatus;
+        this.setAppPatientName(appPatientName);
+        this.setAppDate (appDate);
+        this.setAppTime (appTime);
+        this.setAppSymptoms (appSymptoms);
+        this.setAppConclution (appConclution);
+        this.setAppStatus (appStatus);
     }
 
     @Override
-    public String toString(){
+    public String toString(){//here return the values by toString methode
         return getAppPatientName()+","+
                appDate.toString()+","+
                appTime.toString()+","+
@@ -28,15 +34,15 @@ public class appointmentController {
                getAppConclution()+","+
                getAppStatus() ;
     }
-    
+    // getters and setters
     public String getAppPatientName() {
-        return appPatientName;
+        return this.appPatientName;
     }
 
     public void setAppPatientName(String appPatientName) {
         this.appPatientName = appPatientName;
     }
-//getter and setter
+
     public date getAppDate() {
         return appDate;
     }
@@ -77,10 +83,7 @@ public class appointmentController {
         this.appStatus = appStatus;
     }
     
-    
+    //end of the getters and setters
     
 
-
-
-    
-}
+}// end of the appointment controller
