@@ -12,8 +12,12 @@ public class medicalOfficers extends userController{//start the medical officers
     private int medicalStaffID;
     private String medicalStaffEmail;
     private String medicalSpecializedArea;
+
+
+
     
     //default constructor
+
     public medicalOfficers(int medicalStaffID,
             String medicalStaffEmail,
             String medicalSpecializedArea,
@@ -35,16 +39,20 @@ public class medicalOfficers extends userController{//start the medical officers
                 userAddress,
                 userGender,
                 mariedState);
+
+       
+
         this.setMedicalStaffID (medicalStaffID);
         this.setMedicalStaffEmail (medicalStaffEmail);
         this.setMedicalSpecializedArea(medicalSpecializedArea);// end of the default constructor
+
     }
     @Override
     public String toString() { //here return the values by toString method
         return getMedicalStaffID()+","+
                getMedicalStaffEmail()+","+
                getMedicalSpecializedArea()+","+
-               super.getUserName()+","+    //call the methods from the user controller supper class
+               super.getUserName()+","+
                super.getUserFirstName()+","+
                super.getUserLastName()+","+
                super.getUserPhoneNo()+","+
