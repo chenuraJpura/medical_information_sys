@@ -1,11 +1,16 @@
-
+/*
+Name       : medical information system (Team 09)
+version    : 2.0
+Title      : complainsController.java
+Description: handle the complainsController class
+*/
 package controllers;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public class complainsController {
-    
+public class complainsController {//Start of the complainsController class
+    //declare the private variables
     private String complainByName;
     private int    complainPhoneNo;
     private date   complainDateObj;
@@ -17,7 +22,7 @@ public class complainsController {
     
     
     @Override
-    public String toString(){
+    public String toString(){ // returns the value by toString
         return  getComplainByName()+","+
                 getComplainPhoneNo()+","+
                 getComplainDateObj().toString()+","+
@@ -26,7 +31,7 @@ public class complainsController {
                 getComplainNote()+","+
                 getComplainReference();
     }
-    
+    //start the default constructor
     public complainsController(String complainByName,
             int complainPhoneNo,
             date complainDateObj,
@@ -34,15 +39,15 @@ public class complainsController {
             String complainActionTaken,
             String complainNote,
             String complainRefference) {
-        this.complainByName = complainByName;
-        this.complainPhoneNo = complainPhoneNo;
-        this.complainDateObj = complainDateObj;
-        this.complainDescription = complainDescription;
-        this.complainActionTaken = complainActionTaken;
-        this.complainNote = complainNote;
-        this.complainReference=complainRefference;
+        this.setComplainByName(complainByName);
+        this.setComplainPhoneNo (complainPhoneNo);
+        this.setComplainDateObj(complainDateObj);
+        this.setComplainDescription (complainDescription);
+        this.setComplainActionTaken (complainActionTaken);
+        this.setComplainNote (complainNote);
+        this.setComplainReference(complainRefference);
     }
-
+    // start getters and setters
     public String getComplainByName() {
         return complainByName;
     }
@@ -70,7 +75,7 @@ public class complainsController {
     public String getComplainDescription() {
         return complainDescription;
     }
-
+   
     public void setComplainDescription(String complainDescription) {
         this.complainDescription = complainDescription;
     }
@@ -97,18 +102,19 @@ public class complainsController {
 
     public void setComplainReference(String complainReference) {
         this.complainReference = complainReference;
-    }
+    }// end of the getters and setters
     
+    //add an instance methode th read the complain
     public static void readComplain(BufferedReader br)throws IOException{
        
-    String complainLine = br.readLine();
+    String complainLine = br.readLine();// reading from an input stream
     
-    String[] resultString = complainLine.split("[,]", 0);
+    String[] resultString = complainLine.split("[,]", 0);// create a sting type array
     for(String textField: resultString) {
-          System.out.println(textField);
+          System.out.println(textField);// print the textField
        }
           
-    }
+    }// end of the complainsController class
 
 
 
