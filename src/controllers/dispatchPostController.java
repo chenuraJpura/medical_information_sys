@@ -1,24 +1,32 @@
+/*
+NAME-MedlifoSystem
+VERSION-2.0
+TITE-dispatchpostPost controller
+DESCRIPTION-handle the dispatchpostPost  controller
+*/
 package controllers;
 
+//start the dispatchpostPost class
 public class dispatchPostController extends postalController{
-    private String dispatchToName;
-    private String dispatchAddress;
-    private String dispatchFromName;
+    private String dispatchToName;//declare veriables of name
+    private String dispatchAddress;//declare veriables of address
+    private String dispatchFromName;//declare veriables of fromName
 
-    public dispatchPostController(String dispatchToName,
+    public dispatchPostController(String dispatchToName, //create default constructor
             String dispatchAddress,
             String dispatchFromName,
             int postRefferenceNo, 
             String postNote, 
             date postDateObj) {
         super(postRefferenceNo, postNote, postDateObj);
-        this.dispatchToName = dispatchToName;
-        this.dispatchAddress = dispatchAddress;
-        this.dispatchFromName = dispatchFromName;
+        this.setDispatchToName ( dispatchToName);
+        this.setDispatchAddress( dispatchAddress);
+        this.setDispatchFromName( dispatchFromName);
     }
-
+    //end of the constructor
+    
     @Override
-    public String toString(){
+    public String toString(){//return the values by tostring methode
         return  getPostRefferenceNo()+","+
                 getDispatchToName()+","+
                 getDispatchFromName()+","+
@@ -26,7 +34,8 @@ public class dispatchPostController extends postalController{
                 super.getPostNote()+","+
                 super.getPostDateObj().toString();
     }
-
+    
+    //Setters and getters
     public String getDispatchToName() {
         return dispatchToName;
     }
@@ -51,6 +60,6 @@ public class dispatchPostController extends postalController{
         this.dispatchFromName = dispatchFromName;
     }
     
+    //END OF Setters and getters
     
-    
-}
+}//end of the dispatchpostPost class
