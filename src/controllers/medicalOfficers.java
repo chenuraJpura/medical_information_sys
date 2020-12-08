@@ -15,8 +15,10 @@ public class medicalOfficers extends userController{//start the medical officers
 
 
 
+
     
     //default constructor
+
 
     public medicalOfficers(int medicalStaffID,
             String medicalStaffEmail,
@@ -39,12 +41,12 @@ public class medicalOfficers extends userController{//start the medical officers
                 userAddress,
                 userGender,
                 mariedState);
-
-       
+   
 
         this.setMedicalStaffID (medicalStaffID);
         this.setMedicalStaffEmail (medicalStaffEmail);
         this.setMedicalSpecializedArea(medicalSpecializedArea);// end of the default constructor
+
 
     }
     @Override
@@ -70,8 +72,6 @@ public class medicalOfficers extends userController{//start the medical officers
     public void setMedicalSpecializedArea(String medicalSpecializedArea) {
         this.medicalSpecializedArea = medicalSpecializedArea;
     }
-
-    
     
     public int getMedicalStaffID() {
         return medicalStaffID;
