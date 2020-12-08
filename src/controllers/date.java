@@ -4,7 +4,7 @@ package controllers;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class date {
+public class date {//start of the date class
     private int day;
     private int month;
     private int year;
