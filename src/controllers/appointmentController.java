@@ -1,5 +1,8 @@
 /*
-
+Name       : medical information system (Team 09)
+version    : 2.0
+Title      : appointmentController.java
+Description: handle the appointmentController class
 */
 package controllers;
 
