@@ -1,9 +1,16 @@
+/*
+NAME-MedlifoSystem
+VERSION-2.0
+TITE-receptionist controller
+DESCRIPTION-handle the receptionist controller
+*/
 package controllers;
 
-public class receptionist extends userController{
-    private int receptionistStaffID;
-    private String receptionistStaffEmail;
+public class receptionist extends userController{ //start the receptionist class
+    private int receptionistStaffID; //declare veriables of staffID
+    private String receptionistStaffEmail; //declare veriables of staffEmail
 
+    //create  constructor
     public receptionist(int receptionistStaffID,
             String receptionistStaffEmail,
             String userName,
@@ -18,13 +25,13 @@ public class receptionist extends userController{
         super(userName, userFirstName, userLastName,
               userPhoneNo, userNIC, userDOB,
               userAddress,userGender,mariedState);
-        this.receptionistStaffID = receptionistStaffID;
-        this.receptionistStaffEmail = receptionistStaffEmail;
+        this.setReceptionistStaffID(receptionistStaffID);
+        this.setReceptionistStaffEmail(receptionistStaffEmail);
     }
-    
+    //End of  constructor
     
     @Override
-    public String toString() {
+    public String toString() { //return the values by tostring methode
         return super.getUserName()+","+
                super.getUserFirstName()+","+
                super.getUserLastName()+","+
@@ -36,7 +43,7 @@ public class receptionist extends userController{
                this.getReceptionistStaffEmail()+","+
                this.getReceptionistStaffID(); //To change body of generated methods, choose Tools | Templates.
     }
-    
+    //Setters and getters
     public int getReceptionistStaffID() {
         return receptionistStaffID;
     }
@@ -53,6 +60,8 @@ public class receptionist extends userController{
         this.receptionistStaffEmail = receptionistStaffEmail;
     }
     
-
+   //END OF Setters and getters
     
 }
+//start the receptionist class
+

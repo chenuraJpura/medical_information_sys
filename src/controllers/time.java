@@ -1,32 +1,38 @@
-
+/*
+NAME-MedlifoSystem
+VERSION-2.0
+TITE-time controller
+DESCRIPTION-handle the time controller
+*/
 package controllers;
 
 import com.bulenkov.darcula.ui.DarculaButtonPainter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
+//start of the time class
 public class time {
-    private int minutes;
-    private int hours;
-    private String AmPmState;
+    private int minutes;//declare veriables of minutes
+    private int hours;//declare veriables of hours
+    private String AmPmState;//declare veriables of AmPmstate
 
     public time(int minutes, int hours, String AmPmState) {
-        this.minutes = minutes;
-        this.hours = hours;
-        this.AmPmState = AmPmState;
+        this.setMinutes (minutes);
+        this.setHours (hours);
+        this.setAmPmState(AmPmState);
     }
     
-    public time(){
+    public time(){//create default constructor
         DateTimeFormatter hoursFormat = DateTimeFormatter.ofPattern("HH");
         DateTimeFormatter minutesFormat = DateTimeFormatter.ofPattern("mm");
         DateTimeFormatter AmPmFormat = DateTimeFormatter.ofPattern("a");
         
         LocalDateTime now = LocalDateTime.now();  
-        this.hours=Integer.parseInt(hoursFormat.format(now));
-        this.minutes=Integer.parseInt(minutesFormat.format(now));
-        this.AmPmState=AmPmFormat.format(now);
-    }
-
+        this.setHours(Integer.parseInt(hoursFormat.format(now)));
+        this.setMinutes(Integer.parseInt(minutesFormat.format(now)));
+        this.setAmPmState(AmPmFormat.format(now));
+    }//End of the default constructor
+    
+    // Setters and getters
     public int getMinutes() {
         return minutes;
     }
@@ -50,10 +56,12 @@ public class time {
     public void setAmPmState(String AmPmState) {
         this.AmPmState = AmPmState;
     }
+    //END OF Setters and getters
     
+    //return the values by tostring methode
     @Override
     public String toString(){
         return getHours()+":"+
                 getMinutes()+getAmPmState();
     }
-}
+}// end of the date class
