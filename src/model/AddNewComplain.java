@@ -1,11 +1,18 @@
-package model;
+/*
+NAME-MedlifoSystem
+VERSION-2.0
+TITE-addNewComplain Model
+DESCRIPTION-convert the complain swing to txt file
+*/
 
+package model;//default package
+//importing the external plugging
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class AddNewComplain {
+public class AddNewComplain {//start the AddNewcomplain class
         public static void writingTXT(String complainString){//writing to objcet to file 
     BufferedWriter bw = null;
       try {//try catch start
@@ -22,7 +29,7 @@ public class AddNewComplain {
                 
                 bw = new BufferedWriter(fw);
                 
-                bw.write(complainString);
+                bw.write(complainString);//write the complain swing
                 bw.newLine();
         
 
@@ -35,7 +42,7 @@ public class AddNewComplain {
     { 
         try{
                 if(bw!=null){
-                        bw.close();
+                        bw.close(); //close the file
                             }
                     }catch(Exception ex)
                     
@@ -46,3 +53,4 @@ public class AddNewComplain {
     }//end of the function
 
 }
+//End of the class

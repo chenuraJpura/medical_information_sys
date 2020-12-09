@@ -1,11 +1,18 @@
-package model;
+/*
+NAME-MedlifoSystem
+VERSION-2.0
+TITE-AddNewVisitorsModel Model
+DESCRIPTION-convert the AddNewVisitorsModel swing to txt file
+*/
+package model;//default package
 
+//importing the external plugging
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class AddNewVisitorsModel {
+public class AddNewVisitorsModel {//start the AddNewVisitorsModel class
     public static void writingTXT(String AddNewVisitorString){//writing to objcet to file 
     BufferedWriter bw = null;
       try {//try catch start
@@ -22,7 +29,7 @@ public class AddNewVisitorsModel {
                 
                 bw = new BufferedWriter(fw);
                 
-                bw.write(AddNewVisitorString);
+                bw.write(AddNewVisitorString);//write the VisitorsModel swing
                 bw.newLine();
         
 
@@ -48,3 +55,4 @@ public class AddNewVisitorsModel {
 
 
 }
+//end of the class

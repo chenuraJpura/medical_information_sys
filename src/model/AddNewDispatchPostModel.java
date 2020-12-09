@@ -1,11 +1,18 @@
-package model;
+/*
+NAME-MedlifoSystem
+VERSION-2.0
+TITE-addNewDispatch  Model
+DESCRIPTION-convert the dispatch swing to txt file
+*/
+package model;//default package
 
+//importing the external plugging
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class AddNewDispatchPostModel {
+public class AddNewDispatchPostModel { //start the AddNewDispatchPostModel class
     public static void writingTXT(String dispatchPostString){//writing to objcet to file 
     BufferedWriter bw = null;
       try {//try catch start
@@ -22,7 +29,7 @@ public class AddNewDispatchPostModel {
                 
                 bw = new BufferedWriter(fw);
                 
-                bw.write(dispatchPostString);
+                bw.write(dispatchPostString); //write the dispatch swing
                 bw.newLine();
         
 
@@ -45,3 +52,4 @@ public class AddNewDispatchPostModel {
 	}
     }//end of the function
 }
+//end of the class
