@@ -2,7 +2,8 @@
 Name       : medical information system (Team 09)
 version    : 2.0
 Title      : AddNewUserModel.java
-Description: Writting text files and streams for a new user
+Description: Writting AddNewUserModel exeption writing appointments record string to txt
+
 */
 package model;//default package
 
@@ -42,7 +43,7 @@ public class AddNewUserModel {// start of the AddNewUserModel class
     { 
         try{// start try catch
                 if(bw!=null){
-                        bw.close();//closinf the buffer reader
+                        bw.close();//closing the buffer writer
                             }
                     }catch(Exception ex)// catch
                     

@@ -1,3 +1,10 @@
+/*
+Name       : medical information system (Team 09)
+version    : 2.0
+Title      : AddNewRecievedPostModel.java
+Description: Writting AddNewRecievedPostModel exeption writing appointments record string to txt
+
+*/
 package model;
 
 import java.io.BufferedWriter;
@@ -5,7 +12,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class AddNewRecievedPostModel {
+public class AddNewRecievedPostModel {// start of the AddNewRecievedPostModel class
 public static void writingTXT(String recievedPostString){//writing to objcet to file 
     BufferedWriter bw = null;
       try {//try catch start
@@ -18,30 +25,30 @@ public static void writingTXT(String recievedPostString){//writing to objcet to 
                     
                 }
                 
-                FileWriter fw = new FileWriter(file,true);
+                FileWriter fw = new FileWriter(file,true);//open the file for writing
                 
                 bw = new BufferedWriter(fw);
                 
-                bw.write(recievedPostString);
-                bw.newLine();
+                bw.write(recievedPostString);// new recived postal details wtiting to the line
+                bw.newLine();//creat a new line
         
 
-                    
+        // catch error of writting or closing the file                  
       } catch (IOException ioe) {
           System.out.println(ioe);
           ioe.printStackTrace();
       }
 	finally
     { 
-        try{
+        try{//start try catch
                 if(bw!=null){
-                        bw.close();
+                        bw.close();//closing the buffer writer
                             }
-                    }catch(Exception ex)
+                    }catch(Exception ex)// catch
                     
                     {
-                            System.out.println("Error in closing the BufferedWriter"+ex);
+                            System.out.println("Error in closing the BufferedWriter"+ex);// disply the error
            }
 	}
     }//end of the function
-}
+}// end of the AddNewRecievedPostModel class

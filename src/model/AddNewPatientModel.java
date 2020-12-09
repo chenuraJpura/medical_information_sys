@@ -2,7 +2,7 @@
 Name       : medical information system (Team 09)
 version    : 2.0
 Title      : AddNewPatientModel.java
-Description: Writting text files and streams for a new patient
+Description: Writting AddNewPatientModel exeption writing appointments record string to txt
 */
 package model;//default package
 

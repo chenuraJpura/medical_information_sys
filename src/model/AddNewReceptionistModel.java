@@ -1,16 +1,20 @@
+/*
+Name       : medical information system (Team 09)
+version    : 2.0
+Title      : AddNewUserModel.java
+Description: Writting AddNewResiptionstModel exeption writing appointments record string to txt
 
-package model;
+*/
+package model;//default package
 
+//importexternal pluggings
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-/**
- *
- * @author chenura_pc
- */
-public class AddNewReceptionistModel{
+
+public class AddNewReceptionistModel{// strat of the AddNewReceptionistModel class
     public static void writingTXT(String receptionistString){//writing to objcet to file 
     BufferedWriter bw = null;
       try {//try catch start
@@ -23,31 +27,33 @@ public class AddNewReceptionistModel{
                     
                 }
                 
-                FileWriter fw = new FileWriter(file,true);
+                FileWriter fw = new FileWriter(file,true);//open the file for writing
                 
                 bw = new BufferedWriter(fw);
                 
-                bw.write(receptionistString);
-                bw.newLine();
+                bw.write(receptionistString);// new resiptionist details wtiting to the line
+                bw.newLine();//create a new line
         
 
-                    
+        // catch error of writting or closing the file                  
       } catch (IOException ioe) {
           System.out.println(ioe);
           ioe.printStackTrace();
       }
 	finally
     { 
-        try{
+        try{// start try catch
                 if(bw!=null){
-                        bw.close();
+                        bw.close();// closing the buffer writer
                             }
-                    }catch(Exception ex)
+                    }catch(Exception ex)//catch
                     
                     {
-                            System.out.println("Error in closing the BufferedWriter"+ex);
+                            System.out.println("Error in closing the BufferedWriter"+ex);//disply the error
            }
 	}
     }//end of the function
     
-}
+}// strat of the AddNewReceptionistModel class
+
+
