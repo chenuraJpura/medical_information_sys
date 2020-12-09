@@ -1,19 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package model;
+NAME-MedlifoSystem
+VERSION-2.0
+TITE-addNewAppointment Model
+DESCRIPTION-convert the appoinment swing to txt file
+*/
+package model;//default package
 
+//importing the external pluggings
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-/**
- *
- * @author chenura_pc
- */
+//start the appoinment model class
 public class AddNewAppointmentModel {
             public static void writingTXT(String appointmentString){//writing to objcet to file 
     BufferedWriter bw = null;
@@ -31,7 +30,7 @@ public class AddNewAppointmentModel {
                 
                 bw = new BufferedWriter(fw);
                 
-                bw.write(appointmentString);
+                bw.write(appointmentString);//write the appoinment swing
                 bw.newLine();
         
 
@@ -44,7 +43,7 @@ public class AddNewAppointmentModel {
     { 
         try{
                 if(bw!=null){
-                        bw.close();
+                        bw.close(); //close the file
                             }
                     }catch(Exception ex)
                     
@@ -55,3 +54,4 @@ public class AddNewAppointmentModel {
     }//end of the function
 
 }
+//end of the class
