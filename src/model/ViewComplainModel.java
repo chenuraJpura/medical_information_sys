@@ -1,6 +1,12 @@
+/*
+NAME-MedlifoSystem
+VERSION-2.0
+TITE-ViewComplain Model
+DESCRIPTION-convert the ViewComplainModel swing to txt file
+*/
+package model;//default package
 
-package model;
-
+//importing the external plugging
 import controllers.complainsController;
 import controllers.userController;
 import java.io.BufferedReader;
@@ -13,12 +19,13 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import view.homeAdminGUI;
 
-public class ViewComplainModel {
-    public static void viewComplain(JTable ComplainViewTable){
+public class ViewComplainModel {//start the ViewComplainModel class
+    public static void viewComplain(JTable ComplainViewTable){//writing to objcet to file
             String filePath = "G:\\complainDetails.txt";
             File file = new File(filePath);
         
-        try {
+        try {//try catch start
+                //file function
             BufferedReader br = new BufferedReader(new FileReader(file));
             
             DefaultTableModel model=(DefaultTableModel) ComplainViewTable.getModel();
@@ -38,8 +45,9 @@ public class ViewComplainModel {
         }catch (Exception ex){
                     Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
         
-        }
+        }//end of the function
     
     }
     
 }
+//end of the class
