@@ -10,9 +10,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class date {//start of the date class
+
     private int day; //declare veriables of day
     private int month;//declare veriables of month
     private int year;//declare veriables of year
+
 
     public date(String dateString){ //create constructor
         String[] resultString=dateString.split("[/]", 0);
@@ -53,7 +55,9 @@ public class date {//start of the date class
     
     @Override
     public String toString(){  //return the values by tostring methode
-        return this.day+"//"+this.month+"//"+this.year;
+
+        return this.day+"/"+this.month+"/"+this.year;
+
     }
     
     
