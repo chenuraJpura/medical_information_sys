@@ -1,5 +1,12 @@
-package model;
+/*
+NAME-MedlifoSystem
+VERSION-2.0
+TITE-ViewMedicalOfficer Model
+DESCRIPTION-convert the ViewMedicalOfficerModel swing to txt file
+*/
+package model;//default package
 
+//importing the external plugging
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -9,12 +16,13 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import view.homeAdminGUI;
 
-public class ViewMedicalOfficerModel {
-            public static void viewPatientDetails(JTable appointmentViewTable){
+public class ViewMedicalOfficerModel {//start the ViewMedicalOfficerModel class
+            public static void viewPatientDetails(JTable appointmentViewTable){//writing to objcet to file
             String filePath = "G:\\patientDetails.txt";
             File file = new File(filePath);
         
-        try {
+        try {//try catch start
+                //file function
             BufferedReader br = new BufferedReader(new FileReader(file));
             
             DefaultTableModel model=(DefaultTableModel) appointmentViewTable.getModel();
@@ -35,16 +43,9 @@ public class ViewMedicalOfficerModel {
                     Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
         
         }
-    
+      //end of the function
     }
 
 
-
-
-
-
-
-
-
-    
-}
+   
+}//end of the class

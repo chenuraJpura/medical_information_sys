@@ -1,5 +1,12 @@
-package model;
+/*
+NAME-MedlifoSystem
+VERSION-2.0
+TITE-ViewAppointment Model
+DESCRIPTION-convert the ViewAppointmentModel swing to txt file
+*/
+package model;//default package
 
+//importing the external plugging
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -9,12 +16,13 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import view.homeAdminGUI;
 
-public class ViewAppointmentModel {
-    public static void viewAppointment(JTable appointmentViewTable){
+public class ViewAppointmentModel {//start the ViewAppointmentModel class
+    public static void viewAppointment(JTable appointmentViewTable){//writing to objcet to file
             String filePath = "G:\\appointmentDetails.txt";
             File file = new File(filePath);
         
-        try {
+        try {//try catch start
+                //file function
             BufferedReader br = new BufferedReader(new FileReader(file));
             
             DefaultTableModel model=(DefaultTableModel) appointmentViewTable.getModel();
@@ -34,7 +42,7 @@ public class ViewAppointmentModel {
         }catch (Exception ex){
                     Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
         
-        }
+        }//end of the function
     
     }
-}
+}//end of the class
