@@ -15,6 +15,16 @@ public class time {
     private int hours;//declare veriables of hours
     private String AmPmState;//declare veriables of AmPmstate
 
+        public time(String timeString){
+        String[] resultString=timeString.split(":", 0);
+            this.hours=Integer.parseInt(resultString[0]);
+            
+            resultString=resultString[1].split(" ");
+            this.minutes=Integer.parseInt(resultString[0]);
+            this.AmPmState=resultString[1];
+            
+    }
+    
     public time(int minutes, int hours, String AmPmState) {
         this.setMinutes (minutes);
         this.setHours (hours);

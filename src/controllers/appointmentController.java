@@ -15,25 +15,41 @@ public class appointmentController {//start of the appointment controller
     private String appSymptoms;
     private String appConclution;
     private String appStatus;
+    private String medicalOfficersFullName;
+
+    
     //Create the default constructor
-    public appointmentController(String appPatientName, date appDate, time appTime, String appSymptoms, String appConclution, String appStatus) {
+    public appointmentController(String appPatientName,
+                                String medicalOfficersFullName,
+                                date appDate,
+                                time appTime,
+                                String appSymptoms,
+                                String appConclution,
+                                String appStatus) {
         this.setAppPatientName(appPatientName);
         this.setAppDate (appDate);
         this.setAppTime (appTime);
         this.setAppSymptoms (appSymptoms);
         this.setAppConclution (appConclution);
         this.setAppStatus (appStatus);
+        this.setMedicalOfficersFullName(medicalOfficersFullName);
     }
-
-    @Override
-    public String toString(){//here return the values by toString methode
-        return getAppPatientName()+","+
-               appDate.toString()+","+
-               appTime.toString()+","+
-               getAppSymptoms()+","+
-               getAppConclution()+","+
-               getAppStatus() ;
+    // Create the parameter constructor
+     public appointmentController(String commaSeperatedString){
+        
+        String[] dataRow = commaSeperatedString.split(",");// create an array
+        
+                setAppPatientName(dataRow[0]);
+                setMedicalOfficersFullName(dataRow[1]);
+                setAppDate(new date(dataRow[2]));
+                setAppTime(new time(dataRow[3]));
+                setAppSymptoms(dataRow[4]);
+                setAppConclution(dataRow[5]);
+                setAppStatus(dataRow[6]);
+       
+    
     }
+    
     // getters and setters
     public String getAppPatientName() {
         return this.appPatientName;
@@ -82,8 +98,30 @@ public class appointmentController {//start of the appointment controller
     public void setAppStatus(String appStatus) {
         this.appStatus = appStatus;
     }
+    public String getMedicalOfficersFullName() {
+        return medicalOfficersFullName;
+    }
+
+    public void setMedicalOfficersFullName(String medicalOfficersFullName) {
+        this.medicalOfficersFullName = medicalOfficersFullName;
+    }//end of the getters and setters
     
-    //end of the getters and setters
     
+    // Create an instance method
+    public boolean objectMathcer(appointmentController matchObj){
+        
+        return matchObj.toString().equals(this.toString());
+         
+    }
+    @Override
+    public String toString(){//here return the values by toString methode
+        return getAppPatientName()+","+
+               getMedicalOfficersFullName()+","+
+               appDate.toString()+","+
+               appTime.toString()+","+
+               getAppSymptoms()+","+
+               getAppConclution()+","+
+               getAppStatus() ;
+    }
 
 }// end of the appointment controller
