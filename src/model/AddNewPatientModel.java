@@ -1,5 +1,12 @@
-package model;
+/*
+Name       : medical information system (Team 09)
+version    : 2.0
+Title      : AddNewPatientModel.java
+Description: Writting AddNewPatientModel exeption writing appointments record string to txt
+*/
+package model;//default package
 
+//import the external pluggings
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -7,12 +14,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class AddNewPatientModel {
+public class AddNewPatientModel {// start of the AddNewPatientModel
     public static void writingTXT(String patientString){//writing to objcet to file 
     BufferedWriter bw = null;
       try {//try catch start
-                //file function
-                File file = new File("G:\\patientDetails.txt");
+                
+                File file = new File("G:\\patientDetails.txt");//initialization file constructor
                 
                 if (!file.exists()) {//checking the is given file exists
                     file.createNewFile();//creating new file
@@ -20,31 +27,31 @@ public class AddNewPatientModel {
                     
                 }
                 
-                FileWriter fw = new FileWriter(file,true);
+                FileWriter fw = new FileWriter(file,true);//open the file for writing
                 
                 bw = new BufferedWriter(fw);
                 
-                bw.write(patientString);
-                bw.newLine();
+                bw.write(patientString);//patientString writing to the line
+                bw.newLine();//create new line
         
 
-                    
+        // catch error of writting or closing the file            
       } catch (IOException ioe) {
           System.out.println(ioe);
           ioe.printStackTrace();
       }
 	finally
     { 
-        try{
+        try{// start try catch
                 if(bw!=null){
-                        bw.close();
+                        bw.close();// closing the buffer reader
                             }
-                    }catch(Exception ex)
+                    }catch(Exception ex)//catch
                     
                     {
-                            System.out.println("Error in closing the BufferedWriter"+ex);
+                            System.out.println("Error in closing the BufferedWriter"+ex);//display the error
            }
 	}
     }//end of the function
     
-}
+}//end of the AddNewPatientModel
