@@ -1,35 +1,28 @@
-/*
-NAME-MedlifoSystem
-VERSION-2.0
-TITE-date controller
-DESCRIPTION-handle the date controller
-*/
+
 package controllers;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class date {//start of the date class
+public class date {
+    private int day;
+    private int month;
+    private int year;
 
-    private int day; //declare veriables of day
-    private int month;//declare veriables of month
-    private int year;//declare veriables of year
-
-
-    public date(String dateString){ //create constructor
+    public date(String dateString){
         String[] resultString=dateString.split("[/]", 0);
-            this.setDay(Integer.parseInt(resultString[0]));
-            this.setMonth(Integer.parseInt(resultString[1]));
-            this.setYear(Integer.parseInt(resultString[2]));
+            this.day=Integer.parseInt(resultString[0]);
+            this.month=Integer.parseInt(resultString[1]);
+            this.year=Integer.parseInt(resultString[2]);
             
-    }//End of the constructor
+    }
 
     public date(int day, int month, int year) {
-        this.setDay (day);
-        this.setMonth( month);
-        this.setYear ( year);
+        this.day = day;
+        this.month = month;
+        this.year = year;
     }
-    // getters and setters
+
     public void setDay(int day) {
         this.day = day;
     }
@@ -40,7 +33,7 @@ public class date {//start of the date class
 
     public void setYear(int year) {
         this.year = year;
-    }//END OF Setters and getters
+    }
     
     public date(){//default constructor set the current date for object
          DateTimeFormatter yearFormat = DateTimeFormatter.ofPattern("yyyy");
@@ -53,16 +46,11 @@ public class date {//start of the date class
          this.day=Integer.parseInt(dayFormat.format(now));
     }
     
-    @Override
-    public String toString(){  //return the values by tostring methode
-
-
+    public String toString(){
         return this.day+"/"+this.month+"/"+this.year;
-
-
     }
     
     
     
     
-}// end of the date controller
+}

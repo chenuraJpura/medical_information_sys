@@ -1,16 +1,11 @@
-/*
-Name       : medical information system (Team 09)
-version    : 2.0
-Title      : complainsController.java
-Description: handle the complainsController class
-*/
+
 package controllers;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public class complainsController {//Start of the complainsController class
-    //declare the private variables
+public class complainsController {
+    
     private String complainByName;
     private int    complainPhoneNo;
     private date   complainDateObj;
@@ -19,10 +14,21 @@ public class complainsController {//Start of the complainsController class
     private String complainActionTaken;
     private String complainNote;
 
-    
+    public complainsController(String commaSeperatedString){
+        String[] dataRow = commaSeperatedString.split(",");
+        
+                setComplainByName(dataRow[0]);
+                setComplainPhoneNo(Integer.parseInt(dataRow[1]));
+                setComplainDateObj(new date(dataRow[2]));
+                setComplainDescription(dataRow[3]);
+                setComplainActionTaken(dataRow[4]);
+                setComplainNote(dataRow[5]);
+                setComplainReference(dataRow[6]);
+                
+    }
     
     @Override
-    public String toString(){ // returns the value by toString
+    public String toString(){
         return  getComplainByName()+","+
                 getComplainPhoneNo()+","+
                 getComplainDateObj().toString()+","+
@@ -31,23 +37,30 @@ public class complainsController {//Start of the complainsController class
                 getComplainNote()+","+
                 getComplainReference();
     }
-    //start the default constructor
-    public complainsController(String complainByName,
+    
+    public complainsController(
+            String complainByName,
             int complainPhoneNo,
             date complainDateObj,
             String complainDescription,
             String complainActionTaken,
             String complainNote,
             String complainRefference) {
-        this.setComplainByName(complainByName);
-        this.setComplainPhoneNo (complainPhoneNo);
-        this.setComplainDateObj(complainDateObj);
-        this.setComplainDescription (complainDescription);
-        this.setComplainActionTaken (complainActionTaken);
-        this.setComplainNote (complainNote);
-        this.setComplainReference(complainRefference);
+        this.complainByName = complainByName;
+        this.complainPhoneNo = complainPhoneNo;
+        this.complainDateObj = complainDateObj;
+        this.complainDescription = complainDescription;
+        this.complainActionTaken = complainActionTaken;
+        this.complainNote = complainNote;
+        this.complainReference=complainRefference;
     }
-    // start getters and setters
+
+    public boolean objectMathcer(complainsController matchObj){
+        
+        return matchObj.toString().equals(this.toString());
+         
+    }
+    
     public String getComplainByName() {
         return complainByName;
     }
@@ -75,7 +88,7 @@ public class complainsController {//Start of the complainsController class
     public String getComplainDescription() {
         return complainDescription;
     }
-   
+
     public void setComplainDescription(String complainDescription) {
         this.complainDescription = complainDescription;
     }
@@ -102,19 +115,18 @@ public class complainsController {//Start of the complainsController class
 
     public void setComplainReference(String complainReference) {
         this.complainReference = complainReference;
-    }// end of the getters and setters
+    }
     
-    //add an instance methode th read the complain
     public static void readComplain(BufferedReader br)throws IOException{
        
-    String complainLine = br.readLine();// reading from an input stream
+    String complainLine = br.readLine();
     
-    String[] resultString = complainLine.split("[,]", 0);// create a sting type array
+    String[] resultString = complainLine.split("[,]", 0);
     for(String textField: resultString) {
-          System.out.println(textField);// print the textField
+          System.out.println(textField);
        }
           
-    }// end of the complainsController class
+    }
 
 
 

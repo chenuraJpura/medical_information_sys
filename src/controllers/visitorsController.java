@@ -1,33 +1,48 @@
-/*
-NAME-MedlifoSystem
-VERSION-2.0
-TITE-visitors controller
-DESCRIPTION-handle the visitors controller
-*/
+
 package controllers;
-//start of the visitorsController class
+
 public class visitorsController {
     
-    private String visitID;//declare veriables of visitID
-    private String visitName;//declare veriables of visitName
-    private String visitPurpose;//declare veriables of visitPurpose
-    private int visitPhoneNo;//declare veriables of visitPhoneNo
-    private date visitDateObj;//declare veriables of visitDateObj
-    private time visitInTimeObj;//declare veriables of visitInTimeObj
-    private time visitOutTimeObj;//declare veriables of visitOutTimeObj
-    private String visitNotes;//declare veriables of visitNotes
+    private String visitID;
+    private String visitName;
+    private String visitPurpose;
+    private int visitPhoneNo;
+    private date visitDateObj;
+    private time visitInTimeObj;
+    private time visitOutTimeObj;
+    private String visitNotes;
 
-    @Override//return the values by tostring methode
+    
+    
+    @Override
     public String toString(){
         return getVisitID()+","+
                getVisitName()+","+
                getVisitPurpose()+","+
+               getVisitPhoneNo()+","+
                getVisitDateObj().toString()+","+
                getVisitInTimeObj().toString()+","+
                getVisitOutTimeObj().toString()+","+
                getVisitNotes(); 
     }
-     //default constructer
+    
+    public visitorsController(String commaSeperatedString){
+        
+        String[] dataRow = commaSeperatedString.split(",");
+        
+                setVisitID(dataRow[0]);
+                setVisitName(dataRow[1]);
+                setVisitPurpose(dataRow[2]);
+                setVisitPhoneNo(Integer.parseInt(dataRow[3]));
+                setVisitDateObj(new date(dataRow[4]));
+                setVisitInTimeObj(new time(dataRow[5]));
+                setVisitOutTimeObj(new time(dataRow[6]));
+                setVisitNotes(dataRow[7]);
+   
+       
+    
+    }
+    
     public visitorsController(String visitID,
             String visitName,
             String visitPurpose,
@@ -36,16 +51,18 @@ public class visitorsController {
             time visitInTimeObj,
             time visitOutTimeObj,
             String visitNotes) {
-        this.setVisitID(visitID);
-        this.setVisitName(visitName);
-        this.setVisitPurpose(visitPurpose);
-        this.setVisitPhoneNo(visitPhoneNo);
-        this.setVisitDateObj(visitDateObj);
-        this.setVisitInTimeObj(visitInTimeObj);
-        this.setVisitOutTimeObj(visitOutTimeObj);
-        this.setVisitNotes(visitNotes);
+        this.visitID = visitID;
+        this.visitName = visitName;
+        this.visitPurpose = visitPurpose;
+        this.visitPhoneNo = visitPhoneNo;
+        this.visitDateObj = visitDateObj;
+        this.visitInTimeObj = visitInTimeObj;
+        this.visitOutTimeObj = visitOutTimeObj;
+        this.visitNotes = visitNotes;
     }
-   //Setters and getters
+    
+    
+
     public String getVisitID() {
         return visitID;
     }
@@ -109,7 +126,10 @@ public class visitorsController {
     public void setVisitNotes(String visitNotes) {
         this.visitNotes = visitNotes;
     }
-    // end of Setters and getters
- 
-   
-}// end of the class
+    
+    public boolean objectMathcer(visitorsController matchObj){
+        
+        return matchObj.toString().equals(this.toString());
+         
+    }
+}

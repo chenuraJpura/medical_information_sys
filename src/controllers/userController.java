@@ -1,33 +1,27 @@
-/*
-NAME-MedlifoSystem
-VERSION-2.0
-TITE-user controller
-DESCRIPTION-handle the user controller
-*/
 package controllers;
-//start of the userController class
+
 public class userController {
     
-    private String userName;//declare veriables of userName
-    private String userFirstName;//declare veriables of userFirstName
-    private String userLastName;//declare veriables of userLastName
-    private enum userGender{//declare veriables of userGender
+    private String userName;
+    private String userFirstName;
+    private String userLastName;
+    private enum userGender{
         MALE,
         FEMALE,
     }
-    private userGender userGen;//declare veriables of userGender
-    private int userPhoneNo;//declare veriables of userPhoneNumber
-    private String userNIC;//declare veriables of userNIC
-    private date userDOB;//declare veriables of userDOB
-    private String userAddress;//declare veriables of userAddress
-    private enum userMarital{//declare veriables of userMarital
+    private userGender userGen;
+    private int userPhoneNo;
+    private String userNIC;
+    private date userDOB;
+    private String userAddress;
+    private enum userMarital{
         MARRIED,
         UNMARRIED
     }
-    private userMarital userMarried;//declare veriables of userMarried
+    private userMarital userMarried;
     
     public void setUserMarital(String marriedState){
-        switch (marriedState) {//start the switch case
+        switch (marriedState) {
             case "MARRIED":
             this.userMarried=userMarried.MARRIED;
             break;
@@ -36,11 +30,11 @@ public class userController {
             this.userMarried=userMarried.UNMARRIED;
             break;
         
-        } //End of the switch case
+        }
     }
     
     public void setUserGender(String selectedGen){
-        switch (selectedGen) { //start the switch case
+        switch (selectedGen) {
             case "MALE":
             this.userGen=userGender.MALE;
             break;
@@ -48,9 +42,11 @@ public class userController {
             case "FEMALE":
             this.userGen=userGender.FEMALE;
             break;
-        }//End of the switch case
+        }
     }
-    //default constructer
+    
+    public userController(){}
+
     public userController(String userName,
             String userFirstName,
             String userLastName,
@@ -61,18 +57,17 @@ public class userController {
             String userGender,
             String mariedState
     ) {
-        this.setUserName(userName);
-        this.setUserFirstName(userFirstName);
-        this.setUserLastName(userLastName);
-        this.setUserPhoneNo(userPhoneNo);
+        this.userName = userName;
+        this.userFirstName = userFirstName;
+        this.userLastName = userLastName;
+        this.userPhoneNo = userPhoneNo;
         setUserGender(userGender);
         setUserMarital(mariedState);
-        this.setUserNIC(userNIC);
-        this.setUserDOB(userDOB);
-        this.setUserAddress(userAddress);
-    }//End of the default constructor
-    
-    // Setters and getters
+        this.userNIC = userNIC;
+        this.userDOB = userDOB;
+        this.userAddress = userAddress;
+    }
+
     public userMarital getUserMarried() {
         return userMarried;
     }
@@ -137,7 +132,7 @@ public class userController {
         return userGen;
     }
     
-    // end of Setters and getters
     
-     
-}//end of the class
+
+    
+}
