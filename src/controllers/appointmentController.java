@@ -1,14 +1,8 @@
-/*
-Name       : medical information system (Team 09)
-version    : 2.0
-Title      : appointmentController.java
-Description: handle the appointmentController class
-*/
+
 package controllers;
 
-public class appointmentController {//start of the appointment controller
-    //Declare the variables of appointment controller
-
+public class appointmentController {
+    //appointment var defined
     private String appPatientName;
     private date appDate;
     private time appTime;
@@ -16,28 +10,26 @@ public class appointmentController {//start of the appointment controller
     private String appConclution;
     private String appStatus;
     private String medicalOfficersFullName;
-
-    
-    //Create the default constructor
-    public appointmentController(String appPatientName,
-                                String medicalOfficersFullName,
-                                date appDate,
-                                time appTime,
-                                String appSymptoms,
-                                String appConclution,
-                                String appStatus) {
-        this.setAppPatientName(appPatientName);
-        this.setAppDate (appDate);
-        this.setAppTime (appTime);
-        this.setAppSymptoms (appSymptoms);
-        this.setAppConclution (appConclution);
-        this.setAppStatus (appStatus);
-        this.setMedicalOfficersFullName(medicalOfficersFullName);
+    //default constructor
+    public appointmentController(
+            String appPatientName,
+            String medicalOfficersFullName,
+            date appDate,
+            time appTime, 
+            String appSymptoms, 
+            String appConclution, 
+            String appStatus) {
+        this.appPatientName = appPatientName;
+        this.medicalOfficersFullName=medicalOfficersFullName;
+        this.appDate = appDate;
+        this.appTime = appTime;
+        this.appSymptoms = appSymptoms;
+        this.appConclution = appConclution;
+        this.appStatus = appStatus;
     }
-    // Create the parameter constructor
-     public appointmentController(String commaSeperatedString){
+        public appointmentController(String commaSeperatedString){
         
-        String[] dataRow = commaSeperatedString.split(",");// create an array
+        String[] dataRow = commaSeperatedString.split(",");
         
                 setAppPatientName(dataRow[0]);
                 setMedicalOfficersFullName(dataRow[1]);
@@ -49,16 +41,42 @@ public class appointmentController {//start of the appointment controller
        
     
     }
+            
+    public boolean objectMathcer(appointmentController matchObj){
+        
+        return matchObj.toString().equals(this.toString());
+         
+    }
+
+    public String getMedicalOfficersFullName() {
+        return medicalOfficersFullName;
+    }
+
+    public void setMedicalOfficersFullName(String medicalOfficersFullName) {
+        this.medicalOfficersFullName = medicalOfficersFullName;
+    }
+
     
-    // getters and setters
+    
+    @Override
+    public String toString(){
+        return getAppPatientName()+","+
+               getMedicalOfficersFullName()+","+
+               appDate.toString()+","+
+               appTime.toString()+","+
+               getAppSymptoms()+","+
+               getAppConclution()+","+
+               getAppStatus() ;
+    }
+    
     public String getAppPatientName() {
-        return this.appPatientName;
+        return appPatientName;
     }
 
     public void setAppPatientName(String appPatientName) {
         this.appPatientName = appPatientName;
     }
-
+//getter and setter
     public date getAppDate() {
         return appDate;
     }
@@ -98,30 +116,11 @@ public class appointmentController {//start of the appointment controller
     public void setAppStatus(String appStatus) {
         this.appStatus = appStatus;
     }
-    public String getMedicalOfficersFullName() {
-        return medicalOfficersFullName;
-    }
-
-    public void setMedicalOfficersFullName(String medicalOfficersFullName) {
-        this.medicalOfficersFullName = medicalOfficersFullName;
-    }//end of the getters and setters
     
-    
-    // Create an instance method
-    public boolean objectMathcer(appointmentController matchObj){
-        
-        return matchObj.toString().equals(this.toString());
-         
-    }
-    @Override
-    public String toString(){//here return the values by toString methode
-        return getAppPatientName()+","+
-               getMedicalOfficersFullName()+","+
-               appDate.toString()+","+
-               appTime.toString()+","+
-               getAppSymptoms()+","+
-               getAppConclution()+","+
-               getAppStatus() ;
-    }
 
-}// end of the appointment controller
+    
+
+
+
+    
+}
