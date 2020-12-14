@@ -1,56 +1,54 @@
-/*
-Name       : medical information system (Team 09)
-version    : 2.0
-Title      : medicalOfficers.java
-description: handle the medicalOfficers subclass
-
-*/
 package controllers;
 
-public class medicalOfficers extends userController{//start the medical officers subclass inherit from the user controller parentclass
-    // declare the private variables
+public class medicalOfficers extends userController{
     private int medicalStaffID;
     private String medicalStaffEmail;
     private String medicalSpecializedArea;
 
-
-
-
-    
-    //default constructor
-
-
-    public medicalOfficers(int medicalStaffID,
-            String medicalStaffEmail,
-            String medicalSpecializedArea,
-            String userName,
-            String userFirstName,
-            String userLastName,
-            int userPhoneNo,
-            String userNIC,
-            date userDOB,
-            String userAddress,
-            String userGender,
-            String mariedState) {
-        //here super keyword is used to call methods and access the constructors in the user controller supper class.
-        super(userName, userFirstName,
-                userLastName,
-                userPhoneNo,
-                userNIC,
-                userDOB,
-                userAddress,
-                userGender,
-                mariedState);
-   
-
-        this.setMedicalStaffID (medicalStaffID);
-        this.setMedicalStaffEmail (medicalStaffEmail);
-        this.setMedicalSpecializedArea(medicalSpecializedArea);// end of the default constructor
-
-
+    public boolean objectMathcer(medicalOfficers matchObj){
+        
+        return matchObj.toString().equals(this.toString());
+         
     }
+    
+    public medicalOfficers(String commaSeperatedString){
+        String[] dataRow = commaSeperatedString.split(",");
+        
+                setMedicalStaffID(Integer.parseInt(dataRow[0]));
+                setMedicalStaffEmail(dataRow[1]);
+                setMedicalSpecializedArea(dataRow[2]);
+                
+                super.setUserName(dataRow[3]);
+                super.setUserFirstName(dataRow[4]);
+                super.setUserLastName(dataRow[5]);
+                super.setUserPhoneNo(Integer.parseInt(dataRow[6]));
+                super.setUserNIC(dataRow[7]);
+                super.setUserDOB(new date(dataRow[8]));
+                super.setUserAddress(dataRow[9]);
+                super.setUserGender(dataRow[10]);
+                super.setUserMarital(dataRow[11]);
+                
+    }
+    
+    public medicalOfficers(String[] dataRow){
+        this(        Integer.parseInt(dataRow[0]),//staf  ID
+                     dataRow[1],
+                     dataRow[2],//specialized area
+                     dataRow[3],//User name
+                     dataRow[4],//fn
+                     dataRow[5],//ln
+                     Integer.parseInt(dataRow[6]),//4n
+                     dataRow[7],//nic
+                     new date(dataRow[8]),//dob
+                     dataRow[9],//address
+                     dataRow[10],//gen   
+                     dataRow[11]);
+                     }
+    
+    
+    
     @Override
-    public String toString() { //here return the values by toString method
+    public String toString() {
         return getMedicalStaffID()+","+
                getMedicalStaffEmail()+","+
                getMedicalSpecializedArea()+","+
@@ -64,7 +62,38 @@ public class medicalOfficers extends userController{//start the medical officers
                super.getUserGen()+","+
                super.getUserMarried();
     }
-    //create the getters and setters for variables
+    
+    public medicalOfficers(int medicalStaffID,
+            String medicalStaffEmail,
+            String medicalSpecializedArea,
+            String userName,
+            String userFirstName,
+            String userLastName,
+            int userPhoneNo,
+            String userNIC,
+            date userDOB,
+            String userAddress,
+            String userGender,
+            String mariedState) {
+        super(userName, userFirstName,
+                userLastName,
+                userPhoneNo,
+                userNIC,
+                userDOB,
+                userAddress,
+                userGender,
+                mariedState);
+        this.medicalStaffID = medicalStaffID;
+        this.medicalStaffEmail = medicalStaffEmail;
+        this.medicalSpecializedArea=medicalSpecializedArea;
+        
+    }
+
+    public void newLoginMedicalOfficer(){
+        loginController newMedicalLoginObj=new loginController(getUserName(),"MED",getUserNIC());
+        newMedicalLoginObj.storeNewUserData();
+    }
+
     public String getMedicalSpecializedArea() {
         return medicalSpecializedArea;
     }
@@ -87,9 +116,9 @@ public class medicalOfficers extends userController{//start the medical officers
 
     public void setMedicalStaffEmail(String medicalStaffEmail) {
         this.medicalStaffEmail = medicalStaffEmail;
-    }// end of the getters and setters
+    }
     
     
             
     
-}//end of the medical officer subclass
+}

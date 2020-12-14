@@ -45,6 +45,8 @@ public class userController {
         }
     }
     
+    public userController(){}
+
     public userController(String userName,
             String userFirstName,
             String userLastName,

@@ -12,15 +12,35 @@ public class visitorsController {
     private time visitOutTimeObj;
     private String visitNotes;
 
+    
+    
     @Override
     public String toString(){
         return getVisitID()+","+
                getVisitName()+","+
                getVisitPurpose()+","+
+               getVisitPhoneNo()+","+
                getVisitDateObj().toString()+","+
                getVisitInTimeObj().toString()+","+
                getVisitOutTimeObj().toString()+","+
                getVisitNotes(); 
+    }
+    
+    public visitorsController(String commaSeperatedString){
+        
+        String[] dataRow = commaSeperatedString.split(",");
+        
+                setVisitID(dataRow[0]);
+                setVisitName(dataRow[1]);
+                setVisitPurpose(dataRow[2]);
+                setVisitPhoneNo(Integer.parseInt(dataRow[3]));
+                setVisitDateObj(new date(dataRow[4]));
+                setVisitInTimeObj(new time(dataRow[5]));
+                setVisitOutTimeObj(new time(dataRow[6]));
+                setVisitNotes(dataRow[7]);
+   
+       
+    
     }
     
     public visitorsController(String visitID,
@@ -40,6 +60,8 @@ public class visitorsController {
         this.visitOutTimeObj = visitOutTimeObj;
         this.visitNotes = visitNotes;
     }
+    
+    
 
     public String getVisitID() {
         return visitID;
@@ -105,21 +127,9 @@ public class visitorsController {
         this.visitNotes = visitNotes;
     }
     
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
+    public boolean objectMathcer(visitorsController matchObj){
+        
+        return matchObj.toString().equals(this.toString());
+         
+    }
 }

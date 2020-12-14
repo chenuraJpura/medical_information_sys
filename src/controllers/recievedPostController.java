@@ -1,30 +1,44 @@
-/*
-Name       : medical information system (Team 09)
-version    : 2.0
-Title      : recievedPostalController.java
-Description: handle the appointmentController class
-*/
 package controllers;
 
-public class recievedPostController extends postalController{//start the recievedPost Controller subclass inherit from the postal Controller parentclass
-    //declare private variables
+public class recievedPostController extends postalController{
     private String recievedFrom;
     private String recievedFromAddress;
     private String recievedToName;
-    
-    //default constructor
-    public recievedPostController(String recievedFrom,
-            String recievedFromAddress,
-            String recievedToName,
+
+   
+    public recievedPostController(
             int postRefferenceNo,
+            String recievedToName,
+            String recievedFrom,
+            String recievedFromAddress,
             String postNote,
             date postDateObj) {
         super(postRefferenceNo, postNote, postDateObj);
-        this.setRecievedFrom (recievedFrom);
-        this.setRecievedFromAddress (recievedFromAddress);
-        this.setRecievedToName (recievedToName);
+        this.recievedFrom = recievedFrom;
+        this.recievedFromAddress = recievedFromAddress;
+        this.recievedToName = recievedToName;
     }
-    //parameter constructor
+    public recievedPostController(String commaSeperatedString){
+                String[] dataRow = commaSeperatedString.split(",");
+                super.setPostRefferenceNo(Integer.parseInt(dataRow[0]));
+                setRecievedToName(dataRow[1]);
+                setRecievedFrom(dataRow[2]);
+                setRecievedFromAddress(dataRow[3]);
+                super.setPostNote(dataRow[4]);
+                super.setPostDateObj(new date(dataRow[5]));
+                
+     }
+    
+@Override
+public String toString(){
+        return  getPostRefferenceNo()+","+//0
+                getRecievedToName()+","+//1
+                getRecievedFrom()+","+//2
+                getRecievedFromAddress()+","+//3
+                super.getPostNote()+","+//4
+                super.getPostDateObj().toString();//5
+}
+    
     public recievedPostController(String[] dataRow){
         super(Integer.parseInt(dataRow[0]),
                 dataRow[4],
@@ -34,7 +48,13 @@ public class recievedPostController extends postalController{//start the recieve
         setRecievedFromAddress(dataRow[3]);
         
     }
-    //getters and setters
+
+    public boolean objectMathcer(recievedPostController matchObj){
+        
+        return matchObj.toString().equals(this.toString());
+         
+    }
+    
     public String getRecievedFrom() {
         return recievedFrom;
     }
@@ -57,22 +77,7 @@ public class recievedPostController extends postalController{//start the recieve
 
     public void setRecievedToName(String recievedToName) {
         this.recievedToName = recievedToName;
-    }// end of the getters and setters
-    
-    //create an instance methode
-    public boolean objectMathcer(recievedPostController matchObj){
-        
-        return matchObj.toString().equals(this.toString());
-         
     }
     
-    @Override
-    public String toString(){//here return the values by toString methode
-        return  getPostRefferenceNo()+","+
-                getRecievedToName()+","+
-                getRecievedFrom()+","+
-                getRecievedFromAddress()+","+
-                super.getPostNote()+","+
-                super.getPostDateObj().toString();
-    }
-}// end of the recieved post controller class
+
+}

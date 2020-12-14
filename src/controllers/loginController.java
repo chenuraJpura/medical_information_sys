@@ -5,125 +5,69 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.table.DefaultTableModel;
-import model.AddNewUserModel;
-import view.homeAdminGUI;
+import model.UserModel;
 
 public class loginController {
+    //new user var
     private String userName;
-    private String userPass;
+    private int userID;
     private String userType;
-    private String dbUserName;
-    private String dbPass;
-    private String dbUserType;
-    private encryptionController encryptObj;
+    private String userPass;
     
-     public loginController(String userName,
-            String userType) {
-        this.userName = userName;
-        this.userType = userType;
-
+    public loginController(String[] dataRow){//special constructor
+    this(dataRow[0],Integer.parseInt(dataRow[1]),//userID
+         dataRow[2],//type
+         dataRow[3]);//pass   
     }
-    
-    public loginController(String userName,
-            String userPass,
-            String dbUserName, 
-            String dbPass) {
-        this.userName = userName;
-        this.userPass=userPass;
-        this.dbUserName = dbUserName;
-        this.dbPass = dbPass;
-
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getUserPass() {
-        return userPass;
-    }
-
-    public void setUserPass(String userPass) {
-        this.userPass = userPass;
-    }
-
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
-
-    public String getDbUserName() {
-        return dbUserName;
-    }
-
-    public void setDbUserName(String dbUserName) {
-        this.dbUserName = dbUserName;
-    }
-
-    public String getDbPass() {
-        return dbPass;
-    }
-
-    public void setDbPass(String dbPass) {
-        this.dbPass = dbPass;
-    }
-
-    public String getDbUserType() {
-        return dbUserType;
-    }
-
-    public void setDbUserType(String dbUserType) {
-        this.dbUserType = dbUserType;
-    }
-
-    public encryptionController getEncryptObj() {
-        return encryptObj;
-    }
-
-    public void setEncryptObj(encryptionController encryptObj) {
-        this.encryptObj = encryptObj;
+    public loginController(//default constructor for create a new record
+            String userName,
+            String userType,
+            String userPass) {
+            setUserName(userName);
+            setUserType(userType);
+            setUserPass(userPass);
+            
+            
     }
     
-    public boolean loginChecker(){//checking the database details and user entered values
-        boolean c1=this.userName.equals(this.dbUserName);
-        boolean c2=this.userPass.equals(this.dbPass);
-        if(c1 && c2){
-            return true;
-        }
-        return false;
-    
+    public loginController(String commaSeperatedString){
+        String[] dataRow = commaSeperatedString.split(",");
+                setUserName(dataRow[0]);
+                setUserID(Integer.parseInt(dataRow[1]));
+                setUserType(dataRow[2]);
+                setUserPass(dataRow[3]);
+                
     }
     
-    private int getPreIdNo(){
-            int PreIdNo = 1001;
+    public loginController(//for login checker
+            String userName,
+            int userID,
+            String userType,
+            String userPass){
+            setUserName(userName);
+            setUserID(userID);
+            setUserType(userType);
+            setUserPass(userPass);
+    }
+    
+    public int getNextIdNo(){//getting next avialble iD
+                       int nextID=1001;
             BufferedReader br=null;
             try{
-                    String sCurrentLine;
+                            String sCurrentLine;
+                            String lastLine="";
 
-                    br = new BufferedReader(new FileReader("G:\\loginDetails.txt"));
-
-                    String lastLine = "";
-
-                            while ((sCurrentLine = br.readLine()) != null){
-                                lastLine = sCurrentLine;
+                            File file=new File("userData\\loginDetails.txt");
+                            if(file.length()!=0){//checking the 
+                                br = new BufferedReader(new FileReader("userData\\loginDetails.txt"));
+                                while ((sCurrentLine = br.readLine())!=null){
+                                    lastLine = sCurrentLine;
+                                }
                             }
-                            
                             String[] dataRow = lastLine.split(",");
-                            
-                            PreIdNo=Integer.parseInt(dataRow[1]);
-                            
+                            nextID=Integer.parseInt(dataRow[1]);
                 }catch(IOException e){
-                    
+                    System.out.println(e);
                     e.printStackTrace();
                 
                 }finally{
@@ -139,17 +83,57 @@ public class loginController {
                             }
                 }
             
-            return PreIdNo;
+        return nextID;
+    
+    }
+    
+    public void storeNewUserData(){//storing new user
+           String userData=getUserName()+","+(getNextIdNo()+1)+","+getUserType()+","+getUserPass();
+           UserModel.writingTXT(userData);
+    
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+    
+    private void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    private void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    private void setUserPass(String userPass) {
+        this.userPass = userPass;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public String getUserPass() {
+        return userPass;
+    }
+    @Override
+    public String toString(){
+        return getUserName()+","+getUserID()+","+getUserType()+","+getUserPass();
+    }
+    
+    public boolean objectMathcer(loginController matchObj){
         
-    
+        return matchObj.toString().equals(this.toString());
+         
     }
-    
-    public void storeNewUserData(String IdNo){
-           String userData=getUserType()+","+getPreIdNo()+1+","+getUserName()+","+IdNo;
-           AddNewUserModel.writingTXT(userData);
-    
-    }
-    
     
     
 }

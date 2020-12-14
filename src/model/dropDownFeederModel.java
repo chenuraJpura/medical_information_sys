@@ -5,26 +5,28 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JTable;
+import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
 import view.homeAdminGUI;
 
-public class ViewVisitorsModel {
-        public static void viewComplain(JTable visitorViewTable){
-            String filePath = "G:\\visitorsDetails.txt";
+public class dropDownFeederModel {
+    private String fileName;
+    private int columnsNo;
+    private JComboBox comboBoxForFeed;
+    private String doctorType;
+
+    public dropDownFeederModel(String fileName,JComboBox comboBoxForFeed,String doctorType) {
+        this.fileName = fileName;
+        this.comboBoxForFeed=comboBoxForFeed;
+        this.doctorType=doctorType;
+    }
+    
+    public void dropFeeder(){
+        String filePath = "userData\\"+this.fileName;
             File file = new File(filePath);
         
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
-            // get the first line
-            // get the columns name from the first line
-            // set columns name to the jtable model
-            //String firstLine = br.readLine().trim();
-            //String[] columnsName = firstLine.split(",");
-            DefaultTableModel model=(DefaultTableModel) visitorViewTable.getModel();
-            model.setRowCount(0);
-        
-        //model.setColumnIdentifiers(columnsName);
             
             // get lines from txt file
             Object[] tableLines = br.lines().toArray();
@@ -35,7 +37,12 @@ public class ViewVisitorsModel {
             {
                 String line = tableLines[i].toString().trim();
                 String[] dataRow = line.split(",");
-                model.addRow(dataRow);
+                if(dataRow[2].equals(doctorType)){
+                    String fullName=dataRow[4]+" "+dataRow[5];
+                    
+                    this.comboBoxForFeed.addItem(fullName);
+                    
+                }
             }
             
             
@@ -43,5 +50,12 @@ public class ViewVisitorsModel {
             Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     
+    
     }
+    
+
+
+
+
+    
 }
