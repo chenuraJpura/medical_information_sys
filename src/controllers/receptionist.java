@@ -1,16 +1,49 @@
-/*
-NAME-MedlifoSystem
-VERSION-2.0
-TITE-receptionist controller
-DESCRIPTION-handle the receptionist controller
-*/
 package controllers;
 
-public class receptionist extends userController{ //start the receptionist class
-    private int receptionistStaffID; //declare veriables of staffID
-    private String receptionistStaffEmail; //declare veriables of staffEmail
+public class receptionist extends userController{
+    private int receptionistStaffID;
+    private String receptionistStaffEmail;
 
-    //create  constructor
+    public boolean objectMathcer(receptionist matchObj){
+        
+        return matchObj.toString().equals(this.toString());
+         
+    }
+    
+    public receptionist(String commaSeperatedString){
+        String[] dataRow = commaSeperatedString.split(",");
+        
+                setReceptionistStaffID(Integer.parseInt(dataRow[0]));
+                setReceptionistStaffEmail(dataRow[1]);
+                super.setUserName(dataRow[2]);
+                super.setUserFirstName(dataRow[3]);
+                super.setUserLastName(dataRow[4]);
+                super.setUserPhoneNo(Integer.parseInt(dataRow[5]));
+                super.setUserNIC(dataRow[6]);
+                super.setUserDOB(new date(dataRow[7]));
+                super.setUserAddress(dataRow[8]);
+                super.setUserGender(dataRow[9]);
+                super.setUserMarital(dataRow[10]);
+                
+    }
+  
+    
+    public receptionist(String[] dataRow){
+            this(    Integer.parseInt(dataRow[0]),//id
+                     dataRow[1],//mail
+                     dataRow[2],//userName
+                     dataRow[3],//fn
+                     dataRow[4],//ln
+                     Integer.parseInt(dataRow[5]),//4n
+                     dataRow[6],//nic
+                     new date(dataRow[7]),//dob
+                     dataRow[8],//address
+                     dataRow[9],//gen
+                     dataRow[10]);//married
+                        
+           
+    }
+    
     public receptionist(int receptionistStaffID,
             String receptionistStaffEmail,
             String userName,
@@ -25,25 +58,28 @@ public class receptionist extends userController{ //start the receptionist class
         super(userName, userFirstName, userLastName,
               userPhoneNo, userNIC, userDOB,
               userAddress,userGender,mariedState);
-        this.setReceptionistStaffID(receptionistStaffID);
-        this.setReceptionistStaffEmail(receptionistStaffEmail);
+        this.receptionistStaffID = receptionistStaffID;
+        this.receptionistStaffEmail = receptionistStaffEmail;
+        //loginController newReceptionistLoginObj=new loginController(getUserName(),"REC",getUserNIC());
+        //newReceptionistLoginObj.storeNewUserData();
     }
-    //End of  constructor
+    
     
     @Override
-    public String toString() { //return the values by tostring methode
-        return super.getUserName()+","+
+    public String toString() {
+        return this.getReceptionistStaffID()+","+
+               this.getReceptionistStaffEmail()+","+
+               super.getUserName()+","+
                super.getUserFirstName()+","+
                super.getUserLastName()+","+
-               super.getUserGen()+","+
-               super.getUserMarried()+","+
                super.getUserPhoneNo()+","+
-               super.getUserNIC()+","+
+               super.getUserNIC()+","+ 
                super.getUserDOB()+","+
-               this.getReceptionistStaffEmail()+","+
-               this.getReceptionistStaffID(); //To change body of generated methods, choose Tools | Templates.
+               super.getUserAddress()+","+
+               super.getUserGen()+","+
+               super.getUserMarried();
     }
-    //Setters and getters
+    
     public int getReceptionistStaffID() {
         return receptionistStaffID;
     }
@@ -60,8 +96,6 @@ public class receptionist extends userController{ //start the receptionist class
         this.receptionistStaffEmail = receptionistStaffEmail;
     }
     
-   //END OF Setters and getters
+
     
 }
-//start the receptionist class
-
