@@ -1,11 +1,18 @@
+/*
+Name       : medical information system (Team 09)
+version    : 2.0
+Title      : recievedPostalController.java
+Description: handle the appointmentController class
+*/
 package controllers;
 
-public class recievedPostController extends postalController{
+public class recievedPostController extends postalController{//start the recievedPost Controller subclass inherit from the postal Controller parentclass
+    //declare private variables
     private String recievedFrom;
     private String recievedFromAddress;
     private String recievedToName;
-
-   
+ 
+    //default constructor
     public recievedPostController(
             int postRefferenceNo,
             String recievedToName,
@@ -14,11 +21,12 @@ public class recievedPostController extends postalController{
             String postNote,
             date postDateObj) {
         super(postRefferenceNo, postNote, postDateObj);
-        this.recievedFrom = recievedFrom;
-        this.recievedFromAddress = recievedFromAddress;
-        this.recievedToName = recievedToName;
+        this.setRecievedFrom (recievedFrom);
+        this.setRecievedFromAddress (recievedFromAddress);
+        this.setRecievedToName (recievedToName);
     }
-    public recievedPostController(String commaSeperatedString){
+
+    public recievedPostController(String commaSeperatedString){//parameter constructor
                 String[] dataRow = commaSeperatedString.split(",");
                 super.setPostRefferenceNo(Integer.parseInt(dataRow[0]));
                 setRecievedToName(dataRow[1]);
@@ -38,7 +46,7 @@ public String toString(){
                 super.getPostNote()+","+//4
                 super.getPostDateObj().toString();//5
 }
-    
+
     public recievedPostController(String[] dataRow){
         super(Integer.parseInt(dataRow[0]),
                 dataRow[4],
@@ -49,12 +57,15 @@ public String toString(){
         
     }
 
-    public boolean objectMathcer(recievedPostController matchObj){
+public boolean objectMathcer(recievedPostController matchObj){
         
         return matchObj.toString().equals(this.toString());
          
-    }
+}
     
+
+    //getters and setters
+
     public String getRecievedFrom() {
         return recievedFrom;
     }
@@ -77,7 +88,13 @@ public String toString(){
 
     public void setRecievedToName(String recievedToName) {
         this.recievedToName = recievedToName;
-    }
+    }// end of the getters and setters
     
 
-}
+    
+
+
+
+
+}// end of the recieved post controller class
+

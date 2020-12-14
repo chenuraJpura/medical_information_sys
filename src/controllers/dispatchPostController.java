@@ -36,14 +36,22 @@ public class dispatchPostController extends postalController{
         this.dispatchAddress = dispatchAddress;
         this.dispatchFromName = dispatchFromName;
     }
-
-    public boolean objectMathcer(dispatchPostController matchObj){
+ public boolean objectMathcer(dispatchPostController matchObj){
         
         return matchObj.toString().equals(this.toString());
          
     }
 
-        @Override
+    // create a parameter constructor
+    public dispatchPostController(String[] dataRow){
+        super(Integer.parseInt(dataRow[0]),dataRow[4],new date(dataRow[5]));
+        setDispatchToName(dataRow[1]);
+        setDispatchAddress(dataRow[2]);
+        setDispatchFromName(dataRow[3]);
+        this.dispatchFromName = dispatchFromName;
+    }
+    
+    @Override
     public String toString(){//return the values by tostring methode
         return  getPostRefferenceNo()+","+
                 getDispatchToName()+","+
@@ -75,8 +83,9 @@ public class dispatchPostController extends postalController{
 
     public void setDispatchFromName(String dispatchFromName) {
         this.dispatchFromName = dispatchFromName;
-    }
+    }//END OF Setters and getters
     
+
     
     
 }

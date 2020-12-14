@@ -11,6 +11,7 @@ public class time {
     private String AmPmState;
 
     public time(String timeString){
+
         String[] resultString=timeString.split(":", 0);
             this.hours=Integer.parseInt(resultString[0]);
             
