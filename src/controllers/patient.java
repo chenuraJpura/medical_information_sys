@@ -117,12 +117,17 @@ public class patient extends userController{
                 userAddress,userGender,userMarriedState);
         this.patientAllergies = patientAllergies;
         setBloodGroup(patientBloodGroup);
-        loginController newPatientLoginObj=new loginController(getUserName(),"PAT",getUserNIC());
-        newPatientLoginObj.storeNewUserData();
+
+        
     
     }
     
-   
+    public void newLoginPatient(){
+        loginController newPatientLoginObj=new loginController(getUserName(),"PAT",getUserNIC());
+        newPatientLoginObj.storeNewUserData();
+    }
+        
+
     public String getPatientAllergies() {
         return patientAllergies;
     }

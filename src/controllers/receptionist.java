@@ -60,10 +60,15 @@ public class receptionist extends userController{
               userAddress,userGender,mariedState);
         this.receptionistStaffID = receptionistStaffID;
         this.receptionistStaffEmail = receptionistStaffEmail;
-        //loginController newReceptionistLoginObj=new loginController(getUserName(),"REC",getUserNIC());
-        //newReceptionistLoginObj.storeNewUserData();
+
     }
     
+    public void newLoginReceptionist(){
+       loginController newReceptionistLoginObj=new loginController(getUserName(),"REC",getUserNIC());
+       newReceptionistLoginObj.storeNewUserData();
+    
+    }
+
     
     @Override
     public String toString() {

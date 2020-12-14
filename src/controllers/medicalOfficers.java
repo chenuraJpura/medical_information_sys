@@ -86,6 +86,12 @@ public class medicalOfficers extends userController{
         this.medicalStaffID = medicalStaffID;
         this.medicalStaffEmail = medicalStaffEmail;
         this.medicalSpecializedArea=medicalSpecializedArea;
+
+        
+    }
+
+    public void newLoginMedicalOfficer(){
+
         loginController newMedicalLoginObj=new loginController(getUserName(),"MED",getUserNIC());
         newMedicalLoginObj.storeNewUserData();
     }

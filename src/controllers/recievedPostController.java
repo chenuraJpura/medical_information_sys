@@ -1,18 +1,13 @@
-/*
-Name       : medical information system (Team 09)
-version    : 2.0
-Title      : recievedPostalController.java
-Description: handle the appointmentController class
-*/
 package controllers;
 
-public class recievedPostController extends postalController{//start the recievedPost Controller subclass inherit from the postal Controller parentclass
-    //declare private variables
+public class recievedPostController extends postalController{
     private String recievedFrom;
     private String recievedFromAddress;
     private String recievedToName;
+
  
     //default constructor
+
     public recievedPostController(
             int postRefferenceNo,
             String recievedToName,
@@ -21,12 +16,13 @@ public class recievedPostController extends postalController{//start the recieve
             String postNote,
             date postDateObj) {
         super(postRefferenceNo, postNote, postDateObj);
-        this.setRecievedFrom (recievedFrom);
-        this.setRecievedFromAddress (recievedFromAddress);
-        this.setRecievedToName (recievedToName);
+        this.recievedFrom = recievedFrom;
+        this.recievedFromAddress = recievedFromAddress;
+        this.recievedToName = recievedToName;
     }
 
     public recievedPostController(String commaSeperatedString){//parameter constructor
+
                 String[] dataRow = commaSeperatedString.split(",");
                 super.setPostRefferenceNo(Integer.parseInt(dataRow[0]));
                 setRecievedToName(dataRow[1]);
@@ -57,6 +53,7 @@ public String toString(){
         
     }
 
+
 public boolean objectMathcer(recievedPostController matchObj){
         
         return matchObj.toString().equals(this.toString());
@@ -65,6 +62,7 @@ public boolean objectMathcer(recievedPostController matchObj){
     
 
     //getters and setters
+
 
     public String getRecievedFrom() {
         return recievedFrom;
@@ -88,6 +86,12 @@ public boolean objectMathcer(recievedPostController matchObj){
 
     public void setRecievedToName(String recievedToName) {
         this.recievedToName = recievedToName;
+
+    }
+    
+
+
+
     }// end of the getters and setters
     
 
@@ -97,4 +101,5 @@ public boolean objectMathcer(recievedPostController matchObj){
 
 
 }// end of the recieved post controller class
+
 

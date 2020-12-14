@@ -1,10 +1,14 @@
 
 package view;
 
+
+
 import controllers.appointmentController;
 import controllers.complainsController;
 import controllers.date;
 import controllers.dispatchPostController;
+import controllers.loginController;
+import controllers.medicalOfficers;
 import controllers.patient;
 import controllers.receptionist;
 import controllers.recievedPostController;
@@ -12,50 +16,89 @@ import controllers.time;
 import controllers.visitorsController;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.ButtonModel;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import model.AddNewAppointmentModel;
-import model.AddNewComplain;
-import model.AddNewDispatchPostModel;
-import model.AddNewPatientModel;
-import model.AddNewReceptionistModel;
-import model.AddNewRecievedPostModel;
-import model.AddNewVisitorsModel;
-import model.ViewAppointmentModel;
-import model.ViewComplainModel;
-import model.ViewPatientModel;
-import model.ViewVisitorsModel;
+import model.AppointmentModel;
+import model.ComplainModel;
+import model.DispatchModel;
+import model.MedicalOfficerModel;
+import model.PatientModel;
+import model.ReceptionistModel;
+import model.RecievedPostModel;
+import model.UserModel;
+import model.VisitorModel;
+import model.dropDownFeederModel;
 
 
-/**
- *
- * @author chenura_pc
- */
 public class homeAdminGUI extends javax.swing.JFrame {
+    private String userRole;
+    private String userName;
+    private static int updateRow;
     int mousePx;
     int mousePy;
 
-    public homeAdminGUI() {
+    public homeAdminGUI(String userRole,String userName) {
         initComponents();
+        setUndecorated(true);
+        
+        setBackground(new Color(0,0,0,0));
+        
         //intialy hide sections
         if(userType.getSelectedItem()=="Patient"){
             emailLabel.setVisible(false);
             emailText.setVisible(false);
             StaffIDLabel.setVisible(false);
             AddNewStaffID.setVisible(false);
+            AddNewUserSpecializedAreaDropDown.setVisible(false);
+            AddNewUserSpecializedAreaLabel.setVisible(false);
         }
+        //intially disable btn
+        //appointment section
+        deleteConformationYes.setVisible(false);
+        deleteConformationNo.setVisible(false);
+        
+        AppIntialDeleteBtn.setEnabled(false);
+        AppIntialSaveBtn.setEnabled(false);
+        //visitors section
+        deleteVisitorRecordConformationYes.setVisible(false);
+        deleteVisitorRecordConformationNo.setVisible(false);
+        
+        //recived
+        RecievedDeleteConformationYes.setVisible(false);
+        RecievedDeleteConformationNo.setVisible(false);
+        
+        //dispatch
+        DispatchDeleteConformationYes.setVisible(false);
+        DispatchDeleteConformationNo.setVisible(false);
+        
+        //complain
+        deleteComplainConformationYes.setVisible(false);
+        deleteComplainConformationNo.setVisible(false);
+        
+        //patient
+        patientDeleteConformationYes.setVisible(false);
+        patientDeleteConformationNo.setVisible(false);
+        
+        //medical officer
+        medicalDeleteConformationYes.setVisible(false);
+        medicalDeleteConformationNo.setVisible(false);
+        
+        //receptionist
+        receptionConformationYes.setVisible(false);
+        receptionConformationNo.setVisible(false);
+        
+        //login 
+        loginDetailsConformationYes.setVisible(false);
+        loginDetailsConformationNo.setVisible(false);
+        
     }
 
     /**
@@ -69,15 +112,14 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         genderGroup = new javax.swing.ButtonGroup();
         marriedState = new javax.swing.ButtonGroup();
+        curvedMainPannel = new keeptoo.KGradientPanel();
         header = new javax.swing.JPanel();
+        closeMaxMinPanel = new javax.swing.JPanel();
+        closeBtn = new keeptoo.KGradientPanel();
+        maximumBtn = new keeptoo.KGradientPanel();
+        minimumBtn = new keeptoo.KGradientPanel();
+        jPanel35 = new javax.swing.JPanel();
         jLabel49 = new javax.swing.JLabel();
-        min_max_close = new javax.swing.JPanel();
-        minmize = new javax.swing.JPanel();
-        minimize_btn_img = new javax.swing.JLabel();
-        close = new javax.swing.JPanel();
-        close_btn_img = new javax.swing.JLabel();
-        maximize = new javax.swing.JPanel();
-        max_btn_img = new javax.swing.JLabel();
         sideMenu = new javax.swing.JPanel();
         appointment = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -93,14 +135,22 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel47 = new javax.swing.JLabel();
         report = new javax.swing.JPanel();
         jLabel48 = new javax.swing.JLabel();
+        home = new javax.swing.JPanel();
+        jLabel75 = new javax.swing.JLabel();
         content = new javax.swing.JPanel();
+        homePannel = new javax.swing.JPanel();
+        jPanel36 = new javax.swing.JPanel();
+        jPanel37 = new javax.swing.JPanel();
+        jPanel38 = new javax.swing.JPanel();
+        kGradientPanel2 = new keeptoo.KGradientPanel();
+        clockLabel = new keeptoo.KGradientPanel();
+        ClockLabel = new javax.swing.JLabel();
         appPanel = new javax.swing.JPanel();
         viewAppointmentBtn = new javax.swing.JTabbedPane();
         newAppPanel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         addNewAppointmentSymptoms = new javax.swing.JTextField();
         addNewAppointmentPatientName = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -117,13 +167,23 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        MedicalOfficerDropDown = new javax.swing.JComboBox<>();
         addNewAppointmentDay = new javax.swing.JSpinner();
         addNewAppointmentMonth = new javax.swing.JSpinner();
         addNewAppointmentYear = new javax.swing.JSpinner();
+        AddNewAppointmnetSpecializedAreaDropDown = new javax.swing.JComboBox<>();
+        AddNewUserSpecializedAreaLabel1 = new javax.swing.JLabel();
+        jLabel71 = new javax.swing.JLabel();
+        jPanel33 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
         addNewAppointmentNotficationLabel = new javax.swing.JLabel();
         viewAppPanel = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
+        AppIntialSaveBtn = new javax.swing.JButton();
+        AppIntialDeleteBtn = new javax.swing.JButton();
+        areYouWantToDelete = new javax.swing.JLabel();
+        deleteConformationYes = new javax.swing.JButton();
+        deleteConformationNo = new javax.swing.JButton();
         jScrollPane7 = new javax.swing.JScrollPane();
         viewAppointmentTable = new javax.swing.JTable();
         visitorsPanel = new javax.swing.JPanel();
@@ -155,8 +215,14 @@ public class homeAdminGUI extends javax.swing.JFrame {
         viewVisitors = new javax.swing.JPanel();
         viewVisitorsTable = new javax.swing.JScrollPane();
         viewVisitorsRecordTable = new javax.swing.JTable();
+        jPanel26 = new javax.swing.JPanel();
+        visitorUpdateIntialBtn = new javax.swing.JButton();
+        VisitorIntialDeleteBtn = new javax.swing.JButton();
+        VisitorAreYouWantToDelete = new javax.swing.JLabel();
+        deleteVisitorRecordConformationYes = new javax.swing.JButton();
+        deleteVisitorRecordConformationNo = new javax.swing.JButton();
         postalPanel = new javax.swing.JPanel();
-        jTabbedPane3 = new javax.swing.JTabbedPane();
+        ViewRecievedDispatchPost = new javax.swing.JTabbedPane();
         recievedTab = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
@@ -206,6 +272,25 @@ public class homeAdminGUI extends javax.swing.JFrame {
         DispatchPostMonth = new javax.swing.JSpinner();
         DispatchPostYear = new javax.swing.JSpinner();
         AddNewDispatchPost = new javax.swing.JButton();
+        viewRecivedTab = new javax.swing.JPanel();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        viewRecivedTable = new javax.swing.JTable();
+        jPanel27 = new javax.swing.JPanel();
+        recievedUpdateBtn = new javax.swing.JButton();
+        RecivedPostIntialDeleteBtn = new javax.swing.JButton();
+        recievedAreYouWantToDelete = new javax.swing.JLabel();
+        RecievedDeleteConformationYes = new javax.swing.JButton();
+        RecievedDeleteConformationNo = new javax.swing.JButton();
+        viewDispatchTab = new javax.swing.JPanel();
+        jPanel20 = new javax.swing.JPanel();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        viewDispatchTable = new javax.swing.JTable();
+        jPanel28 = new javax.swing.JPanel();
+        dispatchUpdateBtn = new javax.swing.JButton();
+        DispatchIntialDeleteBtn = new javax.swing.JButton();
+        dispatchAreYouWantToDelete = new javax.swing.JLabel();
+        DispatchDeleteConformationYes = new javax.swing.JButton();
+        DispatchDeleteConformationNo = new javax.swing.JButton();
         complainPanel = new javax.swing.JPanel();
         viewComplainBtn = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
@@ -230,6 +315,12 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jPanel19 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         ComplainViewTable = new javax.swing.JTable();
+        jPanel29 = new javax.swing.JPanel();
+        complainUpdateSaveBtn = new javax.swing.JButton();
+        ComplainDeleteIntialBtn = new javax.swing.JButton();
+        ComplainAreYouWantToDelete = new javax.swing.JLabel();
+        deleteComplainConformationYes = new javax.swing.JButton();
+        deleteComplainConformationNo = new javax.swing.JButton();
         referencePanel = new javax.swing.JPanel();
         kButton2 = new keeptoo.KButton();
         kGradientPanel1 = new keeptoo.KGradientPanel();
@@ -285,22 +376,70 @@ public class homeAdminGUI extends javax.swing.JFrame {
         patientDetailsTab = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
         patientDetailsTable = new javax.swing.JTable();
+        jPanel30 = new javax.swing.JPanel();
+        patientUpdateBtn = new javax.swing.JButton();
+        patientIntialDeleteBtn = new javax.swing.JButton();
+        patientAreYouWantToDelete = new javax.swing.JLabel();
+        patientDeleteConformationYes = new javax.swing.JButton();
+        patientDeleteConformationNo = new javax.swing.JButton();
         MedicalOfficersDetailsViewTab = new javax.swing.JPanel();
         jScrollPane9 = new javax.swing.JScrollPane();
         MedicalOfficersTable = new javax.swing.JTable();
+        jPanel31 = new javax.swing.JPanel();
+        MedicalOfficerUpdateBtn = new javax.swing.JButton();
+        medicalIntialDeleteBtn = new javax.swing.JButton();
+        medicalAreYouWantDelete = new javax.swing.JLabel();
+        medicalDeleteConformationYes = new javax.swing.JButton();
+        medicalDeleteConformationNo = new javax.swing.JButton();
         ReceptiontistDetailsViewTab = new javax.swing.JPanel();
         jScrollPane10 = new javax.swing.JScrollPane();
         ReceptiontistTable = new javax.swing.JTable();
+        jPanel32 = new javax.swing.JPanel();
+        receptionistUpdateBtn = new javax.swing.JButton();
+        receptionIntialDeleteBtn = new javax.swing.JButton();
+        receptionAreYouWantToDelete = new javax.swing.JLabel();
+        receptionConformationYes = new javax.swing.JButton();
+        receptionConformationNo = new javax.swing.JButton();
+        jPanel39 = new javax.swing.JPanel();
+        jPanel40 = new javax.swing.JPanel();
+        userLoginUpdateSaveBtn = new javax.swing.JButton();
+        loginDetailsIntialDeleteBtn = new javax.swing.JButton();
+        loginDetailsAreYouWantToDelete = new javax.swing.JLabel();
+        loginDetailsConformationYes = new javax.swing.JButton();
+        loginDetailsConformationNo = new javax.swing.JButton();
+        jPanel41 = new javax.swing.JPanel();
+        jScrollPane13 = new javax.swing.JScrollPane();
+        userLoginTable = new javax.swing.JTable();
+        jPanel22 = new javax.swing.JPanel();
+        jPanel23 = new javax.swing.JPanel();
+        jPanel24 = new javax.swing.JPanel();
+        jPanel25 = new javax.swing.JPanel();
+        jLabel70 = new javax.swing.JLabel();
+        jPasswordField1 = new javax.swing.JPasswordField();
+        jPasswordField2 = new javax.swing.JPasswordField();
+        jPasswordField3 = new javax.swing.JPasswordField();
+        jLabel72 = new javax.swing.JLabel();
+        jLabel73 = new javax.swing.JLabel();
+        jLabel74 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
         reportPanel = new javax.swing.JPanel();
+        footer = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1200, 700));
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(1200, 700));
         setResizable(false);
 
-        header.setBackground(new java.awt.Color(51, 51, 51));
+        curvedMainPannel.setBackground(new java.awt.Color(255, 255, 255));
+        curvedMainPannel.setkBorderRadius(60);
+        curvedMainPannel.setkEndColor(new java.awt.Color(255, 255, 255));
+        curvedMainPannel.setkStartColor(new java.awt.Color(255, 255, 255));
+        curvedMainPannel.setOpaque(false);
+        curvedMainPannel.setPreferredSize(new java.awt.Dimension(900, 700));
+        curvedMainPannel.setLayout(new java.awt.BorderLayout());
+
+        header.setBackground(new java.awt.Color(0, 153, 255));
         header.setForeground(new java.awt.Color(60, 63, 65));
+        header.setOpaque(false);
         header.setPreferredSize(new java.awt.Dimension(800, 40));
         header.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
@@ -314,93 +453,140 @@ public class homeAdminGUI extends javax.swing.JFrame {
         });
         header.setLayout(new java.awt.BorderLayout());
 
-        jLabel49.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jLabel49.setForeground(new java.awt.Color(255, 255, 255));
+        closeMaxMinPanel.setBackground(new java.awt.Color(0, 102, 255));
+        closeMaxMinPanel.setMinimumSize(new java.awt.Dimension(250, 40));
+        closeMaxMinPanel.setOpaque(false);
+
+        closeBtn.setkBorderRadius(20);
+        closeBtn.setkEndColor(new java.awt.Color(255, 0, 153));
+        closeBtn.setkStartColor(new java.awt.Color(255, 0, 102));
+        closeBtn.setOpaque(false);
+        closeBtn.setPreferredSize(new java.awt.Dimension(100, 30));
+        closeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                closeBtnMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout closeBtnLayout = new javax.swing.GroupLayout(closeBtn);
+        closeBtn.setLayout(closeBtnLayout);
+        closeBtnLayout.setHorizontalGroup(
+            closeBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        closeBtnLayout.setVerticalGroup(
+            closeBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 15, Short.MAX_VALUE)
+        );
+
+        maximumBtn.setkEndColor(new java.awt.Color(255, 204, 51));
+        maximumBtn.setkStartColor(new java.awt.Color(255, 153, 0));
+        maximumBtn.setOpaque(false);
+        maximumBtn.setPreferredSize(new java.awt.Dimension(100, 30));
+
+        javax.swing.GroupLayout maximumBtnLayout = new javax.swing.GroupLayout(maximumBtn);
+        maximumBtn.setLayout(maximumBtnLayout);
+        maximumBtnLayout.setHorizontalGroup(
+            maximumBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 60, Short.MAX_VALUE)
+        );
+        maximumBtnLayout.setVerticalGroup(
+            maximumBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 15, Short.MAX_VALUE)
+        );
+
+        minimumBtn.setForeground(new java.awt.Color(204, 204, 204));
+        minimumBtn.setkEndColor(new java.awt.Color(0, 255, 204));
+        minimumBtn.setkStartColor(new java.awt.Color(0, 255, 204));
+        minimumBtn.setOpaque(false);
+        minimumBtn.setPreferredSize(new java.awt.Dimension(100, 30));
+
+        javax.swing.GroupLayout minimumBtnLayout = new javax.swing.GroupLayout(minimumBtn);
+        minimumBtn.setLayout(minimumBtnLayout);
+        minimumBtnLayout.setHorizontalGroup(
+            minimumBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 60, Short.MAX_VALUE)
+        );
+        minimumBtnLayout.setVerticalGroup(
+            minimumBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 15, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout closeMaxMinPanelLayout = new javax.swing.GroupLayout(closeMaxMinPanel);
+        closeMaxMinPanel.setLayout(closeMaxMinPanelLayout);
+        closeMaxMinPanelLayout.setHorizontalGroup(
+            closeMaxMinPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, closeMaxMinPanelLayout.createSequentialGroup()
+                .addContainerGap(101, Short.MAX_VALUE)
+                .addComponent(minimumBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(maximumBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(closeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
+        );
+        closeMaxMinPanelLayout.setVerticalGroup(
+            closeMaxMinPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(closeMaxMinPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(closeMaxMinPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(minimumBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(maximumBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(closeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19))
+        );
+
+        header.add(closeMaxMinPanel, java.awt.BorderLayout.LINE_END);
+
+        jPanel35.setBackground(new java.awt.Color(0, 102, 255));
+        jPanel35.setOpaque(false);
+        jPanel35.setPreferredSize(new java.awt.Dimension(750, 40));
+
+        jLabel49.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        jLabel49.setForeground(new java.awt.Color(0, 102, 255));
         jLabel49.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel49.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_hospital_sign_24px.png"))); // NOI18N
+        jLabel49.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_microscope_20px.png"))); // NOI18N
         jLabel49.setText("Medical Dashboard");
-        header.add(jLabel49, java.awt.BorderLayout.CENTER);
 
-        min_max_close.setBackground(new java.awt.Color(51, 51, 51));
-        min_max_close.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        javax.swing.GroupLayout jPanel35Layout = new javax.swing.GroupLayout(jPanel35);
+        jPanel35.setLayout(jPanel35Layout);
+        jPanel35Layout.setHorizontalGroup(
+            jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel35Layout.createSequentialGroup()
+                .addGap(201, 201, 201)
+                .addComponent(jLabel49)
+                .addGap(171, 171, 171))
+        );
+        jPanel35Layout.setVerticalGroup(
+            jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel49, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+        );
 
-        minmize.setBackground(new java.awt.Color(51, 51, 51));
-        minmize.setPreferredSize(new java.awt.Dimension(100, 30));
-        minmize.setLayout(new java.awt.BorderLayout());
+        header.add(jPanel35, java.awt.BorderLayout.CENTER);
 
-        minimize_btn_img.setBackground(new java.awt.Color(51, 51, 51));
-        minimize_btn_img.setForeground(new java.awt.Color(45, 52, 99));
-        minimize_btn_img.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        minimize_btn_img.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/min_button.png"))); // NOI18N
-        minimize_btn_img.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                minimize_btn_imgMouseClicked(evt);
-            }
-        });
-        minmize.add(minimize_btn_img, java.awt.BorderLayout.CENTER);
+        curvedMainPannel.add(header, java.awt.BorderLayout.PAGE_START);
 
-        min_max_close.add(minmize, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 80, -1));
-
-        close.setBackground(new java.awt.Color(51, 51, 51));
-        close.setPreferredSize(new java.awt.Dimension(70, 30));
-        close.setLayout(new java.awt.BorderLayout());
-
-        close_btn_img.setBackground(new java.awt.Color(38, 44, 86));
-        close_btn_img.setForeground(new java.awt.Color(45, 52, 99));
-        close_btn_img.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        close_btn_img.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/close_button.png"))); // NOI18N
-        close_btn_img.setToolTipText("close");
-        close_btn_img.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                close_btn_imgMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                close_btn_imgMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                close_btn_imgMouseExited(evt);
-            }
-        });
-        close.add(close_btn_img, java.awt.BorderLayout.CENTER);
-
-        min_max_close.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 100, -1));
-
-        maximize.setBackground(new java.awt.Color(51, 51, 51));
-        maximize.setPreferredSize(new java.awt.Dimension(100, 30));
-        maximize.setLayout(new java.awt.BorderLayout());
-
-        max_btn_img.setBackground(new java.awt.Color(38, 44, 86));
-        max_btn_img.setForeground(new java.awt.Color(45, 52, 99));
-        max_btn_img.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        max_btn_img.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/max_button.png"))); // NOI18N
-        max_btn_img.setToolTipText("maximize");
-        max_btn_img.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                max_btn_imgMouseClicked(evt);
-            }
-        });
-        maximize.add(max_btn_img, java.awt.BorderLayout.LINE_END);
-
-        min_max_close.add(maximize, new org.netbeans.lib.awtextra.AbsoluteConstraints(106, 0, 150, -1));
-
-        header.add(min_max_close, java.awt.BorderLayout.LINE_END);
-
-        getContentPane().add(header, java.awt.BorderLayout.PAGE_START);
-
-        sideMenu.setBackground(new java.awt.Color(51, 51, 51));
-        sideMenu.setPreferredSize(new java.awt.Dimension(200, 660));
+        sideMenu.setBackground(new java.awt.Color(255, 255, 255));
+        sideMenu.setPreferredSize(new java.awt.Dimension(200, 620));
         sideMenu.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        appointment.setBackground(new java.awt.Color(246, 250, 251));
+        appointment.setBackground(new java.awt.Color(0, 210, 255));
         appointment.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 menuIconClick(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                appointmentMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                appointmentMouseExited(evt);
+            }
         });
 
         jLabel2.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_activity_feed_24px_1.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_shortlist_20px.png"))); // NOI18N
         jLabel2.setLabelFor(appointment);
         jLabel2.setText("Appointment");
 
@@ -418,19 +604,26 @@ public class homeAdminGUI extends javax.swing.JFrame {
             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
         );
 
-        sideMenu.add(appointment, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 50));
+        sideMenu.add(appointment, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 200, 50));
 
-        visitors.setBackground(new java.awt.Color(23, 35, 77));
+        visitors.setBackground(new java.awt.Color(0, 159, 255));
+        visitors.setPreferredSize(new java.awt.Dimension(200, 50));
         visitors.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 menuIconClick(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                visitorsMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                visitorsMouseExited(evt);
             }
         });
 
         jLabel3.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_align_right_24px.png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_conference_foreground_selected_20px.png"))); // NOI18N
         jLabel3.setLabelFor(visitors);
         jLabel3.setText("Visitors");
 
@@ -445,21 +638,28 @@ public class homeAdminGUI extends javax.swing.JFrame {
         );
         visitorsLayout.setVerticalGroup(
             visitorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
         );
 
-        sideMenu.add(visitors, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 200, 50));
+        sideMenu.add(visitors, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 200, 50));
 
-        postal.setBackground(new java.awt.Color(2, 127, 255));
+        postal.setBackground(new java.awt.Color(0, 120, 255));
+        postal.setPreferredSize(new java.awt.Dimension(200, 50));
         postal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 menuIconClick(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                postalMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                postalMouseExited(evt);
             }
         });
 
         jLabel4.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_box_32px.png"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_envelope_20px.png"))); // NOI18N
         jLabel4.setLabelFor(postal);
         jLabel4.setText("Postal");
 
@@ -470,26 +670,37 @@ public class homeAdminGUI extends javax.swing.JFrame {
             .addGroup(postalLayout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addComponent(jLabel4)
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
         postalLayout.setVerticalGroup(
             postalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
         );
 
-        sideMenu.add(postal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 200, 50));
+        sideMenu.add(postal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 200, 50));
 
-        complain.setBackground(new java.awt.Color(255, 194, 77));
+        complain.setBackground(new java.awt.Color(0, 81, 255));
+        complain.setPreferredSize(new java.awt.Dimension(200, 50));
         complain.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 menuIconClick(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                complainMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                complainMouseExited(evt);
+            }
         });
 
         jLabel5.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_bookmark_24px.png"))); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_cardboard_box_20px.png"))); // NOI18N
         jLabel5.setLabelFor(complain);
         jLabel5.setText("Complain");
+        jLabel5.setMaximumSize(new java.awt.Dimension(94, 50));
+        jLabel5.setName(""); // NOI18N
+        jLabel5.setPreferredSize(new java.awt.Dimension(94, 50));
 
         javax.swing.GroupLayout complainLayout = new javax.swing.GroupLayout(complain);
         complain.setLayout(complainLayout);
@@ -497,28 +708,35 @@ public class homeAdminGUI extends javax.swing.JFrame {
             complainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(complainLayout.createSequentialGroup()
                 .addGap(50, 50, 50)
-                .addComponent(jLabel5)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         complainLayout.setVerticalGroup(
             complainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        sideMenu.add(complain, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 200, 50));
+        sideMenu.add(complain, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 200, 50));
 
-        reference.setBackground(new java.awt.Color(247, 84, 84));
+        reference.setBackground(new java.awt.Color(95, 0, 231));
         reference.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 menuIconClick(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                referenceMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                referenceMouseExited(evt);
             }
         });
 
         jLabel46.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel46.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel46.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_hospital_3_24px.png"))); // NOI18N
+        jLabel46.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_doughnut_chart_20px.png"))); // NOI18N
         jLabel46.setLabelFor(complain);
         jLabel46.setText("Reference");
+        jLabel46.setPreferredSize(new java.awt.Dimension(98, 50));
 
         javax.swing.GroupLayout referenceLayout = new javax.swing.GroupLayout(reference);
         reference.setLayout(referenceLayout);
@@ -526,28 +744,36 @@ public class homeAdminGUI extends javax.swing.JFrame {
             referenceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(referenceLayout.createSequentialGroup()
                 .addGap(50, 50, 50)
-                .addComponent(jLabel46)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addComponent(jLabel46, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         referenceLayout.setVerticalGroup(
             referenceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel46, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+            .addComponent(jLabel46, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        sideMenu.add(reference, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 200, 50));
+        sideMenu.add(reference, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 200, 50));
 
-        user.setBackground(new java.awt.Color(224, 49, 83));
+        user.setBackground(new java.awt.Color(159, 2, 221));
+        user.setPreferredSize(new java.awt.Dimension(200, 50));
         user.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 menuIconClick(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                userMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                userMouseExited(evt);
             }
         });
 
         jLabel47.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel47.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel47.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_unchecked_checkbox_32px.png"))); // NOI18N
+        jLabel47.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_medical_doctor_20px.png"))); // NOI18N
         jLabel47.setLabelFor(complain);
         jLabel47.setText("User");
+        jLabel47.setPreferredSize(new java.awt.Dimension(57, 50));
 
         javax.swing.GroupLayout userLayout = new javax.swing.GroupLayout(user);
         user.setLayout(userLayout);
@@ -555,19 +781,18 @@ public class homeAdminGUI extends javax.swing.JFrame {
             userLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(userLayout.createSequentialGroup()
                 .addGap(53, 53, 53)
-                .addComponent(jLabel47)
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addComponent(jLabel47, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(90, Short.MAX_VALUE))
         );
         userLayout.setVerticalGroup(
             userLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(userLayout.createSequentialGroup()
-                .addComponent(jLabel47, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 2, Short.MAX_VALUE))
+            .addComponent(jLabel47, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        sideMenu.add(user, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 200, 50));
+        sideMenu.add(user, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 200, 50));
 
-        report.setBackground(new java.awt.Color(246, 250, 251));
+        report.setBackground(new java.awt.Color(217, 12, 254));
+        report.setPreferredSize(new java.awt.Dimension(200, 50));
         report.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 menuIconClick(evt);
@@ -575,7 +800,8 @@ public class homeAdminGUI extends javax.swing.JFrame {
         });
 
         jLabel48.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jLabel48.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_search_16px.png"))); // NOI18N
+        jLabel48.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel48.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_business_report_20px.png"))); // NOI18N
         jLabel48.setLabelFor(complain);
         jLabel48.setText("Report");
 
@@ -596,14 +822,148 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 .addGap(16, 16, 16))
         );
 
-        sideMenu.add(report, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 200, 50));
+        sideMenu.add(report, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 200, 50));
 
-        getContentPane().add(sideMenu, java.awt.BorderLayout.LINE_START);
+        home.setBackground(new java.awt.Color(0, 204, 204));
+        home.setPreferredSize(new java.awt.Dimension(200, 50));
+        home.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuIconClick(evt);
+            }
+        });
 
+        jLabel75.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLabel75.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel75.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_home_20px.png"))); // NOI18N
+        jLabel75.setText("Home");
+        jLabel75.setPreferredSize(new java.awt.Dimension(68, 50));
+
+        javax.swing.GroupLayout homeLayout = new javax.swing.GroupLayout(home);
+        home.setLayout(homeLayout);
+        homeLayout.setHorizontalGroup(
+            homeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(homeLayout.createSequentialGroup()
+                .addGap(61, 61, 61)
+                .addComponent(jLabel75, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(71, Short.MAX_VALUE))
+        );
+        homeLayout.setVerticalGroup(
+            homeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel75, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        sideMenu.add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 50));
+
+        curvedMainPannel.add(sideMenu, java.awt.BorderLayout.LINE_START);
+
+        content.setPreferredSize(new java.awt.Dimension(850, 620));
         content.setLayout(new java.awt.CardLayout());
 
-        appPanel.setBackground(new java.awt.Color(2, 127, 255));
+        homePannel.setPreferredSize(new java.awt.Dimension(700, 620));
+        homePannel.setLayout(new java.awt.BorderLayout());
+
+        jPanel36.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel36.setPreferredSize(new java.awt.Dimension(700, 30));
+
+        javax.swing.GroupLayout jPanel36Layout = new javax.swing.GroupLayout(jPanel36);
+        jPanel36.setLayout(jPanel36Layout);
+        jPanel36Layout.setHorizontalGroup(
+            jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 700, Short.MAX_VALUE)
+        );
+        jPanel36Layout.setVerticalGroup(
+            jPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 30, Short.MAX_VALUE)
+        );
+
+        homePannel.add(jPanel36, java.awt.BorderLayout.PAGE_START);
+
+        javax.swing.GroupLayout jPanel37Layout = new javax.swing.GroupLayout(jPanel37);
+        jPanel37.setLayout(jPanel37Layout);
+        jPanel37Layout.setHorizontalGroup(
+            jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 700, Short.MAX_VALUE)
+        );
+        jPanel37Layout.setVerticalGroup(
+            jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        homePannel.add(jPanel37, java.awt.BorderLayout.PAGE_END);
+
+        jPanel38.setBackground(new java.awt.Color(255, 255, 255));
+
+        kGradientPanel2.setkBorderRadius(50);
+        kGradientPanel2.setkEndColor(new java.awt.Color(34, 224, 240));
+        kGradientPanel2.setkStartColor(new java.awt.Color(9, 238, 221));
+        kGradientPanel2.setkTransparentControls(false);
+        kGradientPanel2.setOpaque(false);
+
+        javax.swing.GroupLayout kGradientPanel2Layout = new javax.swing.GroupLayout(kGradientPanel2);
+        kGradientPanel2.setLayout(kGradientPanel2Layout);
+        kGradientPanel2Layout.setHorizontalGroup(
+            kGradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 125, Short.MAX_VALUE)
+        );
+        kGradientPanel2Layout.setVerticalGroup(
+            kGradientPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 119, Short.MAX_VALUE)
+        );
+
+        clockLabel.setkBorderRadius(50);
+        clockLabel.setkEndColor(new java.awt.Color(34, 224, 240));
+        clockLabel.setkStartColor(new java.awt.Color(9, 238, 221));
+        clockLabel.setkTransparentControls(false);
+        clockLabel.setOpaque(false);
+
+        ClockLabel.setFont(new java.awt.Font("Montserrat", 0, 48)); // NOI18N
+        ClockLabel.setForeground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout clockLabelLayout = new javax.swing.GroupLayout(clockLabel);
+        clockLabel.setLayout(clockLabelLayout);
+        clockLabelLayout.setHorizontalGroup(
+            clockLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, clockLabelLayout.createSequentialGroup()
+                .addContainerGap(215, Short.MAX_VALUE)
+                .addComponent(ClockLabel)
+                .addGap(55, 55, 55))
+        );
+        clockLabelLayout.setVerticalGroup(
+            clockLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(clockLabelLayout.createSequentialGroup()
+                .addGap(66, 66, 66)
+                .addComponent(ClockLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel38Layout = new javax.swing.GroupLayout(jPanel38);
+        jPanel38.setLayout(jPanel38Layout);
+        jPanel38Layout.setHorizontalGroup(
+            jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel38Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(clockLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51)
+                .addComponent(kGradientPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(236, Short.MAX_VALUE))
+        );
+        jPanel38Layout.setVerticalGroup(
+            jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel38Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(kGradientPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clockLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(365, Short.MAX_VALUE))
+        );
+
+        homePannel.add(jPanel38, java.awt.BorderLayout.CENTER);
+
+        content.add(homePannel, "card9");
+
+        appPanel.setBackground(new java.awt.Color(255, 255, 255));
         appPanel.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        appPanel.setPreferredSize(new java.awt.Dimension(700, 620));
         appPanel.setLayout(new java.awt.BorderLayout());
 
         viewAppointmentBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -615,7 +975,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         newAppPanel.setLayout(new java.awt.BorderLayout());
 
-        jPanel2.setBackground(new java.awt.Color(246, 250, 251));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setPreferredSize(new java.awt.Dimension(300, 531));
 
         addNewAppointmentSymptoms.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
@@ -631,9 +991,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 addNewAppointmentPatientNameActionPerformed(evt);
             }
         });
-
-        jLabel7.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
-        jLabel7.setText("Add new Appointment");
 
         jLabel8.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel8.setText("Appointment Time");
@@ -698,11 +1055,11 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel19.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel19.setText("Medical Officer");
 
-        jComboBox2.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jComboBox2.setForeground(new java.awt.Color(51, 51, 51));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        MedicalOfficerDropDown.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        MedicalOfficerDropDown.setForeground(new java.awt.Color(51, 51, 51));
+        MedicalOfficerDropDown.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                MedicalOfficerDropDownActionPerformed(evt);
             }
         });
 
@@ -715,18 +1072,31 @@ public class homeAdminGUI extends javax.swing.JFrame {
         addNewAppointmentYear.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         addNewAppointmentYear.setModel(new javax.swing.SpinnerNumberModel(2020, 2020, 2030, 1));
 
-        addNewAppointmentNotficationLabel.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        AddNewAppointmnetSpecializedAreaDropDown.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        AddNewAppointmnetSpecializedAreaDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Physician", "Pediatrician", "Obstetrician", "Psychiatrist", "Cardiologist", "Dermatologist", "Gastroenterologist", "Ophthalmologist", "Neurologist", "Radiologist", "Anesthesiologist   " }));
+        AddNewAppointmnetSpecializedAreaDropDown.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                AddNewAppointmnetSpecializedAreaDropDownItemStateChanged(evt);
+            }
+        });
+
+        AddNewUserSpecializedAreaLabel1.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        AddNewUserSpecializedAreaLabel1.setText("Specialized Area");
+
+        jLabel71.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLabel71.setText("Dr.");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(127, 127, 127)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(78, 78, 78)
+                .addComponent(jLabel71)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(addNewAppointmentNotficationLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(addNewAppointmentPatientName, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(MedicalOfficerDropDown, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(addNewAppointmentSymptoms, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(addNewAppointmentConclution, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
@@ -743,37 +1113,43 @@ public class homeAdminGUI extends javax.swing.JFrame {
                             .addComponent(jLabel15))
                         .addGap(134, 134, 134))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel16)
-                            .addComponent(AddNewAppointmentHours, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(AddNewAppointmentMinutes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(AddNewAppointmentAMPM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel17)))
-                    .addComponent(AddNewAppointmentBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING))
-                .addGap(223, 223, 223))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel16)
+                                    .addComponent(AddNewAppointmentHours, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(12, 12, 12)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(AddNewAppointmentMinutes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(AddNewAppointmentAMPM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel17)))
+                            .addComponent(AddNewAppointmentBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(AddNewUserSpecializedAreaLabel1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(AddNewAppointmnetSpecializedAreaDropDown, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(245, 245, 245))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(addNewAppointmentNotficationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addComponent(AddNewUserSpecializedAreaLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(AddNewAppointmnetSpecializedAreaDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox2)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(MedicalOfficerDropDown)
+                    .addComponent(jLabel71))
                 .addGap(4, 4, 4)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -815,28 +1191,137 @@ public class homeAdminGUI extends javax.swing.JFrame {
                     .addComponent(AddNewAppointmentAMPM))
                 .addGap(18, 18, 18)
                 .addComponent(AddNewAppointmentBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(107, 107, 107))
+                .addGap(134, 134, 134))
         );
 
         newAppPanel.add(jPanel2, java.awt.BorderLayout.CENTER);
+
+        jPanel33.setBackground(new java.awt.Color(95, 0, 231));
+        jPanel33.setPreferredSize(new java.awt.Dimension(700, 45));
+
+        jLabel7.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Add new Appointment");
+
+        addNewAppointmentNotficationLabel.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        addNewAppointmentNotficationLabel.setForeground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout jPanel33Layout = new javax.swing.GroupLayout(jPanel33);
+        jPanel33.setLayout(jPanel33Layout);
+        jPanel33Layout.setHorizontalGroup(
+            jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel33Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jLabel7)
+                .addGap(67, 67, 67)
+                .addComponent(addNewAppointmentNotficationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(65, Short.MAX_VALUE))
+        );
+        jPanel33Layout.setVerticalGroup(
+            jPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+            .addComponent(addNewAppointmentNotficationLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        newAppPanel.add(jPanel33, java.awt.BorderLayout.PAGE_START);
 
         viewAppointmentBtn.addTab("Add Appointmet", newAppPanel);
 
         viewAppPanel.setBackground(new java.awt.Color(246, 250, 251));
         viewAppPanel.setLayout(new java.awt.BorderLayout());
 
-        jPanel18.setBackground(new java.awt.Color(247, 84, 84));
-        jPanel18.setPreferredSize(new java.awt.Dimension(700, 50));
+        jPanel18.setBackground(new java.awt.Color(246, 250, 251));
+        jPanel18.setPreferredSize(new java.awt.Dimension(700, 45));
+
+        AppIntialSaveBtn.setBackground(new java.awt.Color(40, 167, 69));
+        AppIntialSaveBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        AppIntialSaveBtn.setForeground(new java.awt.Color(255, 255, 255));
+        AppIntialSaveBtn.setText("Save");
+        AppIntialSaveBtn.setPreferredSize(new java.awt.Dimension(72, 35));
+        AppIntialSaveBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AppIntialSaveBtnMouseClicked(evt);
+            }
+        });
+        AppIntialSaveBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AppIntialSaveBtnActionPerformed(evt);
+            }
+        });
+
+        AppIntialDeleteBtn.setBackground(new java.awt.Color(220, 53, 69));
+        AppIntialDeleteBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        AppIntialDeleteBtn.setForeground(new java.awt.Color(255, 255, 255));
+        AppIntialDeleteBtn.setText("Delete");
+        AppIntialDeleteBtn.setPreferredSize(new java.awt.Dimension(78, 26));
+        AppIntialDeleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AppIntialDeleteBtnMouseClicked(evt);
+            }
+        });
+        AppIntialDeleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AppIntialDeleteBtnActionPerformed(evt);
+            }
+        });
+
+        areYouWantToDelete.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+
+        deleteConformationYes.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        deleteConformationYes.setText("Yes");
+        deleteConformationYes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deleteConformationYesMouseClicked(evt);
+            }
+        });
+        deleteConformationYes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteConformationYesActionPerformed(evt);
+            }
+        });
+
+        deleteConformationNo.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        deleteConformationNo.setText("No");
+        deleteConformationNo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deleteConformationNoMouseClicked(evt);
+            }
+        });
+        deleteConformationNo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteConformationNoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 700, Short.MAX_VALUE)
+            .addGroup(jPanel18Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(AppIntialSaveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(AppIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 347, Short.MAX_VALUE)
+                .addComponent(areYouWantToDelete)
+                .addGap(27, 27, 27)
+                .addComponent(deleteConformationYes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(deleteConformationNo)
+                .addGap(14, 14, 14))
         );
         jPanel18Layout.setVerticalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addGroup(jPanel18Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(AppIntialDeleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                        .addComponent(areYouWantToDelete)
+                        .addComponent(deleteConformationYes)
+                        .addComponent(deleteConformationNo))
+                    .addComponent(AppIntialSaveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         viewAppPanel.add(jPanel18, java.awt.BorderLayout.PAGE_START);
@@ -846,28 +1331,34 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Medical Officer", "Patient name", "Symptoms", "Conclution", "Appointment Date", "Appointment Time"
+                "Patient name", "Medical Officer", "Appointment Date", "Appointment Time", "Symptoms", "Conclution", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
+        viewAppointmentTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                viewAppointmentTableMouseClicked(evt);
+            }
+        });
         jScrollPane7.setViewportView(viewAppointmentTable);
 
         viewAppPanel.add(jScrollPane7, java.awt.BorderLayout.CENTER);
 
-        viewAppointmentBtn.addTab("View Appointment", viewAppPanel);
+        viewAppointmentBtn.addTab("View/Edit/Delete Appointment", viewAppPanel);
 
         appPanel.add(viewAppointmentBtn, java.awt.BorderLayout.CENTER);
 
         content.add(appPanel, "card2");
 
-        visitorsPanel.setBackground(new java.awt.Color(2, 127, 255));
+        visitorsPanel.setBackground(new java.awt.Color(255, 255, 255));
+        visitorsPanel.setPreferredSize(new java.awt.Dimension(700, 620));
         visitorsPanel.setLayout(new java.awt.BorderLayout());
 
         viewVisitorsBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -881,7 +1372,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         addVisitors.setLayout(new java.awt.BorderLayout());
 
         jPanel6.setBackground(new java.awt.Color(23, 35, 77));
-        jPanel6.setPreferredSize(new java.awt.Dimension(700, 50));
+        jPanel6.setPreferredSize(new java.awt.Dimension(700, 45));
 
         jLabel36.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
         jLabel36.setForeground(new java.awt.Color(255, 255, 255));
@@ -898,17 +1389,21 @@ public class homeAdminGUI extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jLabel36)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 181, Short.MAX_VALUE)
-                .addComponent(VisitorRecordNotification, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 143, Short.MAX_VALUE)
+                .addComponent(VisitorRecordNotification, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(VisitorRecordNotification, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(VisitorRecordNotification, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                    .addComponent(jLabel36, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         addVisitors.add(jPanel6, java.awt.BorderLayout.PAGE_START);
+
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -918,11 +1413,12 @@ public class homeAdminGUI extends javax.swing.JFrame {
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 577, Short.MAX_VALUE)
+            .addGap(0, 582, Short.MAX_VALUE)
         );
 
         addVisitors.add(jPanel9, java.awt.BorderLayout.LINE_START);
 
+        jPanel10.setBackground(new java.awt.Color(255, 255, 255));
         jPanel10.setPreferredSize(new java.awt.Dimension(600, 627));
 
         VisitorRecordNIC.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -970,7 +1466,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel42.setText("Visitor Out Time");
 
         AddNewVisitorRecord.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        AddNewVisitorRecord.setText("Add Appointment");
+        AddNewVisitorRecord.setText("Add Record");
         AddNewVisitorRecord.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 AddNewVisitorRecordMouseClicked(evt);
@@ -1041,14 +1537,14 @@ public class homeAdminGUI extends javax.swing.JFrame {
                         .addComponent(jLabel37)
                         .addComponent(jLabel38)
                         .addComponent(jScrollPane3)
-                        .addComponent(AddNewVisitorRecord, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(VisitorRecordPhoneNo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(VisitorRecordPhoneNo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(AddNewVisitorRecord, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(138, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGap(44, 44, 44)
+                .addGap(16, 16, 16)
                 .addComponent(jLabel39)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(VisitorRecordName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1083,8 +1579,8 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(AddNewVisitorRecord, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addComponent(AddNewVisitorRecord, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(107, Short.MAX_VALUE))
         );
 
         addVisitors.add(jPanel10, java.awt.BorderLayout.CENTER);
@@ -1096,38 +1592,144 @@ public class homeAdminGUI extends javax.swing.JFrame {
         viewVisitorsRecordTable.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         viewVisitorsRecordTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Visitors NIC", "Visitors Name", "Visitors Purpose", "Date", "In Time", "Out Time", "Note"
+                "Visitors NIC", "Visitors Name", "Visitors Purpose", "Phone No", "Date", "In Time", "Out Time", "Note"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
+        viewVisitorsRecordTable.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                viewVisitorsRecordTablePropertyChange(evt);
+            }
+        });
         viewVisitorsTable.setViewportView(viewVisitorsRecordTable);
 
         viewVisitors.add(viewVisitorsTable, java.awt.BorderLayout.CENTER);
 
-        viewVisitorsBtn.addTab("View Visitors", viewVisitors);
+        jPanel26.setPreferredSize(new java.awt.Dimension(700, 45));
+
+        visitorUpdateIntialBtn.setBackground(new java.awt.Color(40, 167, 69));
+        visitorUpdateIntialBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        visitorUpdateIntialBtn.setForeground(new java.awt.Color(255, 255, 255));
+        visitorUpdateIntialBtn.setText("Save");
+        visitorUpdateIntialBtn.setPreferredSize(new java.awt.Dimension(72, 35));
+        visitorUpdateIntialBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                visitorUpdateIntialBtnMouseClicked(evt);
+            }
+        });
+        visitorUpdateIntialBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                visitorUpdateIntialBtnActionPerformed(evt);
+            }
+        });
+
+        VisitorIntialDeleteBtn.setBackground(new java.awt.Color(220, 53, 69));
+        VisitorIntialDeleteBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        VisitorIntialDeleteBtn.setForeground(new java.awt.Color(255, 255, 255));
+        VisitorIntialDeleteBtn.setText("Delete");
+        VisitorIntialDeleteBtn.setPreferredSize(new java.awt.Dimension(78, 26));
+        VisitorIntialDeleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                VisitorIntialDeleteBtnMouseClicked(evt);
+            }
+        });
+        VisitorIntialDeleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VisitorIntialDeleteBtnActionPerformed(evt);
+            }
+        });
+
+        VisitorAreYouWantToDelete.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+
+        deleteVisitorRecordConformationYes.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        deleteVisitorRecordConformationYes.setText("Yes");
+        deleteVisitorRecordConformationYes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deleteVisitorRecordConformationYesMouseClicked(evt);
+            }
+        });
+        deleteVisitorRecordConformationYes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteVisitorRecordConformationYesActionPerformed(evt);
+            }
+        });
+
+        deleteVisitorRecordConformationNo.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        deleteVisitorRecordConformationNo.setText("No");
+        deleteVisitorRecordConformationNo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deleteVisitorRecordConformationNoMouseClicked(evt);
+            }
+        });
+        deleteVisitorRecordConformationNo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteVisitorRecordConformationNoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
+        jPanel26.setLayout(jPanel26Layout);
+        jPanel26Layout.setHorizontalGroup(
+            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel26Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(visitorUpdateIntialBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(VisitorIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 347, Short.MAX_VALUE)
+                .addComponent(VisitorAreYouWantToDelete)
+                .addGap(27, 27, 27)
+                .addComponent(deleteVisitorRecordConformationYes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(deleteVisitorRecordConformationNo)
+                .addGap(14, 14, 14))
+        );
+        jPanel26Layout.setVerticalGroup(
+            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel26Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(VisitorIntialDeleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                        .addComponent(VisitorAreYouWantToDelete)
+                        .addComponent(deleteVisitorRecordConformationYes)
+                        .addComponent(deleteVisitorRecordConformationNo))
+                    .addComponent(visitorUpdateIntialBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        viewVisitors.add(jPanel26, java.awt.BorderLayout.PAGE_START);
+
+        viewVisitorsBtn.addTab("View/Edit/Delete Visitors", viewVisitors);
 
         visitorsPanel.add(viewVisitorsBtn, java.awt.BorderLayout.PAGE_START);
 
         content.add(visitorsPanel, "card3");
 
-        postalPanel.setBackground(new java.awt.Color(2, 127, 255));
+        postalPanel.setBackground(new java.awt.Color(255, 255, 255));
+        postalPanel.setPreferredSize(new java.awt.Dimension(700, 620));
         postalPanel.setLayout(new java.awt.BorderLayout());
 
-        jTabbedPane3.setBackground(new java.awt.Color(255, 255, 255));
-        jTabbedPane3.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        ViewRecievedDispatchPost.setBackground(new java.awt.Color(255, 255, 255));
+        ViewRecievedDispatchPost.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        ViewRecievedDispatchPost.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ViewRecievedDispatchPostMouseClicked(evt);
+            }
+        });
 
         recievedTab.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         recievedTab.setLayout(new java.awt.BorderLayout());
@@ -1135,7 +1737,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jPanel5.setLayout(new java.awt.BorderLayout());
 
         jPanel14.setBackground(new java.awt.Color(0, 153, 153));
-        jPanel14.setPreferredSize(new java.awt.Dimension(350, 50));
+        jPanel14.setPreferredSize(new java.awt.Dimension(350, 45));
 
         jLabel55.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
         jLabel55.setForeground(new java.awt.Color(255, 255, 255));
@@ -1159,11 +1761,9 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel14Layout.createSequentialGroup()
-                .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel14Layout.createSequentialGroup()
-                .addComponent(recievedPostNotification, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(recievedPostNotification, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
                 .addContainerGap())
+            .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
 
         jPanel5.add(jPanel14, java.awt.BorderLayout.PAGE_START);
@@ -1270,7 +1870,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap(60, Short.MAX_VALUE)
+                .addContainerGap(43, Short.MAX_VALUE)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel32)
                     .addComponent(RecievedPostDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1303,19 +1903,19 @@ public class homeAdminGUI extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(AddNewRecievedPost, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         jPanel5.add(jPanel8, java.awt.BorderLayout.CENTER);
 
         recievedTab.add(jPanel5, java.awt.BorderLayout.CENTER);
 
-        jTabbedPane3.addTab("Recieved Post", recievedTab);
+        ViewRecievedDispatchPost.addTab("Recieved Post", recievedTab);
 
         dispatchTab.setLayout(new java.awt.BorderLayout());
 
         jPanel3.setBackground(new java.awt.Color(224, 49, 83));
-        jPanel3.setPreferredSize(new java.awt.Dimension(850, 50));
+        jPanel3.setPreferredSize(new java.awt.Dimension(850, 45));
 
         jLabel54.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
         jLabel54.setForeground(new java.awt.Color(255, 255, 255));
@@ -1338,7 +1938,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel54, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(dispatchPostNotification, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(dispatchPostNotification, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
         );
 
         dispatchTab.add(jPanel3, java.awt.BorderLayout.PAGE_START);
@@ -1445,7 +2045,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
-                .addContainerGap(60, Short.MAX_VALUE)
+                .addContainerGap(43, Short.MAX_VALUE)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel24)
                     .addComponent(DispatchPostDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1478,18 +2078,266 @@ public class homeAdminGUI extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(AddNewDispatchPost, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         dispatchTab.add(jPanel13, java.awt.BorderLayout.CENTER);
 
-        jTabbedPane3.addTab("Dispatch Post", dispatchTab);
+        ViewRecievedDispatchPost.addTab("Dispatch Post", dispatchTab);
 
-        postalPanel.add(jTabbedPane3, java.awt.BorderLayout.CENTER);
+        viewRecivedTab.setLayout(new java.awt.BorderLayout());
+
+        viewRecivedTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Refference No", "To", "From", "Address", "Note", "Date"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        viewRecivedTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                viewRecivedTableMouseClicked(evt);
+            }
+        });
+        jScrollPane12.setViewportView(viewRecivedTable);
+
+        viewRecivedTab.add(jScrollPane12, java.awt.BorderLayout.CENTER);
+
+        jPanel27.setPreferredSize(new java.awt.Dimension(700, 45));
+
+        recievedUpdateBtn.setBackground(new java.awt.Color(40, 167, 69));
+        recievedUpdateBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        recievedUpdateBtn.setForeground(new java.awt.Color(255, 255, 255));
+        recievedUpdateBtn.setText("Save");
+        recievedUpdateBtn.setPreferredSize(new java.awt.Dimension(72, 35));
+        recievedUpdateBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                recievedUpdateBtnMouseClicked(evt);
+            }
+        });
+        recievedUpdateBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                recievedUpdateBtnActionPerformed(evt);
+            }
+        });
+
+        RecivedPostIntialDeleteBtn.setBackground(new java.awt.Color(220, 53, 69));
+        RecivedPostIntialDeleteBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        RecivedPostIntialDeleteBtn.setForeground(new java.awt.Color(255, 255, 255));
+        RecivedPostIntialDeleteBtn.setText("Delete");
+        RecivedPostIntialDeleteBtn.setPreferredSize(new java.awt.Dimension(78, 26));
+        RecivedPostIntialDeleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                RecivedPostIntialDeleteBtnMouseClicked(evt);
+            }
+        });
+        RecivedPostIntialDeleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RecivedPostIntialDeleteBtnActionPerformed(evt);
+            }
+        });
+
+        recievedAreYouWantToDelete.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+
+        RecievedDeleteConformationYes.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        RecievedDeleteConformationYes.setText("Yes");
+        RecievedDeleteConformationYes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                RecievedDeleteConformationYesMouseClicked(evt);
+            }
+        });
+        RecievedDeleteConformationYes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RecievedDeleteConformationYesActionPerformed(evt);
+            }
+        });
+
+        RecievedDeleteConformationNo.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        RecievedDeleteConformationNo.setText("No");
+        RecievedDeleteConformationNo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                RecievedDeleteConformationNoMouseClicked(evt);
+            }
+        });
+        RecievedDeleteConformationNo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RecievedDeleteConformationNoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
+        jPanel27.setLayout(jPanel27Layout);
+        jPanel27Layout.setHorizontalGroup(
+            jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel27Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(recievedUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(RecivedPostIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 347, Short.MAX_VALUE)
+                .addComponent(recievedAreYouWantToDelete)
+                .addGap(27, 27, 27)
+                .addComponent(RecievedDeleteConformationYes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(RecievedDeleteConformationNo)
+                .addGap(14, 14, 14))
+        );
+        jPanel27Layout.setVerticalGroup(
+            jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel27Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(RecivedPostIntialDeleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                        .addComponent(recievedAreYouWantToDelete)
+                        .addComponent(RecievedDeleteConformationYes)
+                        .addComponent(RecievedDeleteConformationNo))
+                    .addComponent(recievedUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        viewRecivedTab.add(jPanel27, java.awt.BorderLayout.PAGE_START);
+
+        ViewRecievedDispatchPost.addTab("View Recieved Post", viewRecivedTab);
+
+        viewDispatchTab.setLayout(new java.awt.BorderLayout());
+
+        jPanel20.setLayout(new java.awt.BorderLayout());
+
+        viewDispatchTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Refference No", "To", "From", "Address", "Note", "Date"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane11.setViewportView(viewDispatchTable);
+
+        jPanel20.add(jScrollPane11, java.awt.BorderLayout.CENTER);
+
+        jPanel28.setPreferredSize(new java.awt.Dimension(700, 45));
+
+        dispatchUpdateBtn.setBackground(new java.awt.Color(40, 167, 69));
+        dispatchUpdateBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        dispatchUpdateBtn.setForeground(new java.awt.Color(255, 255, 255));
+        dispatchUpdateBtn.setText("Save");
+        dispatchUpdateBtn.setPreferredSize(new java.awt.Dimension(72, 35));
+        dispatchUpdateBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dispatchUpdateBtnMouseClicked(evt);
+            }
+        });
+        dispatchUpdateBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dispatchUpdateBtnActionPerformed(evt);
+            }
+        });
+
+        DispatchIntialDeleteBtn.setBackground(new java.awt.Color(220, 53, 69));
+        DispatchIntialDeleteBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        DispatchIntialDeleteBtn.setForeground(new java.awt.Color(255, 255, 255));
+        DispatchIntialDeleteBtn.setText("Delete");
+        DispatchIntialDeleteBtn.setPreferredSize(new java.awt.Dimension(78, 26));
+        DispatchIntialDeleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                DispatchIntialDeleteBtnMouseClicked(evt);
+            }
+        });
+        DispatchIntialDeleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DispatchIntialDeleteBtnActionPerformed(evt);
+            }
+        });
+
+        dispatchAreYouWantToDelete.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+
+        DispatchDeleteConformationYes.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        DispatchDeleteConformationYes.setText("Yes");
+        DispatchDeleteConformationYes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                DispatchDeleteConformationYesMouseClicked(evt);
+            }
+        });
+        DispatchDeleteConformationYes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DispatchDeleteConformationYesActionPerformed(evt);
+            }
+        });
+
+        DispatchDeleteConformationNo.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        DispatchDeleteConformationNo.setText("No");
+        DispatchDeleteConformationNo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                DispatchDeleteConformationNoMouseClicked(evt);
+            }
+        });
+        DispatchDeleteConformationNo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DispatchDeleteConformationNoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel28Layout = new javax.swing.GroupLayout(jPanel28);
+        jPanel28.setLayout(jPanel28Layout);
+        jPanel28Layout.setHorizontalGroup(
+            jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel28Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(dispatchUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(DispatchIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 347, Short.MAX_VALUE)
+                .addComponent(dispatchAreYouWantToDelete)
+                .addGap(27, 27, 27)
+                .addComponent(DispatchDeleteConformationYes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(DispatchDeleteConformationNo)
+                .addGap(14, 14, 14))
+        );
+        jPanel28Layout.setVerticalGroup(
+            jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel28Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(DispatchIntialDeleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                        .addComponent(dispatchAreYouWantToDelete)
+                        .addComponent(DispatchDeleteConformationYes)
+                        .addComponent(DispatchDeleteConformationNo))
+                    .addComponent(dispatchUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jPanel20.add(jPanel28, java.awt.BorderLayout.PAGE_START);
+
+        viewDispatchTab.add(jPanel20, java.awt.BorderLayout.CENTER);
+
+        ViewRecievedDispatchPost.addTab("View Dispatch Post ", viewDispatchTab);
+
+        postalPanel.add(ViewRecievedDispatchPost, java.awt.BorderLayout.CENTER);
 
         content.add(postalPanel, "card4");
 
-        complainPanel.setBackground(new java.awt.Color(2, 127, 255));
+        complainPanel.setBackground(new java.awt.Color(255, 255, 255));
+        complainPanel.setPreferredSize(new java.awt.Dimension(700, 620));
         complainPanel.setLayout(new java.awt.BorderLayout());
 
         viewComplainBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -1502,7 +2350,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         jPanel7.setBackground(new java.awt.Color(255, 194, 77));
-        jPanel7.setPreferredSize(new java.awt.Dimension(700, 50));
+        jPanel7.setPreferredSize(new java.awt.Dimension(700, 45));
 
         jLabel45.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
         jLabel45.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -1523,12 +2371,10 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(complainWarning, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jLabel45, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(complainWarning, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel45, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel7, java.awt.BorderLayout.PAGE_START);
@@ -1597,7 +2443,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addGap(100, 100, 100)
+                .addGap(27, 27, 27)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(AddNewComplainBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel51)
@@ -1608,15 +2454,15 @@ public class homeAdminGUI extends javax.swing.JFrame {
                     .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(AddNewComplainReferenceDepartment, javax.swing.GroupLayout.Alignment.LEADING, 0, 340, Short.MAX_VALUE)
+                        .addComponent(AddNewComplainReferenceDepartment, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(AddNewComplainPhoneNumber, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(AddNewComplainName, javax.swing.GroupLayout.Alignment.LEADING)))
-                .addContainerGap(260, Short.MAX_VALUE))
+                        .addComponent(AddNewComplainName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(333, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addGap(47, 47, 47)
+                .addGap(16, 16, 16)
                 .addComponent(jLabel51)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(AddNewComplainName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1638,7 +2484,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(AddNewComplainBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel11, java.awt.BorderLayout.CENTER);
@@ -1673,9 +2519,104 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         jPanel19.add(jScrollPane6, java.awt.BorderLayout.CENTER);
 
+        jPanel29.setPreferredSize(new java.awt.Dimension(700, 45));
+
+        complainUpdateSaveBtn.setBackground(new java.awt.Color(40, 167, 69));
+        complainUpdateSaveBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        complainUpdateSaveBtn.setForeground(new java.awt.Color(255, 255, 255));
+        complainUpdateSaveBtn.setText("Save");
+        complainUpdateSaveBtn.setPreferredSize(new java.awt.Dimension(72, 35));
+        complainUpdateSaveBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                complainUpdateSaveBtnMouseClicked(evt);
+            }
+        });
+        complainUpdateSaveBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                complainUpdateSaveBtnActionPerformed(evt);
+            }
+        });
+
+        ComplainDeleteIntialBtn.setBackground(new java.awt.Color(220, 53, 69));
+        ComplainDeleteIntialBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        ComplainDeleteIntialBtn.setForeground(new java.awt.Color(255, 255, 255));
+        ComplainDeleteIntialBtn.setText("Delete");
+        ComplainDeleteIntialBtn.setPreferredSize(new java.awt.Dimension(78, 26));
+        ComplainDeleteIntialBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ComplainDeleteIntialBtnMouseClicked(evt);
+            }
+        });
+        ComplainDeleteIntialBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComplainDeleteIntialBtnActionPerformed(evt);
+            }
+        });
+
+        ComplainAreYouWantToDelete.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+
+        deleteComplainConformationYes.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        deleteComplainConformationYes.setText("Yes");
+        deleteComplainConformationYes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deleteComplainConformationYesMouseClicked(evt);
+            }
+        });
+        deleteComplainConformationYes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteComplainConformationYesActionPerformed(evt);
+            }
+        });
+
+        deleteComplainConformationNo.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        deleteComplainConformationNo.setText("No");
+        deleteComplainConformationNo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deleteComplainConformationNoMouseClicked(evt);
+            }
+        });
+        deleteComplainConformationNo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteComplainConformationNoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel29Layout = new javax.swing.GroupLayout(jPanel29);
+        jPanel29.setLayout(jPanel29Layout);
+        jPanel29Layout.setHorizontalGroup(
+            jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel29Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(complainUpdateSaveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ComplainDeleteIntialBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 347, Short.MAX_VALUE)
+                .addComponent(ComplainAreYouWantToDelete)
+                .addGap(27, 27, 27)
+                .addComponent(deleteComplainConformationYes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(deleteComplainConformationNo)
+                .addGap(14, 14, 14))
+        );
+        jPanel29Layout.setVerticalGroup(
+            jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel29Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(ComplainDeleteIntialBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                        .addComponent(ComplainAreYouWantToDelete)
+                        .addComponent(deleteComplainConformationYes)
+                        .addComponent(deleteComplainConformationNo))
+                    .addComponent(complainUpdateSaveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jPanel19.add(jPanel29, java.awt.BorderLayout.PAGE_START);
+
         jPanel4.add(jPanel19, java.awt.BorderLayout.CENTER);
 
-        viewComplainBtn.addTab("View Complain", jPanel4);
+        viewComplainBtn.addTab("View/Edit/Delete Complain", jPanel4);
 
         complainPanel.add(viewComplainBtn, java.awt.BorderLayout.CENTER);
 
@@ -1686,6 +2627,11 @@ public class homeAdminGUI extends javax.swing.JFrame {
         kButton2.setText("kButton2");
         kButton2.setkEndColor(new java.awt.Color(255, 153, 51));
         kButton2.setkStartColor(new java.awt.Color(204, 0, 0));
+        kButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                kButton2MouseClicked(evt);
+            }
+        });
 
         kButton1.setText("kButton1");
         kButton1.setkBorderRadius(50);
@@ -1715,13 +2661,10 @@ public class homeAdminGUI extends javax.swing.JFrame {
         referencePanelLayout.setHorizontalGroup(
             referencePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(referencePanelLayout.createSequentialGroup()
-                .addGroup(referencePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(referencePanelLayout.createSequentialGroup()
-                        .addGap(112, 112, 112)
-                        .addComponent(kGradientPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(referencePanelLayout.createSequentialGroup()
-                        .addGap(148, 148, 148)
-                        .addComponent(kButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(112, 112, 112)
+                .addGroup(referencePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(kGradientPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(kButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(340, Short.MAX_VALUE))
         );
         referencePanelLayout.setVerticalGroup(
@@ -1729,15 +2672,16 @@ public class homeAdminGUI extends javax.swing.JFrame {
             .addGroup(referencePanelLayout.createSequentialGroup()
                 .addGap(67, 67, 67)
                 .addComponent(kGradientPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(30, 30, 30)
                 .addComponent(kButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(310, Short.MAX_VALUE))
+                .addContainerGap(246, Short.MAX_VALUE))
         );
 
         content.add(referencePanel, "card6");
 
-        userPanel.setBackground(new java.awt.Color(255, 0, 102));
+        userPanel.setBackground(new java.awt.Color(255, 255, 255));
         userPanel.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        userPanel.setPreferredSize(new java.awt.Dimension(700, 620));
         userPanel.setLayout(new java.awt.BorderLayout());
 
         jTabbedPane5.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -1750,7 +2694,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jPanel12.setLayout(new java.awt.BorderLayout());
 
         jPanel16.setBackground(new java.awt.Color(2, 127, 255));
-        jPanel16.setPreferredSize(new java.awt.Dimension(700, 50));
+        jPanel16.setPreferredSize(new java.awt.Dimension(700, 45));
 
         jLabel50.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
         jLabel50.setForeground(new java.awt.Color(255, 255, 255));
@@ -1773,9 +2717,10 @@ public class homeAdminGUI extends javax.swing.JFrame {
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel50, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                .addComponent(addNewUserFormNotificationLabel))
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addComponent(addNewUserFormNotificationLabel)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jLabel50, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
         );
 
         jPanel12.add(jPanel16, java.awt.BorderLayout.PAGE_START);
@@ -1972,7 +2917,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
                         .addComponent(bloodG))
                     .addGroup(jPanel17Layout.createSequentialGroup()
                         .addComponent(jLabel66)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
                         .addComponent(AddNewUserGenderMale)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(AddNewUserGenderFemale)
@@ -1980,7 +2925,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
                     .addGroup(jPanel17Layout.createSequentialGroup()
                         .addComponent(addNewUserMarriedState, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addNewUserUnMarriedState, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                        .addComponent(addNewUserUnMarriedState, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(bloodSel, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel17Layout.createSequentialGroup()
@@ -2015,17 +2960,13 @@ public class homeAdminGUI extends javax.swing.JFrame {
                             .addComponent(jLabel56)
                             .addComponent(jLabel57))
                         .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(24, 24, 24)
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel17Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(86, 86, 86))
-                    .addGroup(jPanel17Layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
                         .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(addNewUserAddress)
+                            .addComponent(addNewUserAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(jPanel17Layout.createSequentialGroup()
-                                .addComponent(AddNewUserSpecializedAreaDropDown, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(AddNewUserSpecializedAreaDropDown, 0, 183, Short.MAX_VALUE)
                                 .addGap(88, 88, 88))
                             .addComponent(emailText)
                             .addComponent(AddNewStaffID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -2037,8 +2978,11 @@ public class homeAdminGUI extends javax.swing.JFrame {
                                     .addComponent(AddNewUserSpecializedAreaLabel)
                                     .addComponent(emailLabel))
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(addNewUserAllergies))))
-                .addGap(18, 18, 18))
+                            .addComponent(addNewUserAllergies))
+                        .addGap(18, 18, 18))
+                    .addGroup(jPanel17Layout.createSequentialGroup()
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2096,29 +3040,29 @@ public class homeAdminGUI extends javax.swing.JFrame {
                     .addComponent(addNewUserNIC)
                     .addComponent(AddNewUserSpecializedAreaDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(AddNewUserGenderFemale)
-                    .addComponent(AddNewUserGenderMale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel66))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel52, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel17Layout.createSequentialGroup()
-                        .addComponent(jLabel59, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(AddNewUserDOBDay))
-                    .addGroup(jPanel17Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(jLabel58, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(AddNewUserDOBYear))
-                    .addGroup(jPanel17Layout.createSequentialGroup()
-                        .addComponent(jLabel60, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(AddNewUserDOBMoth)))
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel17Layout.createSequentialGroup()
+                        .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(AddNewUserGenderFemale)
+                            .addComponent(AddNewUserGenderMale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel66))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel52, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel17Layout.createSequentialGroup()
+                                .addComponent(jLabel59, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(AddNewUserDOBDay))
+                            .addGroup(jPanel17Layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(jLabel58, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(AddNewUserDOBYear))
+                            .addGroup(jPanel17Layout.createSequentialGroup()
+                                .addComponent(jLabel60, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(AddNewUserDOBMoth)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel63)
@@ -2131,12 +3075,11 @@ public class homeAdminGUI extends javax.swing.JFrame {
                                     .addComponent(addNewUserUnMarriedState, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(jPanel17Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(bloodSel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(279, 279, 279))
+                                .addComponent(bloodSel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel17Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(279, 279, 279))
         );
 
         jPanel12.add(jPanel17, java.awt.BorderLayout.CENTER);
@@ -2153,6 +3096,11 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         jTabbedPane1.setBackground(new java.awt.Color(255, 204, 0));
         jTabbedPane1.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabbedPane1MouseClicked(evt);
+            }
+        });
 
         patientDetailsTab.setLayout(new java.awt.BorderLayout());
 
@@ -2176,6 +3124,101 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         patientDetailsTab.add(jScrollPane8, java.awt.BorderLayout.CENTER);
 
+        jPanel30.setPreferredSize(new java.awt.Dimension(700, 45));
+
+        patientUpdateBtn.setBackground(new java.awt.Color(40, 167, 69));
+        patientUpdateBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        patientUpdateBtn.setForeground(new java.awt.Color(255, 255, 255));
+        patientUpdateBtn.setText("Save");
+        patientUpdateBtn.setPreferredSize(new java.awt.Dimension(72, 35));
+        patientUpdateBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                patientUpdateBtnMouseClicked(evt);
+            }
+        });
+        patientUpdateBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                patientUpdateBtnActionPerformed(evt);
+            }
+        });
+
+        patientIntialDeleteBtn.setBackground(new java.awt.Color(220, 53, 69));
+        patientIntialDeleteBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        patientIntialDeleteBtn.setForeground(new java.awt.Color(255, 255, 255));
+        patientIntialDeleteBtn.setText("Delete");
+        patientIntialDeleteBtn.setPreferredSize(new java.awt.Dimension(78, 26));
+        patientIntialDeleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                patientIntialDeleteBtnMouseClicked(evt);
+            }
+        });
+        patientIntialDeleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                patientIntialDeleteBtnActionPerformed(evt);
+            }
+        });
+
+        patientAreYouWantToDelete.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+
+        patientDeleteConformationYes.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        patientDeleteConformationYes.setText("Yes");
+        patientDeleteConformationYes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                patientDeleteConformationYesMouseClicked(evt);
+            }
+        });
+        patientDeleteConformationYes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                patientDeleteConformationYesActionPerformed(evt);
+            }
+        });
+
+        patientDeleteConformationNo.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        patientDeleteConformationNo.setText("No");
+        patientDeleteConformationNo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                patientDeleteConformationNoMouseClicked(evt);
+            }
+        });
+        patientDeleteConformationNo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                patientDeleteConformationNoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel30Layout = new javax.swing.GroupLayout(jPanel30);
+        jPanel30.setLayout(jPanel30Layout);
+        jPanel30Layout.setHorizontalGroup(
+            jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel30Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(patientUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(patientIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 347, Short.MAX_VALUE)
+                .addComponent(patientAreYouWantToDelete)
+                .addGap(27, 27, 27)
+                .addComponent(patientDeleteConformationYes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(patientDeleteConformationNo)
+                .addGap(14, 14, 14))
+        );
+        jPanel30Layout.setVerticalGroup(
+            jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel30Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(patientIntialDeleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                        .addComponent(patientAreYouWantToDelete)
+                        .addComponent(patientDeleteConformationYes)
+                        .addComponent(patientDeleteConformationNo))
+                    .addComponent(patientUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        patientDetailsTab.add(jPanel30, java.awt.BorderLayout.PAGE_START);
+
         jTabbedPane1.addTab("Patient Details View", patientDetailsTab);
 
         MedicalOfficersDetailsViewTab.setLayout(new java.awt.BorderLayout());
@@ -2185,20 +3228,120 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Staff ID", "Email", "UserName", "First Name", "Last Name", "Phone No", "NIC", "DOB", "Address", "Gender", "Married State"
+                "Staff ID", "Email", "Specialized Area", "UserName", "First Name", "Last Name", "Phone No", "NIC", "DOB", "Address", "Gender", "Married State"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
+        MedicalOfficersTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MedicalOfficersTableMouseClicked(evt);
+            }
+        });
         jScrollPane9.setViewportView(MedicalOfficersTable);
 
         MedicalOfficersDetailsViewTab.add(jScrollPane9, java.awt.BorderLayout.CENTER);
+
+        jPanel31.setPreferredSize(new java.awt.Dimension(700, 45));
+
+        MedicalOfficerUpdateBtn.setBackground(new java.awt.Color(40, 167, 69));
+        MedicalOfficerUpdateBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        MedicalOfficerUpdateBtn.setForeground(new java.awt.Color(255, 255, 255));
+        MedicalOfficerUpdateBtn.setText("Save");
+        MedicalOfficerUpdateBtn.setPreferredSize(new java.awt.Dimension(72, 35));
+        MedicalOfficerUpdateBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MedicalOfficerUpdateBtnMouseClicked(evt);
+            }
+        });
+        MedicalOfficerUpdateBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MedicalOfficerUpdateBtnActionPerformed(evt);
+            }
+        });
+
+        medicalIntialDeleteBtn.setBackground(new java.awt.Color(220, 53, 69));
+        medicalIntialDeleteBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        medicalIntialDeleteBtn.setForeground(new java.awt.Color(255, 255, 255));
+        medicalIntialDeleteBtn.setText("Delete");
+        medicalIntialDeleteBtn.setPreferredSize(new java.awt.Dimension(78, 26));
+        medicalIntialDeleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                medicalIntialDeleteBtnMouseClicked(evt);
+            }
+        });
+        medicalIntialDeleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                medicalIntialDeleteBtnActionPerformed(evt);
+            }
+        });
+
+        medicalAreYouWantDelete.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+
+        medicalDeleteConformationYes.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        medicalDeleteConformationYes.setText("Yes");
+        medicalDeleteConformationYes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                medicalDeleteConformationYesMouseClicked(evt);
+            }
+        });
+        medicalDeleteConformationYes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                medicalDeleteConformationYesActionPerformed(evt);
+            }
+        });
+
+        medicalDeleteConformationNo.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        medicalDeleteConformationNo.setText("No");
+        medicalDeleteConformationNo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                medicalDeleteConformationNoMouseClicked(evt);
+            }
+        });
+        medicalDeleteConformationNo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                medicalDeleteConformationNoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel31Layout = new javax.swing.GroupLayout(jPanel31);
+        jPanel31.setLayout(jPanel31Layout);
+        jPanel31Layout.setHorizontalGroup(
+            jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel31Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(MedicalOfficerUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(medicalIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 347, Short.MAX_VALUE)
+                .addComponent(medicalAreYouWantDelete)
+                .addGap(27, 27, 27)
+                .addComponent(medicalDeleteConformationYes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(medicalDeleteConformationNo)
+                .addGap(14, 14, 14))
+        );
+        jPanel31Layout.setVerticalGroup(
+            jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel31Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(medicalIntialDeleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                        .addComponent(medicalAreYouWantDelete)
+                        .addComponent(medicalDeleteConformationYes)
+                        .addComponent(medicalDeleteConformationNo))
+                    .addComponent(MedicalOfficerUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        MedicalOfficersDetailsViewTab.add(jPanel31, java.awt.BorderLayout.PAGE_START);
 
         jTabbedPane1.addTab("Medical Officers View", MedicalOfficersDetailsViewTab);
 
@@ -2206,28 +3349,365 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         ReceptiontistTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+
+            },
+            new String [] {
+                "Staff ID", "Email", "User Name", "First Name", "Last Name", "Phone No", "NIC", "DOB", "Address", "Gender", "Married"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, true, true, true, true, false, true, true, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane10.setViewportView(ReceptiontistTable);
+
+        ReceptiontistDetailsViewTab.add(jScrollPane10, java.awt.BorderLayout.CENTER);
+
+        jPanel32.setPreferredSize(new java.awt.Dimension(700, 45));
+
+        receptionistUpdateBtn.setBackground(new java.awt.Color(40, 167, 69));
+        receptionistUpdateBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        receptionistUpdateBtn.setForeground(new java.awt.Color(255, 255, 255));
+        receptionistUpdateBtn.setText("Save");
+        receptionistUpdateBtn.setPreferredSize(new java.awt.Dimension(72, 35));
+        receptionistUpdateBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                receptionistUpdateBtnMouseClicked(evt);
+            }
+        });
+        receptionistUpdateBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                receptionistUpdateBtnActionPerformed(evt);
+            }
+        });
+
+        receptionIntialDeleteBtn.setBackground(new java.awt.Color(220, 53, 69));
+        receptionIntialDeleteBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        receptionIntialDeleteBtn.setForeground(new java.awt.Color(255, 255, 255));
+        receptionIntialDeleteBtn.setText("Delete");
+        receptionIntialDeleteBtn.setPreferredSize(new java.awt.Dimension(78, 26));
+        receptionIntialDeleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                receptionIntialDeleteBtnMouseClicked(evt);
+            }
+        });
+        receptionIntialDeleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                receptionIntialDeleteBtnActionPerformed(evt);
+            }
+        });
+
+        receptionAreYouWantToDelete.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+
+        receptionConformationYes.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        receptionConformationYes.setText("Yes");
+        receptionConformationYes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                receptionConformationYesMouseClicked(evt);
+            }
+        });
+        receptionConformationYes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                receptionConformationYesActionPerformed(evt);
+            }
+        });
+
+        receptionConformationNo.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        receptionConformationNo.setText("No");
+        receptionConformationNo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                receptionConformationNoMouseClicked(evt);
+            }
+        });
+        receptionConformationNo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                receptionConformationNoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel32Layout = new javax.swing.GroupLayout(jPanel32);
+        jPanel32.setLayout(jPanel32Layout);
+        jPanel32Layout.setHorizontalGroup(
+            jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel32Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(receptionistUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(receptionIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 347, Short.MAX_VALUE)
+                .addComponent(receptionAreYouWantToDelete)
+                .addGap(27, 27, 27)
+                .addComponent(receptionConformationYes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(receptionConformationNo)
+                .addGap(14, 14, 14))
+        );
+        jPanel32Layout.setVerticalGroup(
+            jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel32Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(receptionIntialDeleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                        .addComponent(receptionAreYouWantToDelete)
+                        .addComponent(receptionConformationYes)
+                        .addComponent(receptionConformationNo))
+                    .addComponent(receptionistUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        ReceptiontistDetailsViewTab.add(jPanel32, java.awt.BorderLayout.PAGE_START);
+
+        jTabbedPane1.addTab("Receptiontist View", ReceptiontistDetailsViewTab);
+
+        jPanel15.add(jTabbedPane1, java.awt.BorderLayout.CENTER);
+
+        jTabbedPane5.addTab("View/Edit/Delete Users", jPanel15);
+
+        jPanel39.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel39MouseClicked(evt);
+            }
+        });
+        jPanel39.setLayout(new java.awt.BorderLayout());
+
+        jPanel40.setPreferredSize(new java.awt.Dimension(700, 50));
+
+        userLoginUpdateSaveBtn.setBackground(new java.awt.Color(40, 167, 69));
+        userLoginUpdateSaveBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        userLoginUpdateSaveBtn.setForeground(new java.awt.Color(255, 255, 255));
+        userLoginUpdateSaveBtn.setText("Save");
+        userLoginUpdateSaveBtn.setPreferredSize(new java.awt.Dimension(72, 35));
+        userLoginUpdateSaveBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                userLoginUpdateSaveBtnMouseClicked(evt);
+            }
+        });
+        userLoginUpdateSaveBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                userLoginUpdateSaveBtnActionPerformed(evt);
+            }
+        });
+
+        loginDetailsIntialDeleteBtn.setBackground(new java.awt.Color(220, 53, 69));
+        loginDetailsIntialDeleteBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        loginDetailsIntialDeleteBtn.setForeground(new java.awt.Color(255, 255, 255));
+        loginDetailsIntialDeleteBtn.setText("Delete");
+        loginDetailsIntialDeleteBtn.setPreferredSize(new java.awt.Dimension(78, 26));
+        loginDetailsIntialDeleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                loginDetailsIntialDeleteBtnMouseClicked(evt);
+            }
+        });
+
+        loginDetailsAreYouWantToDelete.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+
+        loginDetailsConformationYes.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        loginDetailsConformationYes.setText("Yes");
+        loginDetailsConformationYes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                loginDetailsConformationYesMouseClicked(evt);
+            }
+        });
+
+        loginDetailsConformationNo.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        loginDetailsConformationNo.setText("No");
+        loginDetailsConformationNo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                loginDetailsConformationNoMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel40Layout = new javax.swing.GroupLayout(jPanel40);
+        jPanel40.setLayout(jPanel40Layout);
+        jPanel40Layout.setHorizontalGroup(
+            jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel40Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(userLoginUpdateSaveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(loginDetailsIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(75, 75, 75)
+                .addComponent(loginDetailsAreYouWantToDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(loginDetailsConformationYes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(loginDetailsConformationNo)
+                .addContainerGap())
+        );
+        jPanel40Layout.setVerticalGroup(
+            jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel40Layout.createSequentialGroup()
+                .addContainerGap(11, Short.MAX_VALUE)
+                .addGroup(jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(loginDetailsConformationNo, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(loginDetailsAreYouWantToDelete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(loginDetailsIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(userLoginUpdateSaveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(loginDetailsConformationYes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(13, Short.MAX_VALUE))
+        );
+
+        jPanel39.add(jPanel40, java.awt.BorderLayout.PAGE_START);
+
+        jPanel41.setLayout(new java.awt.BorderLayout());
+
+        userLoginTable.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        userLoginTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "userName", "userID", "userType", "userPass"
             }
-        ));
-        jScrollPane10.setViewportView(ReceptiontistTable);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
 
-        ReceptiontistDetailsViewTab.add(jScrollPane10, java.awt.BorderLayout.CENTER);
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane13.setViewportView(userLoginTable);
 
-        jTabbedPane1.addTab("Receptiontist View", ReceptiontistDetailsViewTab);
+        jPanel41.add(jScrollPane13, java.awt.BorderLayout.CENTER);
 
-        jPanel15.add(jTabbedPane1, java.awt.BorderLayout.CENTER);
+        jPanel39.add(jPanel41, java.awt.BorderLayout.CENTER);
 
-        jTabbedPane5.addTab("View Users", jPanel15);
+        jTabbedPane5.addTab("EditLogin Details", jPanel39);
+
+        jPanel22.setLayout(new java.awt.BorderLayout());
+
+        jPanel23.setBackground(new java.awt.Color(255, 0, 102));
+        jPanel23.setPreferredSize(new java.awt.Dimension(700, 50));
+
+        javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
+        jPanel23.setLayout(jPanel23Layout);
+        jPanel23Layout.setHorizontalGroup(
+            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 700, Short.MAX_VALUE)
+        );
+        jPanel23Layout.setVerticalGroup(
+            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 50, Short.MAX_VALUE)
+        );
+
+        jPanel22.add(jPanel23, java.awt.BorderLayout.PAGE_START);
+
+        javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
+        jPanel24.setLayout(jPanel24Layout);
+        jPanel24Layout.setHorizontalGroup(
+            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel24Layout.setVerticalGroup(
+            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 537, Short.MAX_VALUE)
+        );
+
+        jPanel22.add(jPanel24, java.awt.BorderLayout.LINE_START);
+
+        jLabel70.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLabel70.setText("Enter Your Old Password");
+
+        jPasswordField1.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jPasswordField1.setMaximumSize(new java.awt.Dimension(500, 50));
+        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPasswordField1ActionPerformed(evt);
+            }
+        });
+
+        jPasswordField2.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jPasswordField2.setMaximumSize(new java.awt.Dimension(500, 50));
+        jPasswordField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPasswordField2ActionPerformed(evt);
+            }
+        });
+
+        jPasswordField3.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jPasswordField3.setMaximumSize(new java.awt.Dimension(500, 50));
+
+        jLabel72.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLabel72.setText("Enter Your New Password");
+
+        jLabel73.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLabel73.setText("Retype You New Password");
+
+        jLabel74.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLabel74.setText("Change the password");
+
+        jButton3.setText("jButton3");
+
+        javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
+        jPanel25.setLayout(jPanel25Layout);
+        jPanel25Layout.setHorizontalGroup(
+            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel25Layout.createSequentialGroup()
+                .addGap(77, 77, 77)
+                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPasswordField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPasswordField3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel25Layout.createSequentialGroup()
+                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel70)
+                            .addComponent(jLabel72)
+                            .addComponent(jLabel73)
+                            .addComponent(jButton3)
+                            .addComponent(jLabel74))
+                        .addGap(0, 104, Short.MAX_VALUE)))
+                .addContainerGap(223, Short.MAX_VALUE))
+        );
+        jPanel25Layout.setVerticalGroup(
+            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel25Layout.createSequentialGroup()
+                .addGap(59, 59, 59)
+                .addComponent(jLabel70)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel72)
+                .addGap(7, 7, 7)
+                .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel73)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPasswordField3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel74)
+                .addGap(76, 76, 76)
+                .addComponent(jButton3)
+                .addContainerGap(145, Short.MAX_VALUE))
+        );
+
+        jPanel22.add(jPanel25, java.awt.BorderLayout.CENTER);
+
+        jTabbedPane5.addTab("User Settings", jPanel22);
 
         userPanel.add(jTabbedPane5, java.awt.BorderLayout.CENTER);
 
         content.add(userPanel, "card7");
+
+        reportPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout reportPanelLayout = new javax.swing.GroupLayout(reportPanel);
         reportPanel.setLayout(reportPanelLayout);
@@ -2237,43 +3717,76 @@ public class homeAdminGUI extends javax.swing.JFrame {
         );
         reportPanelLayout.setVerticalGroup(
             reportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 660, Short.MAX_VALUE)
+            .addGap(0, 620, Short.MAX_VALUE)
         );
 
         content.add(reportPanel, "card8");
 
-        getContentPane().add(content, java.awt.BorderLayout.CENTER);
+        curvedMainPannel.add(content, java.awt.BorderLayout.CENTER);
+
+        footer.setOpaque(false);
+        footer.setPreferredSize(new java.awt.Dimension(900, 40));
+
+        javax.swing.GroupLayout footerLayout = new javax.swing.GroupLayout(footer);
+        footer.setLayout(footerLayout);
+        footerLayout.setHorizontalGroup(
+            footerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 900, Short.MAX_VALUE)
+        );
+        footerLayout.setVerticalGroup(
+            footerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 40, Short.MAX_VALUE)
+        );
+
+        curvedMainPannel.add(footer, java.awt.BorderLayout.PAGE_END);
+
+        getContentPane().add(curvedMainPannel, java.awt.BorderLayout.PAGE_END);
 
         setSize(new java.awt.Dimension(900, 700));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private String[] stringSeparator(String commaSeparatedString){
+            String[] dataRow = commaSeparatedString.split(",");
+            return dataRow;
+    }
+
     
-    private void minimize_btn_imgMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimize_btn_imgMouseClicked
-            this.setExtendedState(JFrame.ICONIFIED);                                      
-
-    }//GEN-LAST:event_minimize_btn_imgMouseClicked
-
-    private void close_btn_imgMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_close_btn_imgMouseClicked
-        System.exit(0);
-    }//GEN-LAST:event_close_btn_imgMouseClicked
-
-    private void close_btn_imgMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_close_btn_imgMouseEntered
-
-    }//GEN-LAST:event_close_btn_imgMouseEntered
-
-    private void close_btn_imgMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_close_btn_imgMouseExited
-
-    }//GEN-LAST:event_close_btn_imgMouseExited
-
-    private void max_btn_imgMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_max_btn_imgMouseClicked
-        if(this.getExtendedState()!=homeAdminGUI.MAXIMIZED_BOTH){
-            this.setExtendedState(MAXIMIZED_BOTH);
-        }else{
-            this.setExtendedState(NORMAL);
-        }
-    }//GEN-LAST:event_max_btn_imgMouseClicked
-
+    private String getSelectedRowStringFromReleventTable(JTable relevantTable){
+        TableModel model = relevantTable.getModel();
+        
+        int selectedRowIndex = relevantTable.getSelectedRow();
+            
+          String objectString="";  
+          for(int i = 0; i < model.getColumnCount(); i++){
+            if(i==0){  
+            objectString=String.valueOf(model.getValueAt(selectedRowIndex,i)); 
+            }else{
+            objectString=objectString+","+String.valueOf(model.getValueAt(selectedRowIndex,i));
+            }
+         }
+          
+          
+         return objectString; 
+    }
+    
+    private String getUpdatedRowStringFromReleventTable(JTable relevantTable,
+            int updateRowNo){
+        TableModel model = relevantTable.getModel();
+                  
+          String objectString="";  
+          for(int i = 0; i < model.getColumnCount(); i++){
+            if(i==0){  
+            objectString=String.valueOf(model.getValueAt(updateRowNo,i)); 
+            }else{
+            objectString=objectString+","+String.valueOf(model.getValueAt(updateRowNo,i));
+            }
+         }
+          
+          
+         return objectString; 
+    }
+    
     private void headerMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_headerMouseDragged
         int xCordinate=evt.getXOnScreen();
         int yCordinate=evt.getYOnScreen();
@@ -2287,7 +3800,18 @@ public class homeAdminGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_headerMousePressed
 
     private void menuIconClick(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuIconClick
+        if(evt.getSource()==home){
+            homePannel.setVisible(true);
+            appPanel.setVisible(false);
+            postalPanel.setVisible(false);
+            complainPanel.setVisible(false);
+            visitorsPanel.setVisible(false);
+            referencePanel.setVisible(false);
+            userPanel.setVisible(false);
+            reportPanel.setVisible(false);
+        }
         if(evt.getSource()==appointment){
+            homePannel.setVisible(false);
             appPanel.setVisible(true);
             postalPanel.setVisible(false);
             complainPanel.setVisible(false);
@@ -2297,6 +3821,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
             reportPanel.setVisible(false);
         }
         if(evt.getSource()==postal){
+            homePannel.setVisible(false);
             appPanel.setVisible(false);
             postalPanel.setVisible(true);
             complainPanel.setVisible(false);
@@ -2306,6 +3831,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
             reportPanel.setVisible(false);
         }
         if(evt.getSource()==complain){
+            homePannel.setVisible(false);
             appPanel.setVisible(false);
             postalPanel.setVisible(false);
             complainPanel.setVisible(true);
@@ -2315,6 +3841,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
             reportPanel.setVisible(false);
         }
         if(evt.getSource()==visitors){
+            homePannel.setVisible(false);
             appPanel.setVisible(false);
             postalPanel.setVisible(false);
             complainPanel.setVisible(false);
@@ -2324,6 +3851,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
             reportPanel.setVisible(false);
         }
         if(evt.getSource()==reference){
+            homePannel.setVisible(false);
             appPanel.setVisible(false);
             postalPanel.setVisible(false);
             complainPanel.setVisible(false);
@@ -2333,6 +3861,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
             reportPanel.setVisible(false);
         }
         if(evt.getSource()==user){
+            homePannel.setVisible(false);
             appPanel.setVisible(false);
             postalPanel.setVisible(false);
             complainPanel.setVisible(false);
@@ -2342,6 +3871,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
             reportPanel.setVisible(false);
         }
         if(evt.getSource()==report){
+            homePannel.setVisible(false);
             appPanel.setVisible(false);
             postalPanel.setVisible(false);
             complainPanel.setVisible(false);
@@ -2371,9 +3901,9 @@ public class homeAdminGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_AddNewAppointmentAMPMActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void MedicalOfficerDropDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MedicalOfficerDropDownActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_MedicalOfficerDropDownActionPerformed
 
     private void AddNewComplainNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewComplainNameActionPerformed
         // TODO add your handling code here:
@@ -2406,7 +3936,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 "no-action-taken",
                 AddNewComplainNote.getText(),
                 AddNewComplainReferenceDepartment.getSelectedItem().toString());
-                AddNewComplain.writingTXT(newComplain.toString());
+                ComplainModel.writingTXT(newComplain.toString());
         }else{
                 complainWarning.setText("Please fill all fields");
         }        
@@ -2432,6 +3962,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 );
                 appointmentController addNewApp=new appointmentController(
                         addNewAppointmentPatientName.getText(),
+                        MedicalOfficerDropDown.getSelectedItem().toString(),
                         appointmentDateObj,
                         appointmentTimeObj,
                         addNewAppointmentSymptoms.getText(),
@@ -2439,21 +3970,13 @@ public class homeAdminGUI extends javax.swing.JFrame {
                         "incoming");
                 
                               
-                AddNewAppointmentModel.writingTXT(addNewApp.toString());
+                AppointmentModel.writingTXT(addNewApp.toString());
         
                 
         }else{
                 addNewAppointmentNotficationLabel.setText("Please fill all fields");
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
+         
     }//GEN-LAST:event_AddNewAppointmentBtnMouseClicked
 
     private void VisitorRecordAmPmStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisitorRecordAmPmStateActionPerformed
@@ -2501,7 +4024,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
                     visitorInTimeObj,
                     visitorOutTimeObj,
                     VisitorRecordNote.getText());
-            AddNewVisitorsModel.writingTXT(addNewVisitorRecordObj.toString());
+            VisitorModel.writingTXT(addNewVisitorRecordObj.toString());
             
 
         }else{
@@ -2528,15 +4051,15 @@ public class homeAdminGUI extends javax.swing.JFrame {
             
             //creating new record objcet
             dispatchPostController newDispatchPostObj=new dispatchPostController(
-                    DispatchPostTo.getText(),
-                    DispatchPostAddress.getText(),
-                    DispatchPostFrom.getText(),
                     Integer.parseInt(DispatchPostRefNo.getText()),
+                    DispatchPostTo.getText(),
+                    DispatchPostFrom.getText(),
+                    DispatchPostAddress.getText(),
                     DispatchPostNote.getText(),
                     postalDispatchDateObj);
             
             
-            AddNewDispatchPostModel.writingTXT(newDispatchPostObj.toString());
+            DispatchModel.writingTXT(newDispatchPostObj.toString());
         }else{
                 dispatchPostNotification.setText("Please Fill The Fields");
         }
@@ -2564,29 +4087,29 @@ public class homeAdminGUI extends javax.swing.JFrame {
             
             //creating new record objcet
             recievedPostController newRecievedPostObj=new recievedPostController(
+                    Integer.parseInt(RecievedPostRefNo.getText()),
+                    RecievedPostTo.getText(),
                     RecievedPostFrom.getText(),
                     RecievedPostAddress.getText(),
-                    RecievedPostTo.getText(),
-                    Integer.parseInt(RecievedPostRefNo.getText()),
                     RecievedPostNote.getText(),
                     postalRecievedDateObj);
             
-            AddNewRecievedPostModel.writingTXT(newRecievedPostObj.toString());
+            RecievedPostModel.writingTXT(newRecievedPostObj.toString());
         }else{
                 recievedPostNotification.setText("Please Fill The Fields");
         }
     }//GEN-LAST:event_AddNewRecievedPostMouseClicked
 
     private void viewComplainBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewComplainBtnMouseClicked
-        ViewComplainModel.viewComplain(ComplainViewTable);
+        ComplainModel.viewComplain(ComplainViewTable);
     }//GEN-LAST:event_viewComplainBtnMouseClicked
 
     private void viewVisitorsBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewVisitorsBtnMouseClicked
-       ViewVisitorsModel.viewComplain(viewVisitorsRecordTable);
+       VisitorModel.viewVisitor(viewVisitorsRecordTable);
     }//GEN-LAST:event_viewVisitorsBtnMouseClicked
 
     private void viewAppointmentBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewAppointmentBtnMouseClicked
-        ViewAppointmentModel.viewAppointment(viewAppointmentTable);
+        AppointmentModel.viewAppointment(viewAppointmentTable);
         
         
         
@@ -2597,7 +4120,8 @@ public class homeAdminGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel15MouseClicked
 
     private void jTabbedPane5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane5MouseClicked
-        ViewPatientModel.viewPatientDetails(patientDetailsTable);
+        PatientModel.viewPatientDetails(patientDetailsTable);
+        UserModel.viewLoginDetails(userLoginTable);
     }//GEN-LAST:event_jTabbedPane5MouseClicked
 
     private void AddNewStaffIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewStaffIDActionPerformed
@@ -2680,6 +4204,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 (Integer)AddNewUserDOBMoth.getValue(),
                 (Integer)AddNewUserDOBYear.getValue()
             );
+            loginController newUser=null;
             if((userType.getSelectedItem()).toString()=="Patient"){
 
                 if(addNewUserAllergies.getText().equals("")){
@@ -2690,7 +4215,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
                     //setup a date
 
                     patient newPatient=new patient(
-                        addNewUserAllergies.getText(),
                         addNewUserName.getText(),
                         addNewUserFirstName.getText(),
                         addNewUserLastName.getText(),
@@ -2700,11 +4224,12 @@ public class homeAdminGUI extends javax.swing.JFrame {
                         addNewUserAddressTextArea.getText(),
                         bloodSel.getSelectedItem().toString(),
                         genderGroup.getSelection().getActionCommand(),
-                        marriedState.getSelection().getActionCommand()
+                        marriedState.getSelection().getActionCommand(),
+                        addNewUserAllergies.getText()    
                     );
                     //passing the value to model for write txt
-                    AddNewPatientModel.writingTXT(newPatient.toString());
-
+                    PatientModel.writingTXT(newPatient.toString());
+                    newPatient.newLoginPatient();
                 }
 
             }
@@ -2730,11 +4255,37 @@ public class homeAdminGUI extends javax.swing.JFrame {
                         marriedState.getSelection().getActionCommand()
                     );
                     //passing the value to model for write txt
-                    AddNewReceptionistModel.writingTXT(newReceptionist.toString());
-
+                    ReceptionistModel.writingTXT(newReceptionist.toString());
+                    newReceptionist.newLoginReceptionist();
                 }
             }
             if((userType.getSelectedItem()).toString()=="Medical officer"){
+                if(AddNewStaffID.getText().equals("") && emailText.getText().equals("")){
+                    addNewUserFormNotificationLabel.setText("Please Fill The Data Fields");
+                }else{
+
+                    addNewUserFormNotificationLabel.setText("Sumbiting A Requset");
+                    //setup a date
+
+                    medicalOfficers newMedicalOfficerObj=new medicalOfficers(
+                        Integer.parseInt(AddNewStaffID.getText()),
+                        emailText.getText(),
+                        AddNewUserSpecializedAreaDropDown.getSelectedItem().toString(),
+                        addNewUserName.getText(),
+                        addNewUserFirstName.getText(),
+                        addNewUserLastName.getText(),
+                        Integer.parseInt(addNewUserPhoneNo.getText()),
+                        addNewUserNIC.getText(),
+                        AddNewUserDOB,
+                        addNewUserAddressTextArea.getText(),
+                        genderGroup.getSelection().getActionCommand(),
+                        marriedState.getSelection().getActionCommand()
+                    );
+                    //passing the value to model for write txt
+                    MedicalOfficerModel.writingTXT(newMedicalOfficerObj.toString());
+                    newMedicalOfficerObj.newLoginMedicalOfficer();
+                }
+ 
 
             }
         }else{
@@ -2759,11 +4310,734 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private void addNewUserPhoneNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewUserPhoneNoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_addNewUserPhoneNoActionPerformed
+
+    private void MedicalOfficersTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MedicalOfficersTableMouseClicked
+        
+    }//GEN-LAST:event_MedicalOfficersTableMouseClicked
+
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+        MedicalOfficerModel.viewMedicalOfficers(MedicalOfficersTable);
+        ReceptionistModel.viewReceptionist(ReceptiontistTable);
+    }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void ViewRecievedDispatchPostMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ViewRecievedDispatchPostMouseClicked
+        RecievedPostModel.viewRecievedPost(viewRecivedTable);
+        DispatchModel.viewDispatchPost(viewDispatchTable);
+    }//GEN-LAST:event_ViewRecievedDispatchPostMouseClicked
+
+    private void AppIntialSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AppIntialSaveBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AppIntialSaveBtnActionPerformed
+
+    private void AppIntialDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AppIntialDeleteBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AppIntialDeleteBtnActionPerformed
+
+    private void deleteConformationYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteConformationYesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteConformationYesActionPerformed
+
+    private void deleteConformationNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteConformationNoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteConformationNoActionPerformed
+
+    private void deleteConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteConformationYesMouseClicked
+        if(!viewAppointmentTable.getSelectionModel().isSelectionEmpty()){
+        
+          appointmentController deleteAppObj=new appointmentController(getSelectedRowStringFromReleventTable(viewAppointmentTable));
+          AppointmentModel.deleteAppointment(deleteAppObj);
+          AppointmentModel.viewAppointment(viewAppointmentTable);
+          deleteConformationYes.setVisible(false);
+          deleteConformationNo.setVisible(false);
+          areYouWantToDelete.setVisible(false);
+        
+        }else{
+        
+            areYouWantToDelete.setText("Please Select the Row to Delete");
+            deleteConformationYes.setVisible(false);
+            deleteConformationNo.setVisible(false);
+          
+        }
+          
+        
+    }//GEN-LAST:event_deleteConformationYesMouseClicked
+
+    private void AddNewAppointmnetSpecializedAreaDropDownItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_AddNewAppointmnetSpecializedAreaDropDownItemStateChanged
+        if(evt.getStateChange()==ItemEvent.SELECTED){
+        //remove the existing valus of drop down menu
+        MedicalOfficerDropDown.removeAllItems();
+        dropDownFeederModel medicalOfficerDropDownObj=new dropDownFeederModel("medicalOfficerDetails.txt",
+                MedicalOfficerDropDown, 
+                AddNewAppointmnetSpecializedAreaDropDown.getSelectedItem().toString());
+        medicalOfficerDropDownObj.dropFeeder();
+        
+        }
+    }//GEN-LAST:event_AddNewAppointmnetSpecializedAreaDropDownItemStateChanged
+
+    private void userMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userMouseEntered
+       user.setSize(new Dimension(180,50));
+        
+    }//GEN-LAST:event_userMouseEntered
+
+    private void userMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userMouseExited
+        user.setSize(new Dimension(200,50));
+    }//GEN-LAST:event_userMouseExited
+
+    private void appointmentMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointmentMouseEntered
+        appointment.setSize(new Dimension(180,50)); 
+    }//GEN-LAST:event_appointmentMouseEntered
+
+    private void appointmentMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appointmentMouseExited
+       appointment.setSize(new Dimension(200,50));
+    }//GEN-LAST:event_appointmentMouseExited
+
+    private void visitorsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_visitorsMouseEntered
+        visitors.setSize(new Dimension(180,50));
+    }//GEN-LAST:event_visitorsMouseEntered
+
+    private void visitorsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_visitorsMouseExited
+        visitors.setSize(new Dimension(200,50));
+    }//GEN-LAST:event_visitorsMouseExited
+
+    private void postalMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_postalMouseEntered
+        postal.setSize(new Dimension(180,50));
+    }//GEN-LAST:event_postalMouseEntered
+
+    private void postalMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_postalMouseExited
+        postal.setSize(new Dimension(200,50));
+    }//GEN-LAST:event_postalMouseExited
+
+    private void complainMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_complainMouseEntered
+        complain.setSize(new Dimension(180,50));
+    }//GEN-LAST:event_complainMouseEntered
+
+    private void complainMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_complainMouseExited
+        complain.setSize(new Dimension(200,50));
+    }//GEN-LAST:event_complainMouseExited
+
+    private void referenceMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_referenceMouseEntered
+        reference.setSize(new Dimension(180,50));
+    }//GEN-LAST:event_referenceMouseEntered
+
+    private void referenceMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_referenceMouseExited
+        reference.setSize(new Dimension(200,50));
+    }//GEN-LAST:event_referenceMouseExited
+
+    private void AppIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AppIntialDeleteBtnMouseClicked
+        if(!viewAppointmentTable.getSelectionModel().isSelectionEmpty()){
+        areYouWantToDelete.setVisible(true);
+        areYouWantToDelete.setText("Are you sure want to delete this record?");
+        deleteConformationYes.setVisible(true);
+        deleteConformationNo.setVisible(true);
+        }else{
+            areYouWantToDelete.setVisible(true);
+            areYouWantToDelete.setText("Please Select the Record To Delete");
+        }
+    }//GEN-LAST:event_AppIntialDeleteBtnMouseClicked
+
+    private void deleteConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteConformationNoMouseClicked
+        deleteConformationYes.setVisible(false);
+        deleteConformationNo.setVisible(false);
+        areYouWantToDelete.setVisible(false);
+    }//GEN-LAST:event_deleteConformationNoMouseClicked
+
+    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordField1ActionPerformed
+
+    private void jPasswordField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordField2ActionPerformed
+
+    private void visitorUpdateIntialBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visitorUpdateIntialBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_visitorUpdateIntialBtnActionPerformed
+
+    private void VisitorIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VisitorIntialDeleteBtnMouseClicked
+        if(!viewVisitorsRecordTable.getSelectionModel().isSelectionEmpty()){
+            VisitorAreYouWantToDelete.setVisible(true);
+            VisitorAreYouWantToDelete.setText("Are you sure want to delete this record?");
+            deleteVisitorRecordConformationYes.setVisible(true);
+            deleteVisitorRecordConformationNo.setVisible(true);
+        }else{
+            VisitorAreYouWantToDelete.setVisible(true);
+            VisitorAreYouWantToDelete.setText("Please Select the Record To Delete");
+        }
+
+    }//GEN-LAST:event_VisitorIntialDeleteBtnMouseClicked
+
+    private void VisitorIntialDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisitorIntialDeleteBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VisitorIntialDeleteBtnActionPerformed
+
+    private void deleteVisitorRecordConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteVisitorRecordConformationYesMouseClicked
+        if(!viewVisitorsRecordTable.getSelectionModel().isSelectionEmpty()){
+
+          visitorsController deleteAppObj=new visitorsController(
+                  getSelectedRowStringFromReleventTable(viewVisitorsRecordTable));
+          VisitorModel.deleteVisitors(deleteAppObj);
+          VisitorModel.viewVisitor(viewVisitorsRecordTable);
+          deleteVisitorRecordConformationYes.setVisible(false);
+          deleteVisitorRecordConformationNo.setVisible(false);
+          VisitorAreYouWantToDelete.setVisible(false);
+        
+        }else{
+        
+            VisitorAreYouWantToDelete.setText("Please Select the Row to Delete");
+            deleteVisitorRecordConformationYes.setVisible(false);
+            deleteVisitorRecordConformationNo.setVisible(false);
+          
+        }
+    }//GEN-LAST:event_deleteVisitorRecordConformationYesMouseClicked
+
+    private void deleteVisitorRecordConformationYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteVisitorRecordConformationYesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteVisitorRecordConformationYesActionPerformed
+
+    private void deleteVisitorRecordConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteVisitorRecordConformationNoMouseClicked
+        deleteVisitorRecordConformationYes.setVisible(false);
+        deleteVisitorRecordConformationNo.setVisible(false);
+        VisitorAreYouWantToDelete.setVisible(false);
+    }//GEN-LAST:event_deleteVisitorRecordConformationNoMouseClicked
+
+    private void deleteVisitorRecordConformationNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteVisitorRecordConformationNoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteVisitorRecordConformationNoActionPerformed
+
+    private void recievedUpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recievedUpdateBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_recievedUpdateBtnActionPerformed
+
+    private void RecivedPostIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RecivedPostIntialDeleteBtnMouseClicked
+        if(!viewRecivedTable.getSelectionModel().isSelectionEmpty()){
+        recievedAreYouWantToDelete.setVisible(true);
+        recievedAreYouWantToDelete.setText("Are you sure want to delete this record?");
+        RecievedDeleteConformationYes.setVisible(true);
+        RecievedDeleteConformationNo.setVisible(true);
+        }else{
+            recievedAreYouWantToDelete.setVisible(true);
+            recievedAreYouWantToDelete.setText("Please Select the Record To Delete");
+        }
+
+    }//GEN-LAST:event_RecivedPostIntialDeleteBtnMouseClicked
+
+    private void RecivedPostIntialDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RecivedPostIntialDeleteBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_RecivedPostIntialDeleteBtnActionPerformed
+
+    private void RecievedDeleteConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RecievedDeleteConformationYesMouseClicked
+        if(!viewRecivedTable.getSelectionModel().isSelectionEmpty()){
+        
+          recievedPostController deleteAppObj=new recievedPostController(stringSeparator(getSelectedRowStringFromReleventTable(viewRecivedTable)));
+            RecievedPostModel.deleteRecieved(deleteAppObj);
+            RecievedDeleteConformationYes.setVisible(false);
+            RecievedDeleteConformationNo.setVisible(false);
+            recievedAreYouWantToDelete.setVisible(false);
+            RecievedPostModel.viewRecievedPost(viewRecivedTable);
+            
+        }else{
+        
+            recievedAreYouWantToDelete.setText("Please Select the Row to Delete");
+            RecievedDeleteConformationYes.setVisible(false);
+            RecievedDeleteConformationNo.setVisible(false);
+          
+        }
+    }//GEN-LAST:event_RecievedDeleteConformationYesMouseClicked
+
+    private void RecievedDeleteConformationYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RecievedDeleteConformationYesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_RecievedDeleteConformationYesActionPerformed
+
+    private void RecievedDeleteConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RecievedDeleteConformationNoMouseClicked
+        
+        RecievedDeleteConformationYes.setVisible(false);
+        RecievedDeleteConformationNo.setVisible(false);
+        recievedAreYouWantToDelete.setVisible(false);
+    }//GEN-LAST:event_RecievedDeleteConformationNoMouseClicked
+
+    private void RecievedDeleteConformationNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RecievedDeleteConformationNoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_RecievedDeleteConformationNoActionPerformed
+
+    private void dispatchUpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dispatchUpdateBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dispatchUpdateBtnActionPerformed
+
+    private void DispatchIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DispatchIntialDeleteBtnMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DispatchIntialDeleteBtnMouseClicked
+
+    private void DispatchIntialDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DispatchIntialDeleteBtnActionPerformed
+        if(!viewDispatchTable.getSelectionModel().isSelectionEmpty()){
+        dispatchAreYouWantToDelete.setVisible(true);
+        dispatchAreYouWantToDelete.setText("Are you sure want to delete this record?");
+        DispatchDeleteConformationNo.setVisible(true);
+        DispatchDeleteConformationYes.setVisible(true);
+        }else{
+            dispatchAreYouWantToDelete.setVisible(true);
+            dispatchAreYouWantToDelete.setText("Please Select the Record To Delete");
+        }
+
+    }//GEN-LAST:event_DispatchIntialDeleteBtnActionPerformed
+
+    private void DispatchDeleteConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DispatchDeleteConformationYesMouseClicked
+        if(!viewDispatchTable.getSelectionModel().isSelectionEmpty()){
+        
+            dispatchPostController deleteDispatchObj=new dispatchPostController(stringSeparator(getSelectedRowStringFromReleventTable(viewDispatchTable)));
+            DispatchModel.deleteDispatch(deleteDispatchObj);
+            DispatchModel.viewDispatchPost(viewDispatchTable);
+            DispatchDeleteConformationYes.setVisible(false);
+            DispatchDeleteConformationNo.setVisible(false);
+            dispatchAreYouWantToDelete.setVisible(false);
+            
+        }else{
+        
+            dispatchAreYouWantToDelete.setText("Please Select the Row to Delete");
+            DispatchDeleteConformationYes.setVisible(false);
+            DispatchDeleteConformationNo.setVisible(false);
+          
+        }
+        
+        
+        
+        
+    }//GEN-LAST:event_DispatchDeleteConformationYesMouseClicked
+
+    private void DispatchDeleteConformationYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DispatchDeleteConformationYesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DispatchDeleteConformationYesActionPerformed
+
+    private void DispatchDeleteConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DispatchDeleteConformationNoMouseClicked
+        DispatchDeleteConformationYes.setVisible(false);
+        DispatchDeleteConformationNo.setVisible(false);
+        dispatchAreYouWantToDelete.setVisible(false);        
+    }//GEN-LAST:event_DispatchDeleteConformationNoMouseClicked
+
+    private void DispatchDeleteConformationNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DispatchDeleteConformationNoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DispatchDeleteConformationNoActionPerformed
+
+    private void complainUpdateSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_complainUpdateSaveBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_complainUpdateSaveBtnActionPerformed
+
+    private void ComplainDeleteIntialBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ComplainDeleteIntialBtnMouseClicked
+        if(!ComplainViewTable.getSelectionModel().isSelectionEmpty()){
+        ComplainAreYouWantToDelete.setVisible(true);
+        ComplainAreYouWantToDelete.setText("Are you sure want to delete this record?");
+        deleteComplainConformationYes.setVisible(true);
+        deleteComplainConformationNo.setVisible(true);
+        }else{
+            ComplainAreYouWantToDelete.setVisible(true);
+            ComplainAreYouWantToDelete.setText("Please Select the Record To Delete");
+        }
+
+    }//GEN-LAST:event_ComplainDeleteIntialBtnMouseClicked
+
+    private void ComplainDeleteIntialBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComplainDeleteIntialBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ComplainDeleteIntialBtnActionPerformed
+
+    private void deleteComplainConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteComplainConformationYesMouseClicked
+        if(!ComplainViewTable.getSelectionModel().isSelectionEmpty()){
+        
+          complainsController deleteAppObj=new complainsController(
+                  getSelectedRowStringFromReleventTable(ComplainViewTable));
+            ComplainModel.deleteComplain(deleteAppObj);
+            ComplainModel.viewComplain(ComplainViewTable);
+            deleteComplainConformationYes.setVisible(false);
+            deleteComplainConformationNo.setVisible(false);
+            ComplainAreYouWantToDelete.setVisible(false);
+        
+        }else{
+        
+            ComplainAreYouWantToDelete.setText("Please Select the Row to Delete");
+            deleteComplainConformationYes.setVisible(false);
+            deleteComplainConformationNo.setVisible(false);
+          
+        }
+    }//GEN-LAST:event_deleteComplainConformationYesMouseClicked
+
+    private void deleteComplainConformationYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteComplainConformationYesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteComplainConformationYesActionPerformed
+
+    private void deleteComplainConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteComplainConformationNoMouseClicked
+        deleteComplainConformationYes.setVisible(false);
+        deleteComplainConformationNo.setVisible(false);
+        ComplainAreYouWantToDelete.setVisible(false);
+    }//GEN-LAST:event_deleteComplainConformationNoMouseClicked
+
+    private void deleteComplainConformationNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteComplainConformationNoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteComplainConformationNoActionPerformed
+
+    private void patientUpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientUpdateBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_patientUpdateBtnActionPerformed
+
+    private void patientIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientIntialDeleteBtnMouseClicked
+       if(!patientDetailsTable.getSelectionModel().isSelectionEmpty()){
+        patientAreYouWantToDelete.setVisible(true);
+        patientAreYouWantToDelete.setText("Are you sure want to delete this record?");
+        patientDeleteConformationYes.setVisible(true);
+        patientDeleteConformationNo.setVisible(true);
+        }else{
+            patientAreYouWantToDelete.setVisible(true);
+            patientAreYouWantToDelete.setText("Please Select the Record To Delete");
+        } 
+    }//GEN-LAST:event_patientIntialDeleteBtnMouseClicked
+
+    private void patientIntialDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientIntialDeleteBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_patientIntialDeleteBtnActionPerformed
+
+    private void patientDeleteConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientDeleteConformationYesMouseClicked
+        if(!patientDetailsTable.getSelectionModel().isSelectionEmpty()){
+        
+            patient deleteAppObj=new patient(stringSeparator(
+                    getSelectedRowStringFromReleventTable(patientDetailsTable)));
+            PatientModel.deletePatient(deleteAppObj);
+            PatientModel.viewPatientDetails(patientDetailsTable);
+            patientDeleteConformationYes.setVisible(false);
+            patientDeleteConformationNo.setVisible(false);
+            patientAreYouWantToDelete.setVisible(false);
+        
+        }else{
+        
+            patientAreYouWantToDelete.setText("Please Select the Row to Delete");
+            patientDeleteConformationYes.setVisible(false);
+            patientDeleteConformationNo.setVisible(false);
+          
+        }
+    }//GEN-LAST:event_patientDeleteConformationYesMouseClicked
+
+    private void patientDeleteConformationYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientDeleteConformationYesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_patientDeleteConformationYesActionPerformed
+
+    private void patientDeleteConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientDeleteConformationNoMouseClicked
+        patientDeleteConformationYes.setVisible(false);
+        patientDeleteConformationNo.setVisible(false);
+        patientAreYouWantToDelete.setVisible(false);
+    }//GEN-LAST:event_patientDeleteConformationNoMouseClicked
+
+    private void patientDeleteConformationNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientDeleteConformationNoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_patientDeleteConformationNoActionPerformed
+
+    private void MedicalOfficerUpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MedicalOfficerUpdateBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MedicalOfficerUpdateBtnActionPerformed
+
+    private void medicalIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_medicalIntialDeleteBtnMouseClicked
+        if(!MedicalOfficersTable.getSelectionModel().isSelectionEmpty()){
+        medicalAreYouWantDelete.setVisible(true);
+        medicalAreYouWantDelete.setText("Are you sure want to delete this record?");
+        medicalDeleteConformationYes.setVisible(true);
+        medicalDeleteConformationNo.setVisible(true);
+        }else{
+            medicalAreYouWantDelete.setVisible(true);
+            medicalAreYouWantDelete.setText("Please Select the Record To Delete");
+        } 
+    }//GEN-LAST:event_medicalIntialDeleteBtnMouseClicked
+
+    private void medicalIntialDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_medicalIntialDeleteBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_medicalIntialDeleteBtnActionPerformed
+
+    private void medicalDeleteConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_medicalDeleteConformationYesMouseClicked
+         if(!MedicalOfficersTable.getSelectionModel().isSelectionEmpty()){
+        
+            medicalOfficers deleteAppObj=new medicalOfficers(stringSeparator(
+                    getSelectedRowStringFromReleventTable(MedicalOfficersTable)));
+             MedicalOfficerModel.deleteMedical(deleteAppObj);
+             MedicalOfficerModel.viewMedicalOfficers(MedicalOfficersTable);
+             medicalDeleteConformationYes.setVisible(false);
+             medicalDeleteConformationNo.setVisible(false);
+             medicalAreYouWantDelete.setVisible(false);
+        
+        }else{
+        
+            medicalAreYouWantDelete.setText("Please Select the Row to Delete");
+            medicalDeleteConformationYes.setVisible(false);
+            medicalDeleteConformationNo.setVisible(false);
+          
+        }
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_medicalDeleteConformationYesMouseClicked
+
+    private void medicalDeleteConformationYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_medicalDeleteConformationYesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_medicalDeleteConformationYesActionPerformed
+
+    private void medicalDeleteConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_medicalDeleteConformationNoMouseClicked
+        medicalDeleteConformationYes.setVisible(false);
+        medicalDeleteConformationNo.setVisible(false);
+        medicalAreYouWantDelete.setVisible(false);
+        
+    }//GEN-LAST:event_medicalDeleteConformationNoMouseClicked
+
+    private void medicalDeleteConformationNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_medicalDeleteConformationNoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_medicalDeleteConformationNoActionPerformed
+
+    private void receptionistUpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receptionistUpdateBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_receptionistUpdateBtnActionPerformed
+
+    private void receptionIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_receptionIntialDeleteBtnMouseClicked
+         if(!ReceptiontistTable.getSelectionModel().isSelectionEmpty()){
+        receptionAreYouWantToDelete.setVisible(true);
+        receptionAreYouWantToDelete.setText("Are you sure want to delete this record?");
+        receptionConformationYes.setVisible(true);
+        receptionConformationNo.setVisible(true);
+        }else{
+            receptionAreYouWantToDelete.setVisible(true);
+            receptionAreYouWantToDelete.setText("Please Select the Record To Delete");
+        } 
+    }//GEN-LAST:event_receptionIntialDeleteBtnMouseClicked
+
+    private void receptionIntialDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receptionIntialDeleteBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_receptionIntialDeleteBtnActionPerformed
+
+    private void receptionConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_receptionConformationYesMouseClicked
+        if(!ReceptiontistTable.getSelectionModel().isSelectionEmpty()){
+        
+            receptionist deleteAppObj=new receptionist(stringSeparator(
+                    getSelectedRowStringFromReleventTable(ReceptiontistTable)));
+             ReceptionistModel.deleteReceptionist(deleteAppObj);
+             ReceptionistModel.viewReceptionist(ReceptiontistTable);
+             receptionConformationYes.setVisible(false);
+             receptionConformationNo.setVisible(false);
+             receptionAreYouWantToDelete.setVisible(false);
+        
+        }else{
+        
+            receptionAreYouWantToDelete.setText("Please Select the Row to Delete");
+            receptionConformationYes.setVisible(false);
+            receptionConformationNo.setVisible(false);
+          
+        }
+       
+    }//GEN-LAST:event_receptionConformationYesMouseClicked
+
+    private void receptionConformationYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receptionConformationYesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_receptionConformationYesActionPerformed
+
+    private void receptionConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_receptionConformationNoMouseClicked
+            receptionAreYouWantToDelete.setVisible(false);
+            receptionConformationYes.setVisible(false);
+            receptionConformationNo.setVisible(false);
+    }//GEN-LAST:event_receptionConformationNoMouseClicked
+
+    private void receptionConformationNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receptionConformationNoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_receptionConformationNoActionPerformed
+
+    private void viewAppointmentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewAppointmentTableMouseClicked
+        
+        if(!viewAppointmentTable.getSelectionModel().isSelectionEmpty()){
+            AppIntialDeleteBtn.setEnabled(true);
+            AppIntialSaveBtn.setEnabled(true);
+        }
+    }//GEN-LAST:event_viewAppointmentTableMouseClicked
+
+    private void viewRecivedTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewRecivedTableMouseClicked
+        
+        if(!viewRecivedTable.getSelectionModel().isSelectionEmpty()){
+            RecievedDeleteConformationYes.setEnabled(true);
+            RecievedDeleteConformationNo.setEnabled(true);
+        }else{
+            recievedAreYouWantToDelete.setText("Please Select The Record");
+        }
+        
+    }//GEN-LAST:event_viewRecivedTableMouseClicked
+
+    private void closeBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeBtnMouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_closeBtnMouseClicked
+
+    private void userLoginUpdateSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userLoginUpdateSaveBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_userLoginUpdateSaveBtnActionPerformed
+
+    private void jPanel39MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel39MouseClicked
+            UserModel.viewLoginDetails(userLoginTable);
+
+    }//GEN-LAST:event_jPanel39MouseClicked
+
+    private void loginDetailsConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginDetailsConformationYesMouseClicked
+         if(!userLoginTable.getSelectionModel().isSelectionEmpty()){
+        
+            loginController deleteAppObj=new loginController(stringSeparator(
+                    getSelectedRowStringFromReleventTable(userLoginTable)));
+            UserModel.deleteUser(deleteAppObj);
+            UserModel.viewLoginDetails(userLoginTable);
+            loginDetailsConformationYes.setVisible(false);
+            loginDetailsConformationNo.setVisible(false);
+            loginDetailsAreYouWantToDelete.setVisible(false);
+        
+        }else{
+        
+            loginDetailsAreYouWantToDelete.setText("Please Select the Row to Delete");
+            loginDetailsConformationNo.setVisible(false);
+            loginDetailsConformationYes.setVisible(false);
+          
+        }
+        
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_loginDetailsConformationYesMouseClicked
+
+    private void loginDetailsConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginDetailsConformationNoMouseClicked
+            loginDetailsAreYouWantToDelete.setVisible(false);
+            loginDetailsConformationYes.setVisible(false);
+            loginDetailsConformationNo.setVisible(false);
+    }//GEN-LAST:event_loginDetailsConformationNoMouseClicked
+
+    private void loginDetailsIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginDetailsIntialDeleteBtnMouseClicked
+        if(!userLoginTable.getSelectionModel().isSelectionEmpty()){
+         loginDetailsAreYouWantToDelete.setVisible(true);
+         loginDetailsAreYouWantToDelete.setText("Are you sure want to delete this record?");
+        loginDetailsConformationYes.setVisible(true);
+        loginDetailsConformationNo.setVisible(true);
+        }else{
+            loginDetailsAreYouWantToDelete.setVisible(true);
+            loginDetailsAreYouWantToDelete.setText("Please Select the Record To Delete");
+        } 
+    }//GEN-LAST:event_loginDetailsIntialDeleteBtnMouseClicked
+
+    private void kButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kButton2MouseClicked
+        
+        
+    }//GEN-LAST:event_kButton2MouseClicked
+
+    private void viewVisitorsRecordTablePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_viewVisitorsRecordTablePropertyChange
+        
+    }//GEN-LAST:event_viewVisitorsRecordTablePropertyChange
+
+    Action action = new AbstractAction()
+{
+    public void actionPerformed(ActionEvent e)
+    {
+        TableCellListener tcl = (TableCellListener)e.getSource();
+        updateRow=tcl.getRow();
+                
+    }
+};
     
     
-    /**
-     * @param args the command line arguments
-     */
+    private void complainUpdateSaveBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_complainUpdateSaveBtnMouseClicked
+        TableCellListener tcl = new TableCellListener(ComplainViewTable, action);
+        ComplainAreYouWantToDelete.setText("Record Has Been Updated");
+               
+        ComplainModel.updateComplain(updateRow,
+                getUpdatedRowStringFromReleventTable(ComplainViewTable,updateRow)
+                        );
+       ComplainModel.viewComplain(ComplainViewTable);
+        
+    }//GEN-LAST:event_complainUpdateSaveBtnMouseClicked
+
+    private void visitorUpdateIntialBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_visitorUpdateIntialBtnMouseClicked
+        TableCellListener tcl = new TableCellListener(viewVisitorsRecordTable, action);
+        VisitorAreYouWantToDelete.setText("Record Has Been Updated");
+        VisitorModel.updateVisitors(updateRow,
+                getUpdatedRowStringFromReleventTable(viewVisitorsRecordTable,updateRow)
+                        );
+               VisitorModel.viewVisitor(viewVisitorsRecordTable);
+
+        
+    }//GEN-LAST:event_visitorUpdateIntialBtnMouseClicked
+
+    private void AppIntialSaveBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AppIntialSaveBtnMouseClicked
+        TableCellListener tcl = new TableCellListener(viewAppointmentTable, action);
+        areYouWantToDelete.setVisible(true);
+        areYouWantToDelete.setText("Record Has Been Updated");
+               
+        AppointmentModel.updateAppointment(updateRow,
+                getUpdatedRowStringFromReleventTable(viewAppointmentTable,updateRow)
+                        );
+        AppointmentModel.viewAppointment(viewAppointmentTable);
+    }//GEN-LAST:event_AppIntialSaveBtnMouseClicked
+
+    private void recievedUpdateBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_recievedUpdateBtnMouseClicked
+       TableCellListener tcl = new TableCellListener(viewRecivedTable, action);
+        receptionAreYouWantToDelete.setText("Record Has Been Updated");
+               
+        RecievedPostModel.updateRecieved(updateRow,
+                getUpdatedRowStringFromReleventTable(viewRecivedTable,updateRow)
+                        );
+        RecievedPostModel.viewRecievedPost(viewRecivedTable);
+    }//GEN-LAST:event_recievedUpdateBtnMouseClicked
+
+    private void dispatchUpdateBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dispatchUpdateBtnMouseClicked
+        TableCellListener tcl = new TableCellListener(viewDispatchTable, action);
+        dispatchAreYouWantToDelete.setText("Record Has Been Updated");
+               
+                DispatchModel.updateDispatch(updateRow,
+                getUpdatedRowStringFromReleventTable(viewDispatchTable,updateRow)
+                        );
+        DispatchModel.viewDispatchPost(viewDispatchTable);
+    }//GEN-LAST:event_dispatchUpdateBtnMouseClicked
+
+    private void patientUpdateBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientUpdateBtnMouseClicked
+        TableCellListener tcl = new TableCellListener(patientDetailsTable, action);
+        patientAreYouWantToDelete.setText("Record Has Been Updated");
+               
+                PatientModel.updatePatient(updateRow,
+                getUpdatedRowStringFromReleventTable(patientDetailsTable,updateRow)
+                        );
+        PatientModel.viewPatientDetails(patientDetailsTable);
+    }//GEN-LAST:event_patientUpdateBtnMouseClicked
+
+    private void MedicalOfficerUpdateBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MedicalOfficerUpdateBtnMouseClicked
+        TableCellListener tcl = new TableCellListener(MedicalOfficersTable, action);
+        medicalAreYouWantDelete.setText("Record Has Been Updated");
+               
+                MedicalOfficerModel.updateMedicalOfficer(updateRow,
+                getUpdatedRowStringFromReleventTable(MedicalOfficersTable,updateRow)
+                        );
+        MedicalOfficerModel.viewMedicalOfficers(MedicalOfficersTable);
+    }//GEN-LAST:event_MedicalOfficerUpdateBtnMouseClicked
+
+    private void receptionistUpdateBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_receptionistUpdateBtnMouseClicked
+        TableCellListener tcl = new TableCellListener(ReceptiontistTable, action);
+        receptionAreYouWantToDelete.setText("Record Has Been Updated");
+               
+                ReceptionistModel.updateReceptionist(updateRow,
+                getUpdatedRowStringFromReleventTable(ReceptiontistTable,updateRow)
+                        );
+        ReceptionistModel.viewReceptionist(ReceptiontistTable);
+    
+    }//GEN-LAST:event_receptionistUpdateBtnMouseClicked
+
+    private void userLoginUpdateSaveBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userLoginUpdateSaveBtnMouseClicked
+        TableCellListener tcl = new TableCellListener(userLoginTable, action);
+        loginDetailsAreYouWantToDelete.setText("Record Has Been Updated");
+               
+        UserModel.updateUser(updateRow,
+        getUpdatedRowStringFromReleventTable(userLoginTable,updateRow)
+                        );
+        UserModel.viewLoginDetails(userLoginTable);
+    
+    }//GEN-LAST:event_userLoginUpdateSaveBtnMouseClicked
+    
+
+
+
+
+    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -2791,11 +5065,12 @@ public class homeAdminGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new homeAdminGUI().setVisible(true);
+                
+                //new homeAdminGUI("ADMIN","").setVisible(true);
+                
             }
         });
-        
-        
+  
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -2803,6 +5078,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JButton AddNewAppointmentBtn;
     private javax.swing.JSpinner AddNewAppointmentHours;
     private javax.swing.JSpinner AddNewAppointmentMinutes;
+    private javax.swing.JComboBox<String> AddNewAppointmnetSpecializedAreaDropDown;
     private javax.swing.JButton AddNewComplainBtn;
     private javax.swing.JTextArea AddNewComplainDesTextArea;
     private javax.swing.JTextField AddNewComplainName;
@@ -2819,8 +5095,17 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JRadioButton AddNewUserGenderMale;
     private javax.swing.JComboBox<String> AddNewUserSpecializedAreaDropDown;
     private javax.swing.JLabel AddNewUserSpecializedAreaLabel;
+    private javax.swing.JLabel AddNewUserSpecializedAreaLabel1;
     private javax.swing.JButton AddNewVisitorRecord;
+    private javax.swing.JButton AppIntialDeleteBtn;
+    private javax.swing.JButton AppIntialSaveBtn;
+    private javax.swing.JLabel ClockLabel;
+    private javax.swing.JLabel ComplainAreYouWantToDelete;
+    private javax.swing.JButton ComplainDeleteIntialBtn;
     private javax.swing.JTable ComplainViewTable;
+    private javax.swing.JButton DispatchDeleteConformationNo;
+    private javax.swing.JButton DispatchDeleteConformationYes;
+    private javax.swing.JButton DispatchIntialDeleteBtn;
     private javax.swing.JTextField DispatchPostAddress;
     private javax.swing.JSpinner DispatchPostDay;
     private javax.swing.JTextField DispatchPostFrom;
@@ -2829,10 +5114,14 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JTextField DispatchPostRefNo;
     private javax.swing.JTextField DispatchPostTo;
     private javax.swing.JSpinner DispatchPostYear;
+    private javax.swing.JComboBox<String> MedicalOfficerDropDown;
+    private javax.swing.JButton MedicalOfficerUpdateBtn;
     private javax.swing.JPanel MedicalOfficersDetailsViewTab;
     private javax.swing.JTable MedicalOfficersTable;
     private javax.swing.JPanel ReceptiontistDetailsViewTab;
     private javax.swing.JTable ReceptiontistTable;
+    private javax.swing.JButton RecievedDeleteConformationNo;
+    private javax.swing.JButton RecievedDeleteConformationYes;
     private javax.swing.JTextField RecievedPostAddress;
     private javax.swing.JSpinner RecievedPostDay;
     private javax.swing.JTextField RecievedPostFrom;
@@ -2841,7 +5130,11 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JTextField RecievedPostRefNo;
     private javax.swing.JTextField RecievedPostTo;
     private javax.swing.JSpinner RecievedPostYear;
+    private javax.swing.JButton RecivedPostIntialDeleteBtn;
     private javax.swing.JLabel StaffIDLabel;
+    private javax.swing.JTabbedPane ViewRecievedDispatchPost;
+    private javax.swing.JLabel VisitorAreYouWantToDelete;
+    private javax.swing.JButton VisitorIntialDeleteBtn;
     private javax.swing.JComboBox<String> VisitorRecordAmPmState;
     private javax.swing.JTextField VisitorRecordNIC;
     private javax.swing.JTextField VisitorRecordName;
@@ -2873,22 +5166,37 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JLabel allergiesLabel;
     private javax.swing.JPanel appPanel;
     private javax.swing.JPanel appointment;
+    private javax.swing.JLabel areYouWantToDelete;
     private javax.swing.JLabel bloodG;
     private javax.swing.JComboBox<String> bloodSel;
-    private javax.swing.JPanel close;
-    private javax.swing.JLabel close_btn_img;
+    private keeptoo.KGradientPanel clockLabel;
+    private keeptoo.KGradientPanel closeBtn;
+    private javax.swing.JPanel closeMaxMinPanel;
     private javax.swing.JPanel complain;
     private javax.swing.JPanel complainPanel;
+    private javax.swing.JButton complainUpdateSaveBtn;
     private javax.swing.JLabel complainWarning;
     private javax.swing.JPanel content;
+    private keeptoo.KGradientPanel curvedMainPannel;
+    private javax.swing.JButton deleteComplainConformationNo;
+    private javax.swing.JButton deleteComplainConformationYes;
+    private javax.swing.JButton deleteConformationNo;
+    private javax.swing.JButton deleteConformationYes;
+    private javax.swing.JButton deleteVisitorRecordConformationNo;
+    private javax.swing.JButton deleteVisitorRecordConformationYes;
+    private javax.swing.JLabel dispatchAreYouWantToDelete;
     private javax.swing.JLabel dispatchPostNotification;
     private javax.swing.JPanel dispatchTab;
+    private javax.swing.JButton dispatchUpdateBtn;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JTextField emailText;
+    private javax.swing.JPanel footer;
     private javax.swing.ButtonGroup genderGroup;
     private javax.swing.JPanel header;
+    private javax.swing.JPanel home;
+    private javax.swing.JPanel homePannel;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton7;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2956,6 +5264,12 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel68;
     private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel70;
+    private javax.swing.JLabel jLabel71;
+    private javax.swing.JLabel jLabel72;
+    private javax.swing.JLabel jLabel73;
+    private javax.swing.JLabel jLabel74;
+    private javax.swing.JLabel jLabel75;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -2970,15 +5284,41 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel25;
+    private javax.swing.JPanel jPanel26;
+    private javax.swing.JPanel jPanel27;
+    private javax.swing.JPanel jPanel28;
+    private javax.swing.JPanel jPanel29;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel30;
+    private javax.swing.JPanel jPanel31;
+    private javax.swing.JPanel jPanel32;
+    private javax.swing.JPanel jPanel33;
+    private javax.swing.JPanel jPanel35;
+    private javax.swing.JPanel jPanel36;
+    private javax.swing.JPanel jPanel37;
+    private javax.swing.JPanel jPanel38;
+    private javax.swing.JPanel jPanel39;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel40;
+    private javax.swing.JPanel jPanel41;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JPasswordField jPasswordField2;
+    private javax.swing.JPasswordField jPasswordField3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JScrollPane jScrollPane12;
+    private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -2988,41 +5328,231 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JTabbedPane jTabbedPane5;
     private keeptoo.KButton kButton1;
     private keeptoo.KButton kButton2;
     private keeptoo.KGradientPanel kGradientPanel1;
+    private keeptoo.KGradientPanel kGradientPanel2;
+    private javax.swing.JLabel loginDetailsAreYouWantToDelete;
+    private javax.swing.JButton loginDetailsConformationNo;
+    private javax.swing.JButton loginDetailsConformationYes;
+    private javax.swing.JButton loginDetailsIntialDeleteBtn;
     private javax.swing.ButtonGroup marriedState;
-    private javax.swing.JLabel max_btn_img;
-    private javax.swing.JPanel maximize;
-    private javax.swing.JPanel min_max_close;
-    private javax.swing.JLabel minimize_btn_img;
-    private javax.swing.JPanel minmize;
+    private keeptoo.KGradientPanel maximumBtn;
+    private javax.swing.JLabel medicalAreYouWantDelete;
+    private javax.swing.JButton medicalDeleteConformationNo;
+    private javax.swing.JButton medicalDeleteConformationYes;
+    private javax.swing.JButton medicalIntialDeleteBtn;
+    private keeptoo.KGradientPanel minimumBtn;
     private javax.swing.JPanel newAppPanel;
+    private javax.swing.JLabel patientAreYouWantToDelete;
+    private javax.swing.JButton patientDeleteConformationNo;
+    private javax.swing.JButton patientDeleteConformationYes;
     private javax.swing.JPanel patientDetailsTab;
     private javax.swing.JTable patientDetailsTable;
+    private javax.swing.JButton patientIntialDeleteBtn;
+    private javax.swing.JButton patientUpdateBtn;
     private javax.swing.JPanel postal;
     private javax.swing.JPanel postalPanel;
+    private javax.swing.JLabel receptionAreYouWantToDelete;
+    private javax.swing.JButton receptionConformationNo;
+    private javax.swing.JButton receptionConformationYes;
+    private javax.swing.JButton receptionIntialDeleteBtn;
+    private javax.swing.JButton receptionistUpdateBtn;
+    private javax.swing.JLabel recievedAreYouWantToDelete;
     private javax.swing.JLabel recievedPostNotification;
     private javax.swing.JPanel recievedTab;
+    private javax.swing.JButton recievedUpdateBtn;
     private javax.swing.JPanel reference;
     private javax.swing.JPanel referencePanel;
     private javax.swing.JPanel report;
     private javax.swing.JPanel reportPanel;
     private javax.swing.JPanel sideMenu;
     private javax.swing.JPanel user;
+    private javax.swing.JTable userLoginTable;
+    private javax.swing.JButton userLoginUpdateSaveBtn;
     private javax.swing.JPanel userPanel;
     private javax.swing.JComboBox<String> userType;
     private javax.swing.JPanel viewAppPanel;
     private javax.swing.JTabbedPane viewAppointmentBtn;
     private javax.swing.JTable viewAppointmentTable;
     private javax.swing.JTabbedPane viewComplainBtn;
+    private javax.swing.JPanel viewDispatchTab;
+    private javax.swing.JTable viewDispatchTable;
+    private javax.swing.JPanel viewRecivedTab;
+    private javax.swing.JTable viewRecivedTable;
     private javax.swing.JPanel viewVisitors;
     private javax.swing.JTabbedPane viewVisitorsBtn;
     private javax.swing.JTable viewVisitorsRecordTable;
     private javax.swing.JScrollPane viewVisitorsTable;
+    private javax.swing.JButton visitorUpdateIntialBtn;
     private javax.swing.JPanel visitors;
     private javax.swing.JPanel visitorsPanel;
     // End of variables declaration//GEN-END:variables
+
+/*
+ *  This class listens for changes made to the data in the table via the
+ *  TableCellEditor. When editing is started, the value of the cell is saved
+ *  When editing is stopped the new value is saved. When the oold and new
+ *  values are different, then the provided Action is invoked.
+ *
+ *  The source of the Action is a TableCellListener instance.
+ */
+public class TableCellListener implements PropertyChangeListener, Runnable
+{
+	private JTable table;
+	private Action action;
+
+	private int row;
+	private int column;
+	private Object oldValue;
+	private Object newValue;
+
+	/**
+	 *  Create a TableCellListener.
+	 *
+	 *  @param table   the table to be monitored for data changes
+	 *  @param action  the Action to invoke when cell data is changed
+	 */
+	public TableCellListener(JTable table, Action action)
+	{
+		this.table = table;
+		this.action = action;
+		this.table.addPropertyChangeListener( this );
+	}
+
+	/**
+	 *  Create a TableCellListener with a copy of all the data relevant to
+	 *  the change of data for a given cell.
+	 *
+	 *  @param row  the row of the changed cell
+	 *  @param column  the column of the changed cell
+	 *  @param oldValue  the old data of the changed cell
+	 *  @param newValue  the new data of the changed cell
+	 */
+	private TableCellListener(JTable table, int row, int column, Object oldValue, Object newValue)
+	{
+		this.table = table;
+		this.row = row;
+		this.column = column;
+		this.oldValue = oldValue;
+		this.newValue = newValue;
+	}
+
+	/**
+	 *  Get the column that was last edited
+	 *
+	 *  @return the column that was edited
+	 */
+	public int getColumn()
+	{
+		return column;
+	}
+
+	/**
+	 *  Get the new value in the cell
+	 *
+	 *  @return the new value in the cell
+	 */
+	public Object getNewValue()
+	{
+		return newValue;
+	}
+
+	/**
+	 *  Get the old value of the cell
+	 *
+	 *  @return the old value of the cell
+	 */
+	public Object getOldValue()
+	{
+		return oldValue;
+	}
+
+	/**
+	 *  Get the row that was last edited
+	 *
+	 *  @return the row that was edited
+	 */
+	public int getRow()
+	{
+		return row;
+	}
+
+	/**
+	 *  Get the table of the cell that was changed
+	 *
+	 *  @return the table of the cell that was changed
+	 */
+	public JTable getTable()
+	{
+		return table;
+	}
+//
+//  Implement the PropertyChangeListener interface
+//
+	@Override
+	public void propertyChange(PropertyChangeEvent e)
+	{
+		//  A cell has started/stopped editing
+
+		if ("tableCellEditor".equals(e.getPropertyName()))
+		{
+			if (table.isEditing())
+				processEditingStarted();
+			else
+				processEditingStopped();
+		}
+	}
+
+	/*
+	 *  Save information of the cell about to be edited
+	 */
+	private void processEditingStarted()
+	{
+		//  The invokeLater is necessary because the editing row and editing
+		//  column of the table have not been set when the "tableCellEditor"
+		//  PropertyChangeEvent is fired.
+		//  This results in the "run" method being invoked
+
+		SwingUtilities.invokeLater( this );
+	}
+	/*
+	 *  See above.
+	 */
+	@Override
+	public void run()
+	{
+		row = table.convertRowIndexToModel( table.getEditingRow() );
+		column = table.convertColumnIndexToModel( table.getEditingColumn() );
+		oldValue = table.getModel().getValueAt(row, column);
+		newValue = null;
+	}
+
+	/*
+	 *	Update the Cell history when necessary
+	 */
+	private void processEditingStopped()
+	{
+		newValue = table.getModel().getValueAt(row, column);
+
+		//  The data has changed, invoke the supplied Action
+
+		if (! newValue.equals(oldValue))
+		{
+			//  Make a copy of the data in case another cell starts editing
+			//  while processing this change
+
+			TableCellListener tcl = new TableCellListener(
+				getTable(), getRow(), getColumn(), getOldValue(), getNewValue());
+
+			ActionEvent event = new ActionEvent(
+				tcl,
+				ActionEvent.ACTION_PERFORMED,
+				"");
+			action.actionPerformed(event);
+		}
+	}
+}
+
 }
