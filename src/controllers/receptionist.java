@@ -68,6 +68,7 @@ public class receptionist extends userController{
        newReceptionistLoginObj.storeNewUserData();
     
     }
+
     
     @Override
     public String toString() {

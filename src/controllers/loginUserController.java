@@ -5,7 +5,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import mediinfosystem.mainMenu;
 import view.homeAdminGUI;
+import view.homePatientGUI;
 
 public class loginUserController {
     private String userName;
@@ -68,7 +71,7 @@ public class loginUserController {
     }
     
     
-    
+
     }
     
 

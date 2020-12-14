@@ -117,6 +117,7 @@ public class patient extends userController{
                 userAddress,userGender,userMarriedState);
         this.patientAllergies = patientAllergies;
         setBloodGroup(patientBloodGroup);
+
         
     
     }
@@ -126,6 +127,7 @@ public class patient extends userController{
         newPatientLoginObj.storeNewUserData();
     }
         
+
     public String getPatientAllergies() {
         return patientAllergies;
     }
