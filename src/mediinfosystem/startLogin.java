@@ -175,7 +175,9 @@ public class startLogin extends javax.swing.JFrame {
 
         userImg.setBackground(new java.awt.Color(0, 0, 0));
         userImg.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+
         userImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_medical_doctor_48px_1.png"))); // NOI18N
+
 
         passImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/password.png"))); // NOI18N
 
@@ -217,8 +219,7 @@ public class startLogin extends javax.swing.JFrame {
 
         javax.swing.GroupLayout mainCircleLayout = new javax.swing.GroupLayout(mainCircle);
         mainCircle.setLayout(mainCircleLayout);
-        mainCircleLayout.setHorizontalGroup(
-            mainCircleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        mainCircleLayout.setHorizontalGroup(mainCircleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainCircleLayout.createSequentialGroup()
                 .addGap(88, 88, 88)
                 .addGroup(mainCircleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,8 +237,7 @@ public class startLogin extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainCircleLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
-                .addGap(186, 186, 186))
-        );
+                .addGap(186, 186, 186)) );
         mainCircleLayout.setVerticalGroup(
             mainCircleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainCircleLayout.createSequentialGroup()
