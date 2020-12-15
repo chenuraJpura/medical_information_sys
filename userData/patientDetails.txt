@@ -1,0 +1,3 @@
+johnWhite,john,white,1127891256,191919,1/1/1991,asasa,O,MALE,UNMARRIED,asas
+kamalPer,kamal,perera,112623515,199913503720,14/5/1999,kadawatha,AB,MALE,UNMARRIED,rash
+kamalPer,kamal,silva,112623515,199913503720,14/5/1999,kadawatha,AB,MALE,UNMARRIED,rash

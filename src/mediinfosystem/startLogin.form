@@ -274,26 +274,19 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="passImg" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="userLoginBtn" min="-2" pref="265" max="-2" attributes="0"/>
-                                                  <Component id="passPasswordField" min="-2" pref="265" max="-2" attributes="0"/>
-                                                  <Component id="loginNotification" alignment="0" min="-2" pref="265" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                          <Group type="102" attributes="0">
-                                              <Component id="userImg" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="userNameTextField" alignment="0" min="-2" pref="265" max="-2" attributes="0"/>
-                                                  <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                          </Group>
+                                          <Component id="passImg" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="userImg" alignment="0" min="-2" pref="36" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace pref="109" max="32767" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="userNameTextField" alignment="0" min="-2" pref="265" max="-2" attributes="0"/>
+                                          <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="userLoginBtn" min="-2" pref="265" max="-2" attributes="0"/>
+                                          <Component id="passPasswordField" min="-2" pref="265" max="-2" attributes="0"/>
+                                          <Component id="loginNotification" alignment="0" min="-2" pref="265" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace pref="105" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
                                       <EmptySpace max="32767" attributes="0"/>
@@ -340,7 +333,7 @@
                                   <Font name="Montserrat" size="12" style="0"/>
                                 </Property>
                                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                  <Image iconType="3" name="/icon/icons8_medical_doctor_48px.png"/>
+                                  <Image iconType="3" name="/icon/icons8_medical_doctor_48px_1.png"/>
                                 </Property>
                               </Properties>
                             </Component>

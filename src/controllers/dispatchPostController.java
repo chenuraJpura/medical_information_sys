@@ -4,7 +4,7 @@ public class dispatchPostController extends postalController{
     private String dispatchToName;
     private String dispatchAddress;
     private String dispatchFromName;
-
+   
     public dispatchPostController(String[] dataRow){
         super(Integer.parseInt(dataRow[0]),dataRow[4],new date(dataRow[5]));
         setDispatchToName(dataRow[1]);
@@ -75,16 +75,8 @@ public class dispatchPostController extends postalController{
 
     public void setDispatchFromName(String dispatchFromName) {
         this.dispatchFromName = dispatchFromName;
-
     }
     
     
     
-
-    
-    
-
-    
-    
-
 }

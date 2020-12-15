@@ -59,9 +59,7 @@ public class loginController {
 
                             File file=new File("userData\\loginDetails.txt");
                             if(file.length()!=0){//checking the 
-
                                 br = new BufferedReader(new FileReader("userData\\loginDetails.txt"));
-
                                 while ((sCurrentLine = br.readLine())!=null){
                                     lastLine = sCurrentLine;
                                 }
