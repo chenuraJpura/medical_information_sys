@@ -25,6 +25,7 @@ public class loginFeederModel {
             case "PAT":matchedPatient(); break;
             case "MED":matchedMedicalOfficer();break;
             case "REC":matchedReceptionist();break;
+
         }
     }
 
@@ -133,7 +134,7 @@ public class loginFeederModel {
         
         
     }
-    
+
     private void matchedReceptionist(){
         String filePath = "userData\\receptionistDetails.txt";
          File file = new File(filePath);
@@ -166,6 +167,7 @@ public class loginFeederModel {
         
         
     }
+
 
 
     

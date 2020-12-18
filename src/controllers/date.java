@@ -61,9 +61,5 @@ public class date {
     public int getYear() {
         return year;
     }
-    
-    
-    
-    
-    
+
 }

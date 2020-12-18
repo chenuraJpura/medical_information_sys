@@ -80,7 +80,7 @@ public class homePatientGUI extends javax.swing.JFrame {
     }
 };
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         mainPannel = new keeptoo.KGradientPanel();
@@ -1424,12 +1424,12 @@ public class homePatientGUI extends javax.swing.JFrame {
 
         setSize(new java.awt.Dimension(900, 700));
         setLocationRelativeTo(null);
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
-    private void closeBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeBtnMouseClicked
+    private void closeBtnMouseClicked(java.awt.event.MouseEvent evt) {                                      
         System.exit(0);
     
-    }//GEN-LAST:event_closeBtnMouseClicked
+    }                                     
 
     private String getSelectedRowStringFromReleventTable(JTable relevantTable){
         TableModel model = relevantTable.getModel();
@@ -1468,7 +1468,7 @@ public class homePatientGUI extends javax.swing.JFrame {
     }
     
     
-    private void PannelSwitch(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PannelSwitch
+    private void PannelSwitch(java.awt.event.MouseEvent evt) {                              
        if(evt.getSource()==complain){
             Complain.setVisible(true);
             UserSetting.setVisible(false);
@@ -1486,17 +1486,17 @@ public class homePatientGUI extends javax.swing.JFrame {
         }
         
         
-    }//GEN-LAST:event_PannelSwitch
+    }                             
 
-    private void addNewAppointmentSymptomsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewAppointmentSymptomsActionPerformed
+    private void addNewAppointmentSymptomsActionPerformed(java.awt.event.ActionEvent evt) {                                                          
         // TODO add your handling code here:
-    }//GEN-LAST:event_addNewAppointmentSymptomsActionPerformed
+    }                                                         
 
-    private void addNewAppointmentPatientNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewAppointmentPatientNameActionPerformed
+    private void addNewAppointmentPatientNameActionPerformed(java.awt.event.ActionEvent evt) {                                                             
         // TODO add your handling code here:
-    }//GEN-LAST:event_addNewAppointmentPatientNameActionPerformed
+    }                                                            
 
-    private void AddNewAppointmentBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddNewAppointmentBtnMouseClicked
+    private void AddNewAppointmentBtnMouseClicked(java.awt.event.MouseEvent evt) {                                                  
         boolean textField11=addNewAppointmentPatientName.getText().equals("");
         boolean textField12=addNewAppointmentSymptoms.getText().equals("");
         boolean textField13=addNewAppointmentConclution.getText().equals("");
@@ -1529,21 +1529,21 @@ public class homePatientGUI extends javax.swing.JFrame {
             addNewAppointmentNotficationLabel.setText("Please fill all fields");
         }
 
-    }//GEN-LAST:event_AddNewAppointmentBtnMouseClicked
+    }                                                 
 
-    private void AddNewAppointmentBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewAppointmentBtnActionPerformed
+    private void AddNewAppointmentBtnActionPerformed(java.awt.event.ActionEvent evt) {                                                     
         // TODO add your handling code here:
-    }//GEN-LAST:event_AddNewAppointmentBtnActionPerformed
+    }                                                    
 
-    private void AddNewAppointmentAMPMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewAppointmentAMPMActionPerformed
+    private void AddNewAppointmentAMPMActionPerformed(java.awt.event.ActionEvent evt) {                                                      
         // TODO add your handling code here:
-    }//GEN-LAST:event_AddNewAppointmentAMPMActionPerformed
+    }                                                     
 
-    private void MedicalOfficerDropDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MedicalOfficerDropDownActionPerformed
+    private void MedicalOfficerDropDownActionPerformed(java.awt.event.ActionEvent evt) {                                                       
         // TODO add your handling code here:
-    }//GEN-LAST:event_MedicalOfficerDropDownActionPerformed
+    }                                                      
 
-    private void AddNewAppointmnetSpecializedAreaDropDownItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_AddNewAppointmnetSpecializedAreaDropDownItemStateChanged
+    private void AddNewAppointmnetSpecializedAreaDropDownItemStateChanged(java.awt.event.ItemEvent evt) {                                                                          
             if(evt.getStateChange()==ItemEvent.SELECTED){
             //remove the existing valus of drop down menu
             MedicalOfficerDropDown.removeAllItems();
@@ -1553,13 +1553,13 @@ public class homePatientGUI extends javax.swing.JFrame {
             medicalOfficerDropDownObj.dropFeeder();
 
         }
-    }//GEN-LAST:event_AddNewAppointmnetSpecializedAreaDropDownItemStateChanged
+    }                                                                         
 
-    private void AppIntialSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AppIntialSaveBtnActionPerformed
+    private void AppIntialSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {                                                 
         // TODO add your handling code here:
-    }//GEN-LAST:event_AppIntialSaveBtnActionPerformed
+    }                                                
 
-    private void AppIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AppIntialDeleteBtnMouseClicked
+    private void AppIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {                                                
         if(!viewAppointmentTable.getSelectionModel().isSelectionEmpty()){
             areYouWantToDelete.setVisible(true);
             areYouWantToDelete.setText("Are you sure want to delete this record?");
@@ -1569,13 +1569,13 @@ public class homePatientGUI extends javax.swing.JFrame {
             areYouWantToDelete.setVisible(true);
             areYouWantToDelete.setText("Please Select the Record To Delete");
         }
-    }//GEN-LAST:event_AppIntialDeleteBtnMouseClicked
+    }                                               
 
-    private void AppIntialDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AppIntialDeleteBtnActionPerformed
+    private void AppIntialDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {                                                   
         // TODO add your handling code here:
-    }//GEN-LAST:event_AppIntialDeleteBtnActionPerformed
+    }                                                  
 
-    private void deleteConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteConformationYesMouseClicked
+    private void deleteConformationYesMouseClicked(java.awt.event.MouseEvent evt) {                                                   
         if(!viewAppointmentTable.getSelectionModel().isSelectionEmpty()){
 
             appointmentController deleteAppObj=new appointmentController(getSelectedRowStringFromReleventTable(viewAppointmentTable));
@@ -1593,23 +1593,23 @@ public class homePatientGUI extends javax.swing.JFrame {
 
         }
 
-    }//GEN-LAST:event_deleteConformationYesMouseClicked
+    }                                                  
 
-    private void deleteConformationYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteConformationYesActionPerformed
+    private void deleteConformationYesActionPerformed(java.awt.event.ActionEvent evt) {                                                      
         // TODO add your handling code here:
-    }//GEN-LAST:event_deleteConformationYesActionPerformed
+    }                                                     
 
-    private void deleteConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteConformationNoMouseClicked
+    private void deleteConformationNoMouseClicked(java.awt.event.MouseEvent evt) {                                                  
         deleteConformationYes.setVisible(false);
         deleteConformationNo.setVisible(false);
         areYouWantToDelete.setVisible(false);
-    }//GEN-LAST:event_deleteConformationNoMouseClicked
+    }                                                 
 
-    private void deleteConformationNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteConformationNoActionPerformed
+    private void deleteConformationNoActionPerformed(java.awt.event.ActionEvent evt) {                                                     
         // TODO add your handling code here:
-    }//GEN-LAST:event_deleteConformationNoActionPerformed
+    }                                                    
 
-    private void viewAppointmentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewAppointmentTableMouseClicked
+    private void viewAppointmentTableMouseClicked(java.awt.event.MouseEvent evt) {                                                  
         if (evt.getClickCount()==1) {     // to detect doble click events
                
                JTable target = (JTable)evt.getSource();
@@ -1621,33 +1621,33 @@ public class homePatientGUI extends javax.swing.JFrame {
             AppIntialDeleteBtn.setEnabled(true);
             AppIntialSaveBtn.setEnabled(true);
         }
-    }//GEN-LAST:event_viewAppointmentTableMouseClicked
+    }                                                 
 
-    private void viewAppointmentBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewAppointmentBtnMouseClicked
+    private void viewAppointmentBtnMouseClicked(java.awt.event.MouseEvent evt) {                                                
         AppointmentModel.viewAppointmentByUser(viewAppointmentTable,logged.getUserName());
-    }//GEN-LAST:event_viewAppointmentBtnMouseClicked
+    }                                               
 
-    private void headerMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_headerMouseDragged
+    private void headerMouseDragged(java.awt.event.MouseEvent evt) {                                    
         int xCordinate=evt.getXOnScreen();
         int yCordinate=evt.getYOnScreen();
         
         this.setLocation(xCordinate-mousePx,yCordinate-mousePy);
-    }//GEN-LAST:event_headerMouseDragged
+    }                                   
 
-    private void headerMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_headerMousePressed
+    private void headerMousePressed(java.awt.event.MouseEvent evt) {                                    
                mousePx=evt.getX();
                mousePy=evt.getY();
-    }//GEN-LAST:event_headerMousePressed
+    }                                   
 
-    private void AddNewComplainNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewComplainNameActionPerformed
+    private void AddNewComplainNameActionPerformed(java.awt.event.ActionEvent evt) {                                                   
         // TODO add your handling code here:
-    }//GEN-LAST:event_AddNewComplainNameActionPerformed
+    }                                                  
 
-    private void AddNewComplainPhoneNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewComplainPhoneNumberActionPerformed
+    private void AddNewComplainPhoneNumberActionPerformed(java.awt.event.ActionEvent evt) {                                                          
         // TODO add your handling code here:
-    }//GEN-LAST:event_AddNewComplainPhoneNumberActionPerformed
+    }                                                         
 
-    private void AddNewComplainBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddNewComplainBtnMouseClicked
+    private void AddNewComplainBtnMouseClicked(java.awt.event.MouseEvent evt) {                                               
 
         boolean textField7=AddNewComplainName.getText().equals("");
         boolean textField8=AddNewComplainPhoneNumber.getText().equals("");
@@ -1670,17 +1670,17 @@ public class homePatientGUI extends javax.swing.JFrame {
         }else{
             complainWarning.setText("Please fill all fields");
         }
-    }//GEN-LAST:event_AddNewComplainBtnMouseClicked
+    }                                              
 
-    private void AddNewComplainBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewComplainBtnActionPerformed
+    private void AddNewComplainBtnActionPerformed(java.awt.event.ActionEvent evt) {                                                  
         // TODO add your handling code here:
-    }//GEN-LAST:event_AddNewComplainBtnActionPerformed
+    }                                                 
 
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton11ActionPerformed
+    }                                         
 
-    private void ComplainDeleteIntialBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ComplainDeleteIntialBtnMouseClicked
+    private void ComplainDeleteIntialBtnMouseClicked(java.awt.event.MouseEvent evt) {                                                     
         if(!ComplainViewTable.getSelectionModel().isSelectionEmpty()){
             ComplainAreYouWantToDelete.setVisible(true);
             ComplainAreYouWantToDelete.setText("Are you sure want to delete this record?");
@@ -1690,13 +1690,13 @@ public class homePatientGUI extends javax.swing.JFrame {
             ComplainAreYouWantToDelete.setVisible(true);
             ComplainAreYouWantToDelete.setText("Please Select the Record To Delete");
         }
-    }//GEN-LAST:event_ComplainDeleteIntialBtnMouseClicked
+    }                                                    
 
-    private void ComplainDeleteIntialBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComplainDeleteIntialBtnActionPerformed
+    private void ComplainDeleteIntialBtnActionPerformed(java.awt.event.ActionEvent evt) {                                                        
         // TODO add your handling code here:
-    }//GEN-LAST:event_ComplainDeleteIntialBtnActionPerformed
+    }                                                       
 
-    private void deleteComplainConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteComplainConformationYesMouseClicked
+    private void deleteComplainConformationYesMouseClicked(java.awt.event.MouseEvent evt) {                                                           
         if(!ComplainViewTable.getSelectionModel().isSelectionEmpty()){
 
             complainsController deleteAppObj=new complainsController(
@@ -1714,43 +1714,43 @@ public class homePatientGUI extends javax.swing.JFrame {
             deleteComplainConformationNo.setVisible(false);
 
         }
-    }//GEN-LAST:event_deleteComplainConformationYesMouseClicked
+    }                                                          
 
-    private void deleteComplainConformationYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteComplainConformationYesActionPerformed
+    private void deleteComplainConformationYesActionPerformed(java.awt.event.ActionEvent evt) {                                                              
         // TODO add your handling code here:
-    }//GEN-LAST:event_deleteComplainConformationYesActionPerformed
+    }                                                             
 
-    private void deleteComplainConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteComplainConformationNoMouseClicked
+    private void deleteComplainConformationNoMouseClicked(java.awt.event.MouseEvent evt) {                                                          
         deleteComplainConformationYes.setVisible(false);
         deleteComplainConformationNo.setVisible(false);
         ComplainAreYouWantToDelete.setVisible(false);
-    }//GEN-LAST:event_deleteComplainConformationNoMouseClicked
+    }                                                         
 
-    private void deleteComplainConformationNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteComplainConformationNoActionPerformed
+    private void deleteComplainConformationNoActionPerformed(java.awt.event.ActionEvent evt) {                                                             
         // TODO add your handling code here:
-    }//GEN-LAST:event_deleteComplainConformationNoActionPerformed
+    }                                                            
 
-    private void viewComplainBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewComplainBtnMouseClicked
+    private void viewComplainBtnMouseClicked(java.awt.event.MouseEvent evt) {                                             
         ComplainModel.viewComplainByUser(ComplainViewTable,logged.getUserName());
-    }//GEN-LAST:event_viewComplainBtnMouseClicked
+    }                                            
 
-    private void patientPhoneNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientPhoneNoActionPerformed
+    private void patientPhoneNoActionPerformed(java.awt.event.ActionEvent evt) {                                               
         // TODO add your handling code here:
-    }//GEN-LAST:event_patientPhoneNoActionPerformed
+    }                                              
 
-    private void patientLNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientLNameActionPerformed
+    private void patientLNameActionPerformed(java.awt.event.ActionEvent evt) {                                             
         // TODO add your handling code here:
-    }//GEN-LAST:event_patientLNameActionPerformed
+    }                                            
 
-    private void patientFNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientFNameActionPerformed
+    private void patientFNameActionPerformed(java.awt.event.ActionEvent evt) {                                             
         // TODO add your handling code here:
-    }//GEN-LAST:event_patientFNameActionPerformed
+    }                                            
 
-    private void savePatientBtnConformationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savePatientBtnConformationActionPerformed
+    private void savePatientBtnConformationActionPerformed(java.awt.event.ActionEvent evt) {                                                           
         // TODO add your handling code here:
-    }//GEN-LAST:event_savePatientBtnConformationActionPerformed
+    }                                                          
 
-    private void savePatientBtnConformationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_savePatientBtnConformationMouseClicked
+    private void savePatientBtnConformationMouseClicked(java.awt.event.MouseEvent evt) {                                                        
         PatientModel.deletePatient(this.logged);
         patient updatedObj=logged;
         updatedObj.setUserFirstName(patientFName.getText());
@@ -1761,9 +1761,9 @@ public class homePatientGUI extends javax.swing.JFrame {
         PatientModel.writingTXT(updatedObj.toString());
         new homePatientGUI(updatedObj,pass).setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_savePatientBtnConformationMouseClicked
+    }                                                       
 
-    private void AppIntialSaveBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AppIntialSaveBtnMouseClicked
+    private void AppIntialSaveBtnMouseClicked(java.awt.event.MouseEvent evt) {                                              
         TableCellListener tcl = new TableCellListener(viewAppointmentTable, action);
         areYouWantToDelete.setVisible(true);
         
@@ -1777,29 +1777,29 @@ public class homePatientGUI extends javax.swing.JFrame {
         areYouWantToDelete.setText("Record Has Been Updated");
                 
         AppointmentModel.viewAppointmentByUser(viewAppointmentTable,logged.getUserName());
-    }//GEN-LAST:event_AppIntialSaveBtnMouseClicked
+    }                                             
 
-    private void viewAppointmentTablePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_viewAppointmentTablePropertyChange
+    private void viewAppointmentTablePropertyChange(java.beans.PropertyChangeEvent evt) {                                                    
         TableCellListener tcl = new TableCellListener(viewAppointmentTable, action);
-    }//GEN-LAST:event_viewAppointmentTablePropertyChange
+    }                                                   
 
-    private void viewAppointmentTableMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewAppointmentTableMouseEntered
+    private void viewAppointmentTableMouseEntered(java.awt.event.MouseEvent evt) {                                                  
         
-    }//GEN-LAST:event_viewAppointmentTableMouseEntered
+    }                                                 
 
-    private void viewAppointmentTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewAppointmentTableMousePressed
+    private void viewAppointmentTableMousePressed(java.awt.event.MouseEvent evt) {                                                  
         
-    }//GEN-LAST:event_viewAppointmentTableMousePressed
+    }                                                 
 
-    private void patientOldPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientOldPasswordActionPerformed
+    private void patientOldPasswordActionPerformed(java.awt.event.ActionEvent evt) {                                                   
         // TODO add your handling code here:
-    }//GEN-LAST:event_patientOldPasswordActionPerformed
+    }                                                  
 
-    private void patientNewPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientNewPasswordActionPerformed
+    private void patientNewPasswordActionPerformed(java.awt.event.ActionEvent evt) {                                                   
         // TODO add your handling code here:
-    }//GEN-LAST:event_patientNewPasswordActionPerformed
+    }                                                  
 
-    private void changePasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_changePasswordMouseClicked
+    private void changePasswordMouseClicked(java.awt.event.MouseEvent evt) {                                            
         boolean cond1=(new String(this.patientNewPassword.getPassword())).equals(
         new String(this.patientNewPasswordConformation.getPassword()));
         if(cond1){
@@ -1819,7 +1819,7 @@ public class homePatientGUI extends javax.swing.JFrame {
         }else{
             patientUpdateNotfication.setText("Password Are UnMatched");
         }
-    }//GEN-LAST:event_changePasswordMouseClicked
+    }                                           
 
     /**
      * @param args the command line arguments
@@ -1856,7 +1856,7 @@ public class homePatientGUI extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private javax.swing.JComboBox<String> AddNewAppointmentAMPM;
     private javax.swing.JButton AddNewAppointmentBtn;
     private javax.swing.JSpinner AddNewAppointmentHours;
@@ -1973,7 +1973,7 @@ public class homePatientGUI extends javax.swing.JFrame {
     private javax.swing.JTabbedPane viewAppointmentBtn;
     private javax.swing.JTable viewAppointmentTable;
     private javax.swing.JTabbedPane viewComplainBtn;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
 /*
  *  This class listens for changes made to the data in the table via the
  *  TableCellEditor. When editing is started, the value of the cell is saved

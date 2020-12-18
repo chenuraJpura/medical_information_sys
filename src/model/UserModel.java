@@ -143,6 +143,7 @@ private static String filePath = "userData\\loginDetails.txt";
 
         
 //admin update function----------------------------------------------------------
+
           
  public static void updateUser(int deleteRowNumber,String updatedString){
               
@@ -188,6 +189,7 @@ private static String filePath = "userData\\loginDetails.txt";
         }
     
     }
+
 
 //update password function-------------------------------------------------------
  public static void updatePasswordByUser(String userName,String newPass){
@@ -282,5 +284,6 @@ private static String filePath = "userData\\loginDetails.txt";
  
  
  
+
     
 }

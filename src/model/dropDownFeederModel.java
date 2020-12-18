@@ -14,6 +14,7 @@ public class dropDownFeederModel {
     private JComboBox comboBoxForFeed;
     private String doctorType;
 
+
     public dropDownFeederModel(String fileName,
             JComboBox comboBoxForFeed,
             String doctorType) {
@@ -22,6 +23,7 @@ public class dropDownFeederModel {
         this.doctorType=doctorType;
     }
     
+
     public dropDownFeederModel(
             String fileName,
             JComboBox comboBoxForFeed
@@ -31,6 +33,7 @@ public class dropDownFeederModel {
     
     }
     
+
     public void dropFeeder(){
         String filePath = "userData\\"+this.fileName;
             File file = new File(filePath);
@@ -63,6 +66,7 @@ public class dropDownFeederModel {
     
     }
     
+
     public void dropFeeder(boolean Department){
         String filePath = "userData\\"+this.fileName;
             File file = new File(filePath);
@@ -98,6 +102,7 @@ public class dropDownFeederModel {
     }
 
     
+
 
     
 }
