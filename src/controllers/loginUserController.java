@@ -11,6 +11,7 @@ public class loginUserController {
     private String userName;
     private String userPass;
     private String userType;
+    
     private boolean matchFoundState=false;
     
     public loginUserController(String userName, String userPass) {
@@ -67,7 +68,15 @@ public class loginUserController {
         
     }
     
+    public String loginLogNewRecord(){
+        date loggedDate=new date();
+        time loggedTime=new time();
+        return getUserName()+"|"+
+               getUserType()+"|"+
+               loggedDate.toString()+"|"+
+               loggedTime.toString();
     
+    }
     
     }
     

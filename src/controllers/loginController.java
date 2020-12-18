@@ -25,7 +25,7 @@ public class loginController {
             String userPass) {
             setUserName(userName);
             setUserType(userType);
-            setUserPass(userPass);
+            setUserPass(encryptionController.getEncryptedString(userPass));
             
             
     }
@@ -64,6 +64,7 @@ public class loginController {
                                     lastLine = sCurrentLine;
                                 }
                             }
+                            
                             String[] dataRow = lastLine.split(",");
                             nextID=Integer.parseInt(dataRow[1]);
                 }catch(IOException e){
@@ -82,7 +83,7 @@ public class loginController {
                             
                             }
                 }
-            
+        
         return nextID;
     
     }
@@ -109,7 +110,7 @@ public class loginController {
         this.userType = userType;
     }
 
-    private void setUserPass(String userPass) {
+    public void setUserPass(String userPass) {
         this.userPass = userPass;
     }
 

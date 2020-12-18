@@ -1,9 +1,11 @@
 package medi_info_system;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import controllers.encryptionController;
 import controllers.loginUserController;
 import java.awt.Color;
 import javax.swing.UIManager;
+import model.UserModel;
 import model.loginFeederModel;
 import view.homeAdminGUI;
 import view.homePatientGUI;
@@ -58,8 +60,9 @@ public class startLogin extends javax.swing.JFrame {
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         MainPannel.setkBorderRadius(600);
-        MainPannel.setkEndColor(new java.awt.Color(53, 141, 233));
-        MainPannel.setkStartColor(new java.awt.Color(125, 225, 232));
+        MainPannel.setkEndColor(new java.awt.Color(102, 204, 255));
+        MainPannel.setkGradientFocus(100);
+        MainPannel.setkStartColor(new java.awt.Color(0, 102, 255));
         MainPannel.setOpaque(false);
         MainPannel.setPreferredSize(new java.awt.Dimension(100, 600));
         MainPannel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -168,6 +171,7 @@ public class startLogin extends javax.swing.JFrame {
         MidPannel.setOpaque(false);
         MidPannel.setLayout(new java.awt.BorderLayout());
 
+        mainCircle.setBackground(new java.awt.Color(241, 246, 253));
         mainCircle.setkBorderRadius(600);
         mainCircle.setkEndColor(new java.awt.Color(255, 255, 255));
         mainCircle.setkStartColor(new java.awt.Color(255, 255, 255));
@@ -175,7 +179,7 @@ public class startLogin extends javax.swing.JFrame {
 
         userImg.setBackground(new java.awt.Color(0, 0, 0));
         userImg.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        userImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_medical_doctor_48px_1.png"))); // NOI18N
+        userImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_medical_doctor_48px.png"))); // NOI18N
 
         passImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/password.png"))); // NOI18N
 
@@ -187,20 +191,23 @@ public class startLogin extends javax.swing.JFrame {
         });
 
         jLabel6.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(204, 0, 153));
         jLabel6.setText("User Name");
 
         jLabel7.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(204, 0, 153));
         jLabel7.setText("Password");
 
         userLoginBtn.setText("Login");
         userLoginBtn.setFont(new java.awt.Font("Montserrat", 1, 18)); // NOI18N
         userLoginBtn.setkBorderRadius(25);
         userLoginBtn.setkEndColor(new java.awt.Color(54, 172, 236));
-        userLoginBtn.setkHoverEndColor(new java.awt.Color(57, 207, 216));
+        userLoginBtn.setkHoverColor(new java.awt.Color(51, 204, 255));
+        userLoginBtn.setkHoverEndColor(new java.awt.Color(0, 104, 255));
         userLoginBtn.setkHoverForeGround(new java.awt.Color(255, 255, 255));
         userLoginBtn.setkHoverStartColor(new java.awt.Color(54, 172, 236));
-        userLoginBtn.setkPressedColor(new java.awt.Color(255, 255, 255));
-        userLoginBtn.setkStartColor(new java.awt.Color(57, 207, 216));
+        userLoginBtn.setkPressedColor(new java.awt.Color(51, 204, 255));
+        userLoginBtn.setkStartColor(new java.awt.Color(0, 104, 255));
         userLoginBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 userLoginBtnMouseClicked(evt);
@@ -222,17 +229,21 @@ public class startLogin extends javax.swing.JFrame {
             .addGroup(mainCircleLayout.createSequentialGroup()
                 .addGap(88, 88, 88)
                 .addGroup(mainCircleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(passImg)
-                    .addComponent(userImg, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(mainCircleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(userNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7)
-                    .addComponent(userLoginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(passPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(loginNotification, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(105, Short.MAX_VALUE))
+                    .addGroup(mainCircleLayout.createSequentialGroup()
+                        .addComponent(passImg)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(mainCircleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(userLoginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(passPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(loginNotification, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(mainCircleLayout.createSequentialGroup()
+                        .addComponent(userImg)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(mainCircleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(userNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7))))
+                .addContainerGap(109, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainCircleLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
@@ -292,22 +303,33 @@ public class startLogin extends javax.swing.JFrame {
             String userName=this.userNameTextField.getText();
 
             String userPass=new String(this.passPasswordField.getPassword());
-
+            userPass=encryptionController.getEncryptedString(userPass);
             loginUserController newLogin=new loginUserController(userName,userPass);
 
             if(newLogin.loginChecker()){
                 loginFeederModel loginFeedObj=new loginFeederModel(userName,newLogin.getUserType());
+                UserModel.writeNewLog(newLogin.loginLogNewRecord());
                 switch(newLogin.getUserType()){
-                    case "ADMIN":new homeAdminGUI("ADMIN","CHENURA").setVisible(true);
-                    this.setVisible(false);break;
+                    case "ADMIN":
+                        new homeAdminGUI("ADMIN","CHENURA").setVisible(true);
+                        this.setVisible(false);
+                        break;
                     case "PAT":
-                         loginFeedObj.getMatchedPatientObj();
-                         new homePatientGUI(loginFeedObj.getMatchedPatientObj()).setVisible(true);
-                         this.setVisible(false);break;
+                        loginFeedObj.getMatchedPatientObj();
+                        new homePatientGUI(loginFeedObj.getMatchedPatientObj(),userPass).setVisible(true);
+                        this.setVisible(false);break;
+                    case "REC":
+                        loginFeedObj.getMatchedReceptionist();
+                        new homeReceptionistGUI(loginFeedObj.getMatchedReceptionist(),userPass).setVisible(true);
+                        this.setVisible(false);
+                        break;
+                    case "MED":
+                        
+                        break;
                 }
             }else{
-                loginNotification.setText("Login Details Are Wrong");
-            }
+                        loginNotification.setText("Login Details Are Wrong");
+                 }
 
         }else{
 

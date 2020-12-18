@@ -49,6 +49,19 @@ public class date {
     public String toString(){
         return this.day+"/"+this.month+"/"+this.year;
     }
+
+    public int getDay() {
+        return day;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public int getYear() {
+        return year;
+    }
+    
     
     
     

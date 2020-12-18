@@ -47,10 +47,11 @@
           <Properties>
             <Property name="kBorderRadius" type="int" value="600"/>
             <Property name="kEndColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="e9" green="8d" red="35" type="rgb"/>
+              <Color blue="ff" green="cc" red="66" type="rgb"/>
             </Property>
+            <Property name="kGradientFocus" type="int" value="100"/>
             <Property name="kStartColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="e8" green="e1" red="7d" type="rgb"/>
+              <Color blue="ff" green="66" red="0" type="rgb"/>
             </Property>
             <Property name="opaque" type="boolean" value="false"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -253,6 +254,9 @@
                       <SubComponents>
                         <Container class="keeptoo.KGradientPanel" name="mainCircle">
                           <Properties>
+                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="fd" green="f6" red="f1" type="rgb"/>
+                            </Property>
                             <Property name="kBorderRadius" type="int" value="600"/>
                             <Property name="kEndColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -274,19 +278,26 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="passImg" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="userImg" alignment="0" min="-2" pref="36" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="passImg" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="userLoginBtn" min="-2" pref="265" max="-2" attributes="0"/>
+                                                  <Component id="passPasswordField" min="-2" pref="265" max="-2" attributes="0"/>
+                                                  <Component id="loginNotification" alignment="0" min="-2" pref="265" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <Group type="102" attributes="0">
+                                              <Component id="userImg" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="userNameTextField" alignment="0" min="-2" pref="265" max="-2" attributes="0"/>
+                                                  <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
                                       </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="userNameTextField" alignment="0" min="-2" pref="265" max="-2" attributes="0"/>
-                                          <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="userLoginBtn" min="-2" pref="265" max="-2" attributes="0"/>
-                                          <Component id="passPasswordField" min="-2" pref="265" max="-2" attributes="0"/>
-                                          <Component id="loginNotification" alignment="0" min="-2" pref="265" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace pref="105" max="32767" attributes="0"/>
+                                      <EmptySpace pref="109" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
                                       <EmptySpace max="32767" attributes="0"/>
@@ -333,7 +344,7 @@
                                   <Font name="Montserrat" size="12" style="0"/>
                                 </Property>
                                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                  <Image iconType="3" name="/icon/icons8_medical_doctor_48px_1.png"/>
+                                  <Image iconType="3" name="/icon/icons8_medical_doctor_48px.png"/>
                                 </Property>
                               </Properties>
                             </Component>
@@ -359,6 +370,9 @@
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Montserrat" size="14" style="0"/>
                                 </Property>
+                                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                  <Color blue="99" green="0" red="cc" type="rgb"/>
+                                </Property>
                                 <Property name="text" type="java.lang.String" value="User Name"/>
                               </Properties>
                             </Component>
@@ -366,6 +380,9 @@
                               <Properties>
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Montserrat" size="14" style="0"/>
+                                </Property>
+                                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                  <Color blue="99" green="0" red="cc" type="rgb"/>
                                 </Property>
                                 <Property name="text" type="java.lang.String" value="Password"/>
                               </Properties>
@@ -380,8 +397,11 @@
                                 <Property name="kEndColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                   <Color blue="ec" green="ac" red="36" type="rgb"/>
                                 </Property>
+                                <Property name="kHoverColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                  <Color blue="ff" green="cc" red="33" type="rgb"/>
+                                </Property>
                                 <Property name="kHoverEndColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                  <Color blue="d8" green="cf" red="39" type="rgb"/>
+                                  <Color blue="ff" green="68" red="0" type="rgb"/>
                                 </Property>
                                 <Property name="kHoverForeGround" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -390,10 +410,10 @@
                                   <Color blue="ec" green="ac" red="36" type="rgb"/>
                                 </Property>
                                 <Property name="kPressedColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                                  <Color blue="ff" green="cc" red="33" type="rgb"/>
                                 </Property>
                                 <Property name="kStartColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                  <Color blue="d8" green="cf" red="39" type="rgb"/>
+                                  <Color blue="ff" green="68" red="0" type="rgb"/>
                                 </Property>
                               </Properties>
                               <Events>
