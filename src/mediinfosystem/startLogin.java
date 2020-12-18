@@ -179,7 +179,7 @@ public class startLogin extends javax.swing.JFrame {
 
         userImg.setBackground(new java.awt.Color(0, 0, 0));
         userImg.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        userImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_medical_doctor_48px.png"))); // NOI18N
+        userImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_medical_doctor_48px_1.png"))); // NOI18N
 
         passImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/password.png"))); // NOI18N
 
