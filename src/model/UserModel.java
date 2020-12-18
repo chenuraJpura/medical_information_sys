@@ -1,5 +1,6 @@
 package model;
 
+import controllers.encryptionController;
 import controllers.loginController;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -141,7 +142,8 @@ private static String filePath = "userData\\loginDetails.txt";
     }
 
         
-    //update function----------------------------------------------------------
+//admin update function----------------------------------------------------------
+
           
  public static void updateUser(int deleteRowNumber,String updatedString){
               
@@ -188,6 +190,100 @@ private static String filePath = "userData\\loginDetails.txt";
     
     }
 
+
+//update password function-------------------------------------------------------
+ public static void updatePasswordByUser(String userName,String newPass){
+     
+     File file = new File(filePath);
+            
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            //all object are stor in temp in this array 
+            ArrayList<loginController> lineObjList = new ArrayList<loginController>();
+            //object for match the delete object
+            loginController currAppObj;
+            // get lines from txt file
+            Object[] tableLines = br.lines().toArray();
+            
+            // extratct data from lines and add to the object array list
+            for(int i = 0; i < tableLines.length; i++){
+                String line = tableLines[i].toString().trim();
+                
+                currAppObj=new loginController(line);
+                if(currAppObj.getUserName().equals(userName)){
+                    currAppObj.setUserPass(encryptionController.getEncryptedString(newPass));
+                
+                }
+                lineObjList.add(currAppObj);
+                
+            }
+            
+            //deleting a all lines in the txt
+            PrintWriter writer = new PrintWriter(file);
+            writer.print("");
+            writer.close();
+            
+            //writing existing files to txt 
+            for(loginController loopObj: lineObjList){
+                
+              writingTXT(loopObj.toString());
+                
+            }
+                  
+        }catch (Exception ex){
+                    Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+        
+        }
+    
+
+ }
+//user logger data enter function------------------------------------------------------------
+     //insert function----------------------------------------------------------
+ public static void writeNewLog(String AddNewUserDetail){//writing to objcet to file 
+     String filePath = "userData\\loginLog.txt";
+
+     BufferedWriter bw = null;
+      try {//try catch start
+                //file function
+                File file = new File(filePath);
+                
+                if (!file.exists()) {//checking the is given file exists
+                    file.createNewFile();//creating new file
+                    Exception fileError =new IOException("File is not founded");
+                    
+                }
+                
+                FileWriter fw = new FileWriter(file,true);
+                
+                bw = new BufferedWriter(fw);
+                
+                bw.write(AddNewUserDetail);
+                bw.newLine();
+        
+
+                    
+      } catch (IOException ioe) {
+          System.out.println(ioe);
+          ioe.printStackTrace();
+      }
+	finally
+    { 
+        try{
+                if(bw!=null){
+                        bw.close();
+                            }
+                    }catch(Exception ex)
+                    
+                    {
+                            System.out.println("Error in closing the BufferedWriter"+ex);
+           }
+	}
+    }//end of the function
+
+ 
+ 
+ 
+ 
 
     
 }

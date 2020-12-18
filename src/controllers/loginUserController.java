@@ -67,7 +67,17 @@ public class loginUserController {
         
     }
     
+
+    public String loginLogNewRecord(){
+        date loggedDate=new date();
+        time loggedTime=new time();
+        return getUserName()+"|"+
+               getUserType()+"|"+
+               loggedDate.toString()+"|"+
+               loggedTime.toString();
     
+    }
+
     
     }
     

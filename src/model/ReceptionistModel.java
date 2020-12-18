@@ -1,6 +1,5 @@
 package model;
 
-import controllers.medicalOfficers;
 import controllers.receptionist;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -14,7 +13,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
 import static model.MedicalOfficerModel.writingTXT;
+
 import view.homeAdminGUI;
 
 public class ReceptionistModel {

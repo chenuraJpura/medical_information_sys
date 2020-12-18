@@ -25,7 +25,8 @@ public class loginController {
             String userPass) {
             setUserName(userName);
             setUserType(userType);
-            setUserPass(userPass);
+            setUserPass(encryptionController.getEncryptedString(userPass));
+
             
             
     }
@@ -82,7 +83,7 @@ public class loginController {
                             
                             }
                 }
-            
+
         return nextID;
     
     }
@@ -90,7 +91,7 @@ public class loginController {
     public void storeNewUserData(){//storing new user
            String userData=getUserName()+","+(getNextIdNo()+1)+","+getUserType()+","+getUserPass();
            UserModel.writingTXT(userData);
-    
+   
     }
 
     public int getUserID() {
@@ -100,6 +101,7 @@ public class loginController {
     public void setUserID(int userID) {
         this.userID = userID;
     }
+
     
     private void setUserName(String userName) {
         this.userName = userName;
@@ -109,7 +111,7 @@ public class loginController {
         this.userType = userType;
     }
 
-    private void setUserPass(String userPass) {
+    public void setUserPass(String userPass) {
         this.userPass = userPass;
     }
 
@@ -127,6 +129,14 @@ public class loginController {
     @Override
     public String toString(){
         return getUserName()+","+getUserID()+","+getUserType()+","+getUserPass();
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
     
     public boolean objectMathcer(loginController matchObj){

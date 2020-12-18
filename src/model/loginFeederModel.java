@@ -24,7 +24,8 @@ public class loginFeederModel {
             case "ADMIN":break;
             case "PAT":matchedPatient(); break;
             case "MED":matchedMedicalOfficer();break;
-            case "REC":break;
+            case "REC":matchedReceptionist();break;
+
         }
     }
 
@@ -133,7 +134,39 @@ public class loginFeederModel {
         
         
     }
-    
+
+    private void matchedReceptionist(){
+        String filePath = "userData\\receptionistDetails.txt";
+         File file = new File(filePath);
+        
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            //object for match the delete object
+            receptionist currAppObj;
+            // get lines from txt file
+            Object[] tableLines = br.lines().toArray();
+            
+            // extratct data from lines and add to the object array list
+            for(int i = 0; i < tableLines.length; i++){
+                String line = tableLines[i].toString().trim();
+                String[] dataRow = line.split(",");
+                currAppObj=new receptionist(dataRow);
+                if(currAppObj.getUserName().equals(getUserName())){
+                    setMatchedReceptionist(currAppObj);
+                    break;
+                }
+               
+            }
+
+         
+                  
+        }catch (Exception ex){
+                    Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+        
+        }
+        
+        
+    }
 
 
 
