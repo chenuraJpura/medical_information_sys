@@ -6,3 +6,4 @@ Kulasiri Amrathunga,Sujeewa Rathnayake,1/1/2020,5:30 PM,leg cracked,Pending,1007
 Anushka Udana,kushani fernando,31/1/2021,7:0 AM,arm injured,Pending,1008
 Dilith Jayaweera,kushani fernando,1/1/2020,4:30 PM,ear problem,Pending,1009
 Ishara Manimekala,Ajantha Dissanayake,1/1/2020,6:0 PM,head problem,Pending,1010
+ranuka fernando,imeshi silva,1/1/2021,5:30 PM,leg cracked,Approved,1011

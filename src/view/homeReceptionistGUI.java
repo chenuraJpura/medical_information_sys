@@ -1,5 +1,6 @@
 package view;
 
+import com.itextpdf.text.DocumentException;
 import controllers.appointmentController;
 import controllers.complainsController;
 import controllers.date;
@@ -497,6 +498,10 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         saveToJson = new javax.swing.JButton();
         jLabel83 = new javax.swing.JLabel();
+        pdfMedicalOfficersDropDown = new javax.swing.JComboBox<>();
+        jLabel106 = new javax.swing.JLabel();
+        jPanel31 = new javax.swing.JPanel();
+        reportNotification = new javax.swing.JLabel();
         footer = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -3786,6 +3791,11 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Save To PDF");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
         saveToJson.setBackground(new java.awt.Color(159, 2, 221));
         saveToJson.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -3800,44 +3810,64 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         jLabel83.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel83.setText("Save Patient Details");
 
+        pdfMedicalOfficersDropDown.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+
+        jLabel106.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLabel106.setText("Select the Doctor");
+
         javax.swing.GroupLayout kGradientPanel1Layout = new javax.swing.GroupLayout(kGradientPanel1);
         kGradientPanel1.setLayout(kGradientPanel1Layout);
         kGradientPanel1Layout.setHorizontalGroup(
             kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kGradientPanel1Layout.createSequentialGroup()
-                .addContainerGap(166, Short.MAX_VALUE)
+                .addGap(39, 39, 39)
                 .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel83)
-                    .addComponent(saveToJson)
+                    .addComponent(saveToJson, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel82, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(48, 48, 48)
+                .addGap(144, 144, 144)
                 .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel91)
-                    .addComponent(jButton2)
-                    .addComponent(jLabel90, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(147, 147, 147))
+                    .addComponent(jLabel90, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel106)
+                    .addComponent(pdfMedicalOfficersDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 121, Short.MAX_VALUE))
         );
         kGradientPanel1Layout.setVerticalGroup(
             kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(kGradientPanel1Layout.createSequentialGroup()
-                .addGap(196, 196, 196)
-                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel82, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel90, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel91)
+                    .addComponent(jLabel83))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel90, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel82, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel106)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pdfMedicalOfficersDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel91)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel83)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(saveToJson)))
-                .addContainerGap(244, Short.MAX_VALUE))
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saveToJson, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(187, Short.MAX_VALUE))
         );
 
         reportPanel.add(kGradientPanel1, java.awt.BorderLayout.CENTER);
+
+        jPanel31.setBackground(new java.awt.Color(241, 246, 253));
+        jPanel31.setPreferredSize(new java.awt.Dimension(700, 40));
+        jPanel31.setLayout(new java.awt.BorderLayout());
+
+        reportNotification.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        reportNotification.setForeground(new java.awt.Color(0, 102, 255));
+        reportNotification.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel31.add(reportNotification, java.awt.BorderLayout.CENTER);
+
+        reportPanel.add(jPanel31, java.awt.BorderLayout.PAGE_START);
 
         content.add(reportPanel, "card8");
 
@@ -4724,6 +4754,8 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
             visitorsPanel.setVisible(false);
             userPanel.setVisible(false);
             reportPanel.setVisible(true);
+            dropDownFeederModel mediOfficerObj=new dropDownFeederModel("medicalOfficerDetails.txt",pdfMedicalOfficersDropDown);
+            mediOfficerObj.dropDownFeederMedical();
         }
     }//GEN-LAST:event_MenuSwitch
 
@@ -4809,6 +4841,8 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
 
     private void saveToJsonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveToJsonMouseClicked
         ReportModel.patientToJson();
+        reportNotification.setText("JSON Saved");
+        notificationClear(reportNotification);
     }//GEN-LAST:event_saveToJsonMouseClicked
 
     private void profilePicImgBrowseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profilePicImgBrowseMouseClicked
@@ -4842,6 +4876,16 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
             appCount.setText(""+(Integer.parseInt(appCount.getText())-1)+"");
         }
     }//GEN-LAST:event_appDecrBtnMouseClicked
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+               try {
+            ReportModel.appointmentToPDF(AppointmentModel.medicalOffierAppoinmentSelecter(pdfMedicalOfficersDropDown.getSelectedItem().toString()),pdfMedicalOfficersDropDown.getSelectedItem().toString());
+        } catch (FileNotFoundException | DocumentException ex) {
+            Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        reportNotification.setText("Pdf Saved");
+        notificationClear(reportNotification);
+    }//GEN-LAST:event_jButton2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -5010,6 +5054,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel103;
     private javax.swing.JLabel jLabel104;
     private javax.swing.JLabel jLabel105;
+    private javax.swing.JLabel jLabel106;
     private javax.swing.JLabel jLabel107;
     private javax.swing.JLabel jLabel108;
     private javax.swing.JLabel jLabel109;
@@ -5144,6 +5189,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel29;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel30;
+    private javax.swing.JPanel jPanel31;
     private javax.swing.JPanel jPanel33;
     private javax.swing.JPanel jPanel36;
     private javax.swing.JPanel jPanel37;
@@ -5182,6 +5228,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     private javax.swing.JTable patientDetailsTable;
     private javax.swing.JButton patientIntialDeleteBtn;
     private javax.swing.JButton patientUpdateBtn;
+    private javax.swing.JComboBox<String> pdfMedicalOfficersDropDown;
     private javax.swing.JPanel postal;
     private javax.swing.JPanel postalPanel;
     private javax.swing.JButton profilePicImgBrowse;
@@ -5202,6 +5249,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     private javax.swing.JPanel recievedTab;
     private javax.swing.JButton recievedUpdateBtn;
     private javax.swing.JPanel report;
+    private javax.swing.JLabel reportNotification;
     private javax.swing.JPanel reportPanel;
     private javax.swing.JButton resetPatientPassword;
     private javax.swing.JButton saveToJson;
