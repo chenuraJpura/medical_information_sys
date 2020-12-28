@@ -1,6 +1,9 @@
 # Medi Info Sys
 ![Image of Yaktocat](https://bit.ly/3mQRnq1)
-**Hospital Information Management** System (HIMS) refers to a computer-based system that provides hospitals with the tools to organize, evaluate and efficiently manage departments within the hospital. This project presents a work in progress to improve the interaction of a comprehensive hospital management system. This system uses JAVA Swing as the front-end.Back End Also Java.All software structer is MVC. 
+Hospital Information Management System (HIMS) is one of the best comprehensive and integrated Hospital information systems designed to manage all aspects of a hospital's operations such as medical, administrative, financial, legal and the corresponding service processing.  refers to a computer-based system that provides hospitals with the tools to organize, evaluate and efficiently manage departments within the hospital. This project presents a work in progress to improve the interaction of a comprehensive hospital management system. 
+
+Hospital Management System is an integrated health information system, which addresses the critical requirement of hospitals.  In here it was required to develop an independent application to achieve the requirements of the out-patient & front office department. In this section, a system is needed that can maintain the hospital's daily routine of patient registration, checkup, and managing front desk operations such as managing a visitor book, call log, postal records, and complaints. It has the facilities to give a unique id for every patient and store their details of every patient and receptionist, medical officer, and admin who are on the staff.
+
 
 # Main Packages
  - Controllers
