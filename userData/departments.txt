@@ -1,7 +1,0 @@
-Out-Patient & Front-Office Department
-Pathology Department
-Pharmacy Department
-Radiology Department
-Finance Department
-Human Resources Department
-IT Department

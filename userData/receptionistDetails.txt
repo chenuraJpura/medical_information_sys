@@ -1,2 +1,0 @@
-21121,asas,123,rec,fer,123456,123,1/1/1990,asa,MALE,MARRIED
-123,wqw,rec,recEva,eva,1234,123,1/1/1990,west,MALE,MARRIED

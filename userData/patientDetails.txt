@@ -1,3 +1,0 @@
-che,chenura,fernando,725414247,1,14/5/1999,mrt,AB,MALE,UNMARRIED,none
-kalpaniPer,kalpani,per,778598911,123,1/1/1990,mrt,B,FEMALE,MARRIED,none
-
