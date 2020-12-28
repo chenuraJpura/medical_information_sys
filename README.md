@@ -2,7 +2,6 @@
 ![Image of Yaktocat](https://bit.ly/3mQRnq1)
 **Hospital Information Management** System (HIMS) refers to a computer-based system that provides hospitals with the tools to organize, evaluate and efficiently manage departments within the hospital. This project presents a work in progress to improve the interaction of a comprehensive hospital management system. This system uses JAVA Swing as the front-end.Back End Also Java.All software structer is MVC. 
 
-
 # Main Packages
  - Controllers
  - View
@@ -28,7 +27,7 @@
 
 
                                                                                        
-|Patient UserName|Password                       |Receptionist UserName        |Password          |MedicalOfficers UserName  |Password                       |  
+|Patient UserName|Password                       |Receptionist UserName        |Password          |MedicalOfficers UserName  |Password             |  
 |----------------|-------------------------------|----------------|-------------------------------|----------------|-------------------------------|
 |janithR         |995672345V                     |nirmaniiii      |956735633V                     |namalDiaz       |600230707V                     |
 |deshanG         |990223456V                     |SanduniJ        |934762345V                     |roySilva        |657897654V                     |
@@ -41,7 +40,5 @@
 ![Image of Yaktocat](https://i.ibb.co/ssQnNbZ/Untitled-Document-1-2.png)
 ## Context diagrams
 ![Image of Yaktocat](https://i.ibb.co/fxYzLVc/Contex-diagram-HIMS-1.jpg)
-
-And this will produce a flow chart:
 
 
