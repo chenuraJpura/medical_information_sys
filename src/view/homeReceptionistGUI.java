@@ -61,7 +61,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         TableCellListener tcl3 = new TableCellListener(viewDispatchTable, action);
         TableCellListener tcl4 = new TableCellListener(ComplainViewTable, action);
         TableCellListener tcl5 = new TableCellListener(patientDetailsTable, action);
-
+        TableCellListener tcl6 = new TableCellListener(viewRecivedTable, action);        
         this.pass=pass;
         //profile picture loader---------------------------------------------------
         profilePictureModel.profilePicLoader(profilePicture,logged.getUserName());
@@ -933,11 +933,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 appClearBtnMouseClicked(evt);
             }
         });
-        appClearBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                appClearBtnActionPerformed(evt);
-            }
-        });
         sideMenu.add(appClearBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 470, 75, 30));
 
         appIncreBtn.setBackground(new java.awt.Color(38, 99, 255));
@@ -974,11 +969,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         logOutBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 logOutBtnMouseClicked(evt);
-            }
-        });
-        logOutBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logOutBtnActionPerformed(evt);
             }
         });
         sideMenu.add(logOutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 540, 160, 30));
@@ -1600,9 +1590,9 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 .addComponent(AppIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(changeAppointmentStatus)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 264, Short.MAX_VALUE)
-                .addComponent(areYouWantToDelete)
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(areYouWantToDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(deleteConformationYes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(deleteConformationNo)
@@ -1614,12 +1604,12 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(AppIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(areYouWantToDelete)
                     .addComponent(deleteConformationYes)
                     .addComponent(deleteConformationNo)
                     .addComponent(changeAppointmentStatus)
                     .addComponent(AppIntialSaveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(8, Short.MAX_VALUE))
+            .addComponent(areYouWantToDelete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         viewAppPanel.add(jPanel18, java.awt.BorderLayout.PAGE_START);
@@ -1987,9 +1977,9 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 .addComponent(visitorUpdateIntialBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(VisitorIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 347, Short.MAX_VALUE)
-                .addComponent(VisitorAreYouWantToDelete)
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(VisitorAreYouWantToDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(deleteVisitorRecordConformationYes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(deleteVisitorRecordConformationNo)
@@ -2002,11 +1992,11 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(VisitorIntialDeleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                        .addComponent(VisitorAreYouWantToDelete)
                         .addComponent(deleteVisitorRecordConformationYes)
                         .addComponent(deleteVisitorRecordConformationNo))
                     .addComponent(visitorUpdateIntialBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
+            .addComponent(VisitorAreYouWantToDelete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         viewVisitors.add(jPanel26, java.awt.BorderLayout.PAGE_START);
@@ -2074,6 +2064,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         jLabel55.setPreferredSize(new java.awt.Dimension(219, 50));
 
         recievedPostNotification.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
+        recievedPostNotification.setForeground(new java.awt.Color(255, 255, 255));
         recievedPostNotification.setPreferredSize(new java.awt.Dimension(45, 50));
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
@@ -2088,10 +2079,8 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
-                .addComponent(recievedPostNotification, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-                .addContainerGap())
-            .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jLabel55, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+            .addComponent(recievedPostNotification, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
         );
 
         jPanel5.add(jPanel14, java.awt.BorderLayout.PAGE_START);
@@ -2266,7 +2255,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                             .addComponent(RecievedPostTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel30)))
                     .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel118, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2297,6 +2286,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         jLabel54.setText("Add new Dispatch Post");
 
         dispatchPostNotification.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
+        dispatchPostNotification.setForeground(new java.awt.Color(255, 255, 255));
         dispatchPostNotification.setPreferredSize(new java.awt.Dimension(45, 50));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -2523,22 +2513,12 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 RecievedDeleteConformationYesMouseClicked(evt);
             }
         });
-        RecievedDeleteConformationYes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RecievedDeleteConformationYesActionPerformed(evt);
-            }
-        });
 
         RecievedDeleteConformationNo.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         RecievedDeleteConformationNo.setText("No");
         RecievedDeleteConformationNo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 RecievedDeleteConformationNoMouseClicked(evt);
-            }
-        });
-        RecievedDeleteConformationNo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RecievedDeleteConformationNoActionPerformed(evt);
             }
         });
 
@@ -2551,9 +2531,9 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 .addComponent(recievedUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(RecivedPostIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 347, Short.MAX_VALUE)
-                .addComponent(recievedAreYouWantToDelete)
-                .addGap(27, 27, 27)
+                .addGap(18, 18, 18)
+                .addComponent(recievedAreYouWantToDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(RecievedDeleteConformationYes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(RecievedDeleteConformationNo)
@@ -2566,11 +2546,11 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(RecivedPostIntialDeleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                        .addComponent(recievedAreYouWantToDelete)
                         .addComponent(RecievedDeleteConformationYes)
                         .addComponent(RecievedDeleteConformationNo))
                     .addComponent(recievedUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
+            .addComponent(recievedAreYouWantToDelete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         viewRecivedTab.add(jPanel27, java.awt.BorderLayout.PAGE_START);
@@ -2654,9 +2634,9 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 .addComponent(dispatchUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(DispatchIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 347, Short.MAX_VALUE)
-                .addComponent(dispatchAreYouWantToDelete)
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(dispatchAreYouWantToDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(DispatchDeleteConformationYes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(DispatchDeleteConformationNo)
@@ -2669,11 +2649,11 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(DispatchIntialDeleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                        .addComponent(dispatchAreYouWantToDelete)
                         .addComponent(DispatchDeleteConformationYes)
                         .addComponent(DispatchDeleteConformationNo))
                     .addComponent(dispatchUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
+            .addComponent(dispatchAreYouWantToDelete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel20.add(jPanel28, java.awt.BorderLayout.PAGE_START);
@@ -2708,6 +2688,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         jLabel45.setText("Add new Complain");
 
         complainWarning.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        complainWarning.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -2987,9 +2968,9 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 .addComponent(complainUpdateSaveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ComplainDeleteIntialBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 347, Short.MAX_VALUE)
-                .addComponent(ComplainAreYouWantToDelete)
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ComplainAreYouWantToDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(deleteComplainConformationYes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(deleteComplainConformationNo)
@@ -3002,11 +2983,11 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(ComplainDeleteIntialBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                        .addComponent(ComplainAreYouWantToDelete)
                         .addComponent(deleteComplainConformationYes)
                         .addComponent(deleteComplainConformationNo))
                     .addComponent(complainUpdateSaveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
+            .addComponent(ComplainAreYouWantToDelete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel19.add(jPanel29, java.awt.BorderLayout.PAGE_START);
@@ -3164,11 +3145,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         AddNewUserGenderMale.setForeground(new java.awt.Color(0, 102, 255));
         AddNewUserGenderMale.setText("Male");
         AddNewUserGenderMale.setToolTipText("");
-        AddNewUserGenderMale.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddNewUserGenderMaleActionPerformed(evt);
-            }
-        });
 
         genderGroup.add(AddNewUserGenderFemale);
         AddNewUserGenderFemale.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -3199,11 +3175,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         addNewUserMarriedState.setForeground(new java.awt.Color(0, 102, 255));
         addNewUserMarriedState.setText("Married");
         addNewUserMarriedState.setToolTipText("");
-        addNewUserMarriedState.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addNewUserMarriedStateActionPerformed(evt);
-            }
-        });
 
         marriedState.add(addNewUserUnMarriedState);
         addNewUserUnMarriedState.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -3213,11 +3184,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
 
         bloodSel.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         bloodSel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A", "B", "AB", "O", "A-", "B-", "AB-", "O-" }));
-        bloodSel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bloodSelActionPerformed(evt);
-            }
-        });
 
         addNewUserAddressTextArea.setColumns(20);
         addNewUserAddressTextArea.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -3433,11 +3399,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         jTabbedPane5.addTab("Add New User", jPanel12);
 
         jPanel15.setBackground(new java.awt.Color(255, 204, 0));
-        jPanel15.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel15MouseClicked(evt);
-            }
-        });
         jPanel15.setLayout(new java.awt.BorderLayout());
 
         patientDetailsTab.setLayout(new java.awt.BorderLayout());
@@ -3476,11 +3437,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 patientDeleteConformationYesMouseClicked(evt);
             }
         });
-        patientDeleteConformationYes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                patientDeleteConformationYesActionPerformed(evt);
-            }
-        });
 
         patientDeleteConformationNo.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         patientDeleteConformationNo.setText("No");
@@ -3489,16 +3445,11 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 patientDeleteConformationNoMouseClicked(evt);
             }
         });
-        patientDeleteConformationNo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                patientDeleteConformationNoActionPerformed(evt);
-            }
-        });
 
         resetPatientPassword.setBackground(new java.awt.Color(255, 153, 0));
         resetPatientPassword.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         resetPatientPassword.setForeground(new java.awt.Color(255, 255, 255));
-        resetPatientPassword.setText("Reset Password");
+        resetPatientPassword.setText("Reset Pass");
         resetPatientPassword.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 resetPatientPasswordMouseClicked(evt);
@@ -3517,7 +3468,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 .addGap(5, 5, 5)
                 .addComponent(resetPatientPassword)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(patientAreYouWantToDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                .addComponent(patientAreYouWantToDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(patientDeleteConformationYes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -3583,20 +3534,10 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         receptionistOldPass.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         receptionistOldPass.setMaximumSize(new java.awt.Dimension(500, 50));
         receptionistOldPass.setPreferredSize(new java.awt.Dimension(64, 30));
-        receptionistOldPass.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                receptionistOldPassActionPerformed(evt);
-            }
-        });
 
         receptionistNewPass.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         receptionistNewPass.setMaximumSize(new java.awt.Dimension(500, 50));
         receptionistNewPass.setPreferredSize(new java.awt.Dimension(64, 30));
-        receptionistNewPass.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                receptionistNewPassActionPerformed(evt);
-            }
-        });
 
         receptionistNewConfPass.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         receptionistNewConfPass.setMaximumSize(new java.awt.Dimension(500, 50));
@@ -3623,33 +3564,18 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
 
         receptionistFName.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         receptionistFName.setPreferredSize(new java.awt.Dimension(64, 30));
-        receptionistFName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                receptionistFNameActionPerformed(evt);
-            }
-        });
 
         jLabel64.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel64.setText("Phone No");
 
         receptionistPhoneNo.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         receptionistPhoneNo.setPreferredSize(new java.awt.Dimension(64, 30));
-        receptionistPhoneNo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                receptionistPhoneNoActionPerformed(evt);
-            }
-        });
 
         jLabel76.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel76.setText("Last Name");
 
         receptionistLName.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         receptionistLName.setPreferredSize(new java.awt.Dimension(64, 30));
-        receptionistLName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                receptionistLNameActionPerformed(evt);
-            }
-        });
 
         receptionistAddress.setColumns(20);
         receptionistAddress.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -3870,11 +3796,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 saveToJsonMouseClicked(evt);
             }
         });
-        saveToJson.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveToJsonActionPerformed(evt);
-            }
-        });
 
         jLabel83.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel83.setText("Save Patient Details");
@@ -3953,7 +3874,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     
     //notification clear--------------------------------------------------------
     private static void notificationClear(JLabel notificationLabel){   
-    new Timer(2500, (ActionEvent e) -> {
+    new Timer(3000, (ActionEvent e) -> {
         notificationLabel.setText("");
     }).start();
     }
@@ -4391,7 +4312,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_viewRecivedTableMouseClicked
 
     private void recievedUpdateBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_recievedUpdateBtnMouseClicked
-        TableCellListener tcl = new TableCellListener(viewRecivedTable, action);
+
         recievedAreYouWantToDelete.setText("Record Has Been Updated");
         notificationClear(recievedAreYouWantToDelete);
         RecievedPostModel.updateRecieved(updateRow,
@@ -4432,20 +4353,12 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_RecievedDeleteConformationYesMouseClicked
 
-    private void RecievedDeleteConformationYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RecievedDeleteConformationYesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_RecievedDeleteConformationYesActionPerformed
-
     private void RecievedDeleteConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RecievedDeleteConformationNoMouseClicked
 
         RecievedDeleteConformationYes.setVisible(false);
         RecievedDeleteConformationNo.setVisible(false);
         recievedAreYouWantToDelete.setVisible(false);
     }//GEN-LAST:event_RecievedDeleteConformationNoMouseClicked
-
-    private void RecievedDeleteConformationNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RecievedDeleteConformationNoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_RecievedDeleteConformationNoActionPerformed
 
     private void dispatchUpdateBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dispatchUpdateBtnMouseClicked
         dispatchAreYouWantToDelete.setText("Record Has Been Updated");
@@ -4457,7 +4370,16 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_dispatchUpdateBtnMouseClicked
 
     private void DispatchIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DispatchIntialDeleteBtnMouseClicked
-        // TODO add your handling code here:
+        if(!viewDispatchTable.getSelectionModel().isSelectionEmpty()){
+            dispatchAreYouWantToDelete.setVisible(true);
+            dispatchAreYouWantToDelete.setText("Are you sure want to delete this record?");
+            DispatchDeleteConformationYes.setVisible(true);
+            DispatchDeleteConformationNo.setVisible(true);
+        }else{
+            dispatchAreYouWantToDelete.setVisible(true);
+            dispatchAreYouWantToDelete.setText("Please Select the Record To Delete");
+            notificationClear(dispatchAreYouWantToDelete);
+        }
     }//GEN-LAST:event_DispatchIntialDeleteBtnMouseClicked
 
     private void DispatchDeleteConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DispatchDeleteConformationYesMouseClicked
@@ -4674,27 +4596,12 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
             textFieldClear(textFieldList);
             //-----------------------------------------------------------
                 }
-
-          
-
-        }else{
+   }else{
 
             addNewUserFormNotificationLabel.setText("Please Fill The Data Fields");
             notificationClear(addNewUserFormNotificationLabel);
         }
     }//GEN-LAST:event_addNewPatientBtnuserAddFunction
-
-    private void AddNewUserGenderMaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewUserGenderMaleActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AddNewUserGenderMaleActionPerformed
-
-    private void addNewUserMarriedStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewUserMarriedStateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addNewUserMarriedStateActionPerformed
-
-    private void bloodSelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bloodSelActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bloodSelActionPerformed
 
     private void patientUpdateBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientUpdateBtnMouseClicked
         patientAreYouWantToDelete.setVisible(true);
@@ -4709,7 +4616,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     private void patientIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientIntialDeleteBtnMouseClicked
         if(!patientDetailsTable.getSelectionModel().isSelectionEmpty()){
             patientAreYouWantToDelete.setVisible(true);
-            patientAreYouWantToDelete.setText("Are you sure want to delete this record?");
+            patientAreYouWantToDelete.setText("Are You Sure?");
             patientDeleteConformationYes.setVisible(true);
             patientDeleteConformationNo.setVisible(true);
         }else{
@@ -4735,35 +4642,15 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
             patientAreYouWantToDelete.setText("Please Select the Row to Delete");
             patientDeleteConformationYes.setVisible(false);
             patientDeleteConformationNo.setVisible(false);
-
+            notificationClear(patientAreYouWantToDelete);
         }
     }//GEN-LAST:event_patientDeleteConformationYesMouseClicked
-
-    private void patientDeleteConformationYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientDeleteConformationYesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_patientDeleteConformationYesActionPerformed
 
     private void patientDeleteConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientDeleteConformationNoMouseClicked
         patientDeleteConformationYes.setVisible(false);
         patientDeleteConformationNo.setVisible(false);
         patientAreYouWantToDelete.setVisible(false);
     }//GEN-LAST:event_patientDeleteConformationNoMouseClicked
-
-    private void patientDeleteConformationNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientDeleteConformationNoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_patientDeleteConformationNoActionPerformed
-
-    private void jPanel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel15MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel15MouseClicked
-
-    private void receptionistOldPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receptionistOldPassActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_receptionistOldPassActionPerformed
-
-    private void receptionistNewPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receptionistNewPassActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_receptionistNewPassActionPerformed
 
     private void jTabbedPane5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane5MouseClicked
         PatientModel.viewPatientDetails(patientDetailsTable);
@@ -4840,18 +4727,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_MenuSwitch
 
-    private void receptionistFNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receptionistFNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_receptionistFNameActionPerformed
-
-    private void receptionistPhoneNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receptionistPhoneNoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_receptionistPhoneNoActionPerformed
-
-    private void receptionistLNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receptionistLNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_receptionistLNameActionPerformed
-
     private void updateReceptionistMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateReceptionistMouseClicked
         ReceptionistModel.deleteReceptionist(logged);
         receptionist updateObj=logged;
@@ -4901,10 +4776,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_receptionistPassChangeBtnMouseClicked
 
-    private void appClearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_appClearBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_appClearBtnActionPerformed
-
     private void appIncreBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appIncreBtnMouseClicked
         appCount.setText(""+(Integer.parseInt(appCount.getText())+1)+"");
     }//GEN-LAST:event_appIncreBtnMouseClicked
@@ -4912,10 +4783,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     private void appClearBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appClearBtnMouseClicked
         appCount.setText("0");
     }//GEN-LAST:event_appClearBtnMouseClicked
-
-    private void logOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_logOutBtnActionPerformed
 
     private void logOutBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutBtnMouseClicked
         receptionist nullObj=null;
@@ -4943,10 +4810,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     private void saveToJsonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveToJsonMouseClicked
         ReportModel.patientToJson();
     }//GEN-LAST:event_saveToJsonMouseClicked
-
-    private void saveToJsonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveToJsonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_saveToJsonActionPerformed
 
     private void profilePicImgBrowseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profilePicImgBrowseMouseClicked
         profilePictureModel.changeProfilePicture(receptionistUpdateNotfication,logged.getUserNIC(),logged.getUserName());

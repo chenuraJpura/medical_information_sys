@@ -1,4 +1,4 @@
-22501,Municipal Council,Hospital,Colombo,Already paid.,5/6/2020
-22502,Kumudu Sanjeewani,Dr.Hirunika Denakumbura,Kegalle,Sundays & Mondays 5.00-7.00pm,10/6/2020
-22503,Mr.Gotabhaya Rajapakshe ,Manager,Colombo,We recieved your donations sir. Thank you.,15/6/2020
-22504,Dr.Nissanka Weerarathne,Human Resource Manager,Kadawatha,Please send  your CV.,20/6/2020
+22501,Municipal Council,Colombo,Hospital,Already paid.,5/6/2020
+22502,Kumudu Sanjeewani,Kegalle,Dr.Hirunika Denakumbura,Sundays & Mondays 5.00-7.00pm,10/6/2020
+22503,Mr.Gotabhaya Rajapakshe ,Colombo,Manager,We recieved your donations sir. Thank you.,15/6/2020
+22504,Dr.Nissanka Weerarathne,Kadawatha,Human Resource Manager,Please send  your CV.,20/6/2020
