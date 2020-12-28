@@ -1,0 +1,12 @@
+10023,hansika@gmail.com,Cardiologist,hanSika,hansika,silva,765477889,12,12/5/1999,nuggegoda,FEMALE,UNMARRIED
+10023,hansika@gmail.com,Gastroenterologist,imeshiG,imeshi,silva,765477889,12,12/5/1999,nuggegoda,FEMALE,UNMARRIED
+10023,hansika@gmail.com,Physician,kuShani,kushani,fernando,765477889,12,12/5/1999,moratuwa,FEMALE,UNMARRIED
+10001,namaldiaz678@yahoo.com,Physician,namalDiaz,Namal,Diaz,778805678,600230707V,24/8/1960,Kiribathgoda,MALE,MARRIED
+10003,mangalikasen70@gmail.com,Physician,mangalika123,Mangalika,Senevirathne,714556557,709887665V,17/7/1970,Nugegoda,FEMALE,MARRIED
+10004,sujeewaR995@gmail.com,Obstetrician,sujeewaR,Sujeewa,Rathnayake,776991995,708667545V,17/3/1970,Peliyagoda,MALE,MARRIED
+10005,ajanthadissnayake@gmail.com,Pediatrician,AjanthaDi,Ajantha,Dissanayake,714453554,806774556V,25/7/1980,Wattala,MALE,MARRIED
+10006,nimalrathna634@gmail.com,Cardiologist,nimalR,Nimal,Rathnayake,778376657,657845634V,30/10/1965,Kandy,MALE,MARRIED
+10007,pavithraw@gmail.com,Obstetrician,pavithraW,Pavithra,Wanniarachchi,756766678,667897647V,14/12/1966,Kelaniya,FEMALE,MARRIED
+10008,hirunika75@gmail.com,Psychiatrist,hirunika75,Hirunika,Denakumbura,776675675,756778667V,1/4/1975,Piliyandala,FEMALE,MARRIED
+10009,rosisenanayake@gmail.com,Dermatologist,rosiSen,Roshi,Senanayake,712234568,723445678V,13/7/1972,Colombo,FEMALE,MARRIED
+10002,roySilva@yahoo.com,Physician,roySilva,Roy,Silva,778788985,657897654V,9/3/1965,Matara,MALE,MARRIED
