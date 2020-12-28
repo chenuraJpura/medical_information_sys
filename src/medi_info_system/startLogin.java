@@ -340,7 +340,7 @@ public class startLogin extends javax.swing.JFrame {
             }else{
                         //hard coded admin login section------------------------
                         
-                        if(userPass.equals("5b67b9cea41a79fcf64bb35f66de6689") && userName.equals("Admin")){
+                        if(userPass.equals("09c31fbc5ee4dff20daf34704feb2df2") && userName.equals("Admin")){
                             new homeAdminGUI("ADMIN").setVisible(true);
                             this.setVisible(false);
                         }

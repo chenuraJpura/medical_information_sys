@@ -5,3 +5,4 @@ Radiology Department
 Human Resources Department
 Finace Department
 IT Department
+Dental Department

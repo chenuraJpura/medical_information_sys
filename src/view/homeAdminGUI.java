@@ -20,6 +20,7 @@ import java.awt.event.ItemEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
@@ -30,6 +31,7 @@ import javax.swing.ButtonModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.table.TableModel;
@@ -1940,22 +1942,12 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 deleteVisitorRecordConformationYesMouseClicked(evt);
             }
         });
-        deleteVisitorRecordConformationYes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteVisitorRecordConformationYesActionPerformed(evt);
-            }
-        });
 
         deleteVisitorRecordConformationNo.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         deleteVisitorRecordConformationNo.setText("No");
         deleteVisitorRecordConformationNo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 deleteVisitorRecordConformationNoMouseClicked(evt);
-            }
-        });
-        deleteVisitorRecordConformationNo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteVisitorRecordConformationNoActionPerformed(evt);
             }
         });
 
@@ -2025,6 +2017,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel55.setPreferredSize(new java.awt.Dimension(219, 50));
 
         recievedPostNotification.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
+        recievedPostNotification.setForeground(new java.awt.Color(255, 255, 255));
         recievedPostNotification.setPreferredSize(new java.awt.Dimension(45, 50));
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
@@ -2039,10 +2032,8 @@ public class homeAdminGUI extends javax.swing.JFrame {
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
-                .addComponent(recievedPostNotification, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-                .addContainerGap())
-            .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jLabel55, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+            .addComponent(recievedPostNotification, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
         );
 
         jPanel5.add(jPanel14, java.awt.BorderLayout.PAGE_START);
@@ -2248,6 +2239,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel54.setText("Add new Dispatch Post");
 
         dispatchPostNotification.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
+        dispatchPostNotification.setForeground(new java.awt.Color(255, 255, 255));
         dispatchPostNotification.setPreferredSize(new java.awt.Dimension(45, 50));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -2464,11 +2456,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 RecivedPostIntialDeleteBtnMouseClicked(evt);
             }
         });
-        RecivedPostIntialDeleteBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RecivedPostIntialDeleteBtnActionPerformed(evt);
-            }
-        });
 
         recievedAreYouWantToDelete.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
 
@@ -2479,22 +2466,12 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 RecievedDeleteConformationYesMouseClicked(evt);
             }
         });
-        RecievedDeleteConformationYes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RecievedDeleteConformationYesActionPerformed(evt);
-            }
-        });
 
         RecievedDeleteConformationNo.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         RecievedDeleteConformationNo.setText("No");
         RecievedDeleteConformationNo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 RecievedDeleteConformationNoMouseClicked(evt);
-            }
-        });
-        RecievedDeleteConformationNo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RecievedDeleteConformationNoActionPerformed(evt);
             }
         });
 
@@ -2582,11 +2559,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 DispatchIntialDeleteBtnMouseClicked(evt);
             }
         });
-        DispatchIntialDeleteBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DispatchIntialDeleteBtnActionPerformed(evt);
-            }
-        });
 
         dispatchAreYouWantToDelete.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
 
@@ -2597,22 +2569,12 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 DispatchDeleteConformationYesMouseClicked(evt);
             }
         });
-        DispatchDeleteConformationYes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DispatchDeleteConformationYesActionPerformed(evt);
-            }
-        });
 
         DispatchDeleteConformationNo.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         DispatchDeleteConformationNo.setText("No");
         DispatchDeleteConformationNo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 DispatchDeleteConformationNoMouseClicked(evt);
-            }
-        });
-        DispatchDeleteConformationNo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DispatchDeleteConformationNoActionPerformed(evt);
             }
         });
 
@@ -2680,6 +2642,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel45.setPreferredSize(new java.awt.Dimension(176, 45));
 
         complainWarning.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        complainWarning.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -2745,7 +2708,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel68.setText("Note");
 
         AddNewComplainReferenceDepartment.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        AddNewComplainReferenceDepartment.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Out-Patient & Front-Office Department", "Pathology Department", "Pharmacy Department", "Radiology Department", "Finance Department", "Human Resources Department" }));
 
         jLabel69.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel69.setText("Relvent Department");
@@ -3797,22 +3759,12 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 medicalDeleteConformationYesMouseClicked(evt);
             }
         });
-        medicalDeleteConformationYes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                medicalDeleteConformationYesActionPerformed(evt);
-            }
-        });
 
         medicalDeleteConformationNo.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         medicalDeleteConformationNo.setText("No");
         medicalDeleteConformationNo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 medicalDeleteConformationNoMouseClicked(evt);
-            }
-        });
-        medicalDeleteConformationNo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                medicalDeleteConformationNoActionPerformed(evt);
             }
         });
 
@@ -3934,22 +3886,12 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 receptionConformationYesMouseClicked(evt);
             }
         });
-        receptionConformationYes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                receptionConformationYesActionPerformed(evt);
-            }
-        });
 
         receptionConformationNo.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         receptionConformationNo.setText("No");
         receptionConformationNo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 receptionConformationNoMouseClicked(evt);
-            }
-        });
-        receptionConformationNo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                receptionConformationNoActionPerformed(evt);
             }
         });
 
@@ -4315,6 +4257,13 @@ public class homeAdminGUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    //text field clear function-------------------------------------------------
+    private static void textFieldClear(ArrayList <JTextField> textFieldList){
+        for(JTextField loopField:textFieldList){
+            loopField.setText("");
+        }
+    }
+    
     //notification clear--------------------------------------------------------
     private static void notificationClear(JLabel notificationLabel){   
     new Timer(2500, (ActionEvent e) -> {
@@ -4417,6 +4366,8 @@ public class homeAdminGUI extends javax.swing.JFrame {
             referencePanel.setVisible(false);
             userPanel.setVisible(false);
             reportPanel.setVisible(false);
+            dropDownFeederModel departmentObj=new dropDownFeederModel("departments.txt",AddNewComplainReferenceDepartment);
+            departmentObj.dropFeeder(true);
         }
         if(evt.getSource()==visitors){
             homePannel.setVisible(false);
@@ -4484,6 +4435,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         if(!(textField7 || textField8 || textField9 || textField10 )){
                 
                 complainWarning.setText("Sumbiting the Complain");
+                notificationClear(complainWarning);
                 date complainDateObj=new date();
                 complainsController newComplain=new complainsController(
                 AddNewComplainName.getText(),
@@ -4495,8 +4447,13 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 AddNewComplainReferenceDepartment.getSelectedItem().toString(),
                 ComplainModel.getNextReferenceNo());
                 ComplainModel.writingTXT(newComplain.toString());
+                ArrayList<JTextField> textFieldList=new ArrayList<JTextField>();
+                textFieldList.add(AddNewComplainName);
+                textFieldList.add(AddNewComplainPhoneNumber);
+                textFieldClear(textFieldList);
         }else{
                 complainWarning.setText("Please fill all fields");
+                notificationClear(complainWarning);
         }        
     }//GEN-LAST:event_AddNewComplainBtnMouseClicked
 
@@ -4507,6 +4464,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         boolean textField17=VisitorRecordNIC.getText().equals("");
         if(!(textField14 || textField15 || textField16 || textField17)){
             VisitorRecordNotification.setText("Sumbiting Record");
+            notificationClear(VisitorRecordNotification);
             //craeting date/time object for get current date/time
             
             date visitorCurrentDateObj=new date();
@@ -4530,11 +4488,17 @@ public class homeAdminGUI extends javax.swing.JFrame {
                     visitorOutTimeObj,
                     VisitorRecordNote.getText());
             VisitorModel.writingTXT(addNewVisitorRecordObj.toString());
-            
+            ArrayList<JTextField> textFieldList=new ArrayList<JTextField>();
+                textFieldList.add(VisitorRecordName);
+                textFieldList.add(VisitorRecordPhoneNo);
+                textFieldList.add(VisitorRecordPurpose);
+                textFieldList.add(VisitorRecordNIC);
+                textFieldClear(textFieldList);
 
         }else{
+            
                 VisitorRecordNotification.setText("Please fill the Fields");
-        
+                notificationClear(VisitorRecordNotification);
         }
     }//GEN-LAST:event_AddNewVisitorRecordMouseClicked
 
@@ -4547,7 +4511,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         if(!(textField23 || textField24 || textField25 || textField26 || textField27)){
             dispatchPostNotification.setText("Sumbiting Record");
             //craeting date/time object for get current date/time
-            
+             notificationClear(dispatchPostNotification);
             date postalDispatchDateObj=new date(
                     (Integer)DispatchPostDay.getValue(),
                     (Integer)DispatchPostMonth.getValue(),
@@ -4565,8 +4529,17 @@ public class homeAdminGUI extends javax.swing.JFrame {
             
             
             DispatchModel.writingTXT(newDispatchPostObj.toString());
+            
+                        ArrayList<JTextField> textFieldList=new ArrayList<JTextField>();
+                textFieldList.add(DispatchPostFrom);
+                textFieldList.add(DispatchPostTo);
+                textFieldList.add(DispatchPostRefNo);
+
+                textFieldClear(textFieldList);
+            
         }else{
                 dispatchPostNotification.setText("Please Fill The Fields");
+                notificationClear(dispatchPostNotification);
         }
         
         
@@ -4582,6 +4555,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 boolean textField22=RecievedPostAddress.getText().equals("");
         if(!(textField18 || textField19 || textField20 || textField21 || textField22)){
             recievedPostNotification.setText("Sumbiting Record");
+            notificationClear(recievedPostNotification);
             //craeting date/time object for get current date/time
             
             date postalRecievedDateObj=new date(
@@ -4600,8 +4574,15 @@ public class homeAdminGUI extends javax.swing.JFrame {
                     postalRecievedDateObj);
             
             RecievedPostModel.writingTXT(newRecievedPostObj.toString());
+                ArrayList<JTextField> textFieldList=new ArrayList<JTextField>();
+                textFieldList.add(RecievedPostFrom);
+                textFieldList.add(RecievedPostTo);
+                textFieldList.add(RecievedPostRefNo);
+                textFieldList.add(RecievedPostAddress);
+                textFieldClear(textFieldList);
         }else{
                 recievedPostNotification.setText("Please Fill The Fields");
+                notificationClear(recievedPostNotification);
         }
     }//GEN-LAST:event_AddNewRecievedPostMouseClicked
 
@@ -4694,6 +4675,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         }else{
             VisitorAreYouWantToDelete.setVisible(true);
             VisitorAreYouWantToDelete.setText("Please Select the Record To Delete");
+            notificationClear(VisitorAreYouWantToDelete);
         }
 
     }//GEN-LAST:event_VisitorIntialDeleteBtnMouseClicked
@@ -4714,23 +4696,16 @@ public class homeAdminGUI extends javax.swing.JFrame {
             VisitorAreYouWantToDelete.setText("Please Select the Row to Delete");
             deleteVisitorRecordConformationYes.setVisible(false);
             deleteVisitorRecordConformationNo.setVisible(false);
+            notificationClear(VisitorAreYouWantToDelete);
           
         }
     }//GEN-LAST:event_deleteVisitorRecordConformationYesMouseClicked
-
-    private void deleteVisitorRecordConformationYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteVisitorRecordConformationYesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_deleteVisitorRecordConformationYesActionPerformed
 
     private void deleteVisitorRecordConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteVisitorRecordConformationNoMouseClicked
         deleteVisitorRecordConformationYes.setVisible(false);
         deleteVisitorRecordConformationNo.setVisible(false);
         VisitorAreYouWantToDelete.setVisible(false);
     }//GEN-LAST:event_deleteVisitorRecordConformationNoMouseClicked
-
-    private void deleteVisitorRecordConformationNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteVisitorRecordConformationNoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_deleteVisitorRecordConformationNoActionPerformed
 
     private void RecivedPostIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RecivedPostIntialDeleteBtnMouseClicked
         if(!viewRecivedTable.getSelectionModel().isSelectionEmpty()){
@@ -4741,13 +4716,10 @@ public class homeAdminGUI extends javax.swing.JFrame {
         }else{
             recievedAreYouWantToDelete.setVisible(true);
             recievedAreYouWantToDelete.setText("Please Select the Record To Delete");
+            notificationClear(recievedAreYouWantToDelete);
         }
 
     }//GEN-LAST:event_RecivedPostIntialDeleteBtnMouseClicked
-
-    private void RecivedPostIntialDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RecivedPostIntialDeleteBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_RecivedPostIntialDeleteBtnActionPerformed
 
     private void RecievedDeleteConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RecievedDeleteConformationYesMouseClicked
         if(!viewRecivedTable.getSelectionModel().isSelectionEmpty()){
@@ -4762,15 +4734,12 @@ public class homeAdminGUI extends javax.swing.JFrame {
         }else{
         
             recievedAreYouWantToDelete.setText("Please Select the Row to Delete");
+            notificationClear(recievedAreYouWantToDelete);
             RecievedDeleteConformationYes.setVisible(false);
             RecievedDeleteConformationNo.setVisible(false);
           
         }
     }//GEN-LAST:event_RecievedDeleteConformationYesMouseClicked
-
-    private void RecievedDeleteConformationYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RecievedDeleteConformationYesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_RecievedDeleteConformationYesActionPerformed
 
     private void RecievedDeleteConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RecievedDeleteConformationNoMouseClicked
         
@@ -4779,15 +4748,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         recievedAreYouWantToDelete.setVisible(false);
     }//GEN-LAST:event_RecievedDeleteConformationNoMouseClicked
 
-    private void RecievedDeleteConformationNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RecievedDeleteConformationNoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_RecievedDeleteConformationNoActionPerformed
-
     private void DispatchIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DispatchIntialDeleteBtnMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DispatchIntialDeleteBtnMouseClicked
-
-    private void DispatchIntialDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DispatchIntialDeleteBtnActionPerformed
         if(!viewDispatchTable.getSelectionModel().isSelectionEmpty()){
         dispatchAreYouWantToDelete.setVisible(true);
         dispatchAreYouWantToDelete.setText("Are you sure want to delete this record?");
@@ -4796,9 +4757,9 @@ public class homeAdminGUI extends javax.swing.JFrame {
         }else{
             dispatchAreYouWantToDelete.setVisible(true);
             dispatchAreYouWantToDelete.setText("Please Select the Record To Delete");
+            notificationClear(dispatchAreYouWantToDelete);
         }
-
-    }//GEN-LAST:event_DispatchIntialDeleteBtnActionPerformed
+    }//GEN-LAST:event_DispatchIntialDeleteBtnMouseClicked
 
     private void DispatchDeleteConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DispatchDeleteConformationYesMouseClicked
         if(!viewDispatchTable.getSelectionModel().isSelectionEmpty()){
@@ -4815,6 +4776,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
             dispatchAreYouWantToDelete.setText("Please Select the Row to Delete");
             DispatchDeleteConformationYes.setVisible(false);
             DispatchDeleteConformationNo.setVisible(false);
+            notificationClear(dispatchAreYouWantToDelete);
           
         }
         
@@ -4823,19 +4785,11 @@ public class homeAdminGUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_DispatchDeleteConformationYesMouseClicked
 
-    private void DispatchDeleteConformationYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DispatchDeleteConformationYesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DispatchDeleteConformationYesActionPerformed
-
     private void DispatchDeleteConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DispatchDeleteConformationNoMouseClicked
         DispatchDeleteConformationYes.setVisible(false);
         DispatchDeleteConformationNo.setVisible(false);
         dispatchAreYouWantToDelete.setVisible(false);        
     }//GEN-LAST:event_DispatchDeleteConformationNoMouseClicked
-
-    private void DispatchDeleteConformationNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DispatchDeleteConformationNoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DispatchDeleteConformationNoActionPerformed
 
     private void ComplainDeleteIntialBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ComplainDeleteIntialBtnMouseClicked
         if(!ComplainViewTable.getSelectionModel().isSelectionEmpty()){
@@ -4846,6 +4800,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         }else{
             ComplainAreYouWantToDelete.setVisible(true);
             ComplainAreYouWantToDelete.setText("Please Select the Record To Delete");
+            notificationClear(ComplainAreYouWantToDelete);
         }
 
     }//GEN-LAST:event_ComplainDeleteIntialBtnMouseClicked
@@ -4864,6 +4819,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         }else{
         
             ComplainAreYouWantToDelete.setText("Please Select the Row to Delete");
+            notificationClear(ComplainAreYouWantToDelete);
             deleteComplainConformationYes.setVisible(false);
             deleteComplainConformationNo.setVisible(false);
           
@@ -4885,6 +4841,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         }else{
             patientAreYouWantToDelete.setVisible(true);
             patientAreYouWantToDelete.setText("Please Select the Record To Delete");
+            notificationClear(patientAreYouWantToDelete);
         } 
     }//GEN-LAST:event_patientIntialDeleteBtnMouseClicked
 
@@ -4960,20 +4917,12 @@ public class homeAdminGUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_medicalDeleteConformationYesMouseClicked
 
-    private void medicalDeleteConformationYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_medicalDeleteConformationYesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_medicalDeleteConformationYesActionPerformed
-
     private void medicalDeleteConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_medicalDeleteConformationNoMouseClicked
         medicalDeleteConformationYes.setVisible(false);
         medicalDeleteConformationNo.setVisible(false);
         medicalAreYouWantDelete.setVisible(false);
         
     }//GEN-LAST:event_medicalDeleteConformationNoMouseClicked
-
-    private void medicalDeleteConformationNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_medicalDeleteConformationNoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_medicalDeleteConformationNoActionPerformed
 
     private void receptionIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_receptionIntialDeleteBtnMouseClicked
          if(!ReceptiontistTable.getSelectionModel().isSelectionEmpty()){
@@ -5012,19 +4961,11 @@ public class homeAdminGUI extends javax.swing.JFrame {
        
     }//GEN-LAST:event_receptionConformationYesMouseClicked
 
-    private void receptionConformationYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receptionConformationYesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_receptionConformationYesActionPerformed
-
     private void receptionConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_receptionConformationNoMouseClicked
             receptionAreYouWantToDelete.setVisible(false);
             receptionConformationYes.setVisible(false);
             receptionConformationNo.setVisible(false);
     }//GEN-LAST:event_receptionConformationNoMouseClicked
-
-    private void receptionConformationNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receptionConformationNoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_receptionConformationNoActionPerformed
 
     private void viewRecivedTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewRecivedTableMouseClicked
         
@@ -5081,6 +5022,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         }else{
             loginDetailsAreYouWantToDelete.setVisible(true);
             loginDetailsAreYouWantToDelete.setText("Please Select the Record To Delete");
+            notificationClear(loginDetailsAreYouWantToDelete);
         } 
     }//GEN-LAST:event_loginDetailsIntialDeleteBtnMouseClicked
 
@@ -5101,7 +5043,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
     
     private void complainUpdateSaveBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_complainUpdateSaveBtnMouseClicked
         ComplainAreYouWantToDelete.setText("Record Has Been Updated");
-               
+        notificationClear(ComplainAreYouWantToDelete);       
         ComplainModel.updateComplain(updateRow,
                 getUpdatedRowStringFromReleventTable(ComplainViewTable,updateRow)
                         );
@@ -5111,6 +5053,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
     private void visitorUpdateIntialBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_visitorUpdateIntialBtnMouseClicked
         VisitorAreYouWantToDelete.setText("Record Has Been Updated");
+        notificationClear(VisitorAreYouWantToDelete); 
         VisitorModel.updateVisitors(updateRow,
                 getUpdatedRowStringFromReleventTable(viewVisitorsRecordTable,updateRow)
                         );
@@ -5121,7 +5064,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
     private void recievedUpdateBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_recievedUpdateBtnMouseClicked
         recievedAreYouWantToDelete.setText("Record Has Been Updated");
-               
+        notificationClear(recievedAreYouWantToDelete);     
         RecievedPostModel.updateRecieved(updateRow,
                 getUpdatedRowStringFromReleventTable(viewRecivedTable,updateRow)
                         );
@@ -5130,7 +5073,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
     private void dispatchUpdateBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dispatchUpdateBtnMouseClicked
         dispatchAreYouWantToDelete.setText("Record Has Been Updated");
-               
+        notificationClear(dispatchAreYouWantToDelete);        
                 DispatchModel.updateDispatch(updateRow,
                 getUpdatedRowStringFromReleventTable(viewDispatchTable,updateRow)
                         );
@@ -5148,7 +5091,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
     private void MedicalOfficerUpdateBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MedicalOfficerUpdateBtnMouseClicked
         medicalAreYouWantDelete.setText("Record Has Been Updated");
-               
+        notificationClear(medicalAreYouWantDelete);     
                 MedicalOfficerModel.updateMedicalOfficer(updateRow,
                 getUpdatedRowStringFromReleventTable(MedicalOfficersTable,updateRow)
                         );
@@ -5157,7 +5100,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
     private void receptionistUpdateBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_receptionistUpdateBtnMouseClicked
         receptionAreYouWantToDelete.setText("Record Has Been Updated");
-               
+        notificationClear(receptionAreYouWantToDelete);            
                 ReceptionistModel.updateReceptionist(updateRow,
                 getUpdatedRowStringFromReleventTable(ReceptiontistTable,updateRow)
                         );
@@ -5167,7 +5110,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
     private void userLoginUpdateSaveBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userLoginUpdateSaveBtnMouseClicked
         loginDetailsAreYouWantToDelete.setText("Record Has Been Updated");
-               
+        notificationClear(loginDetailsAreYouWantToDelete);       
         UserModel.updateUser(updateRow,
         getUpdatedRowStringFromReleventTable(userLoginTable,updateRow)
                         );
@@ -5278,6 +5221,14 @@ public class homeAdminGUI extends javax.swing.JFrame {
                     //passing the value to model for write txt
                     PatientModel.writingTXT(newPatient.toString());
                     newPatient.newLoginPatient();
+                //text box clear part    
+                ArrayList<JTextField> textFieldList=new ArrayList<JTextField>();
+                textFieldList.add(addNewUserName);
+                textFieldList.add(addNewUserFirstName);
+                textFieldList.add(addNewUserLastName);
+                textFieldList.add(addNewUserPhoneNo);
+                textFieldList.add(addNewUserNIC);
+                textFieldClear(textFieldList);
                     }
                }
 
@@ -5312,6 +5263,15 @@ public class homeAdminGUI extends javax.swing.JFrame {
                     //passing the value to model for write txt
                     ReceptionistModel.writingTXT(newReceptionist.toString());
                     newReceptionist.newLoginReceptionist();
+                     //text box clear part    
+                ArrayList<JTextField> textFieldList=new ArrayList<JTextField>();
+                textFieldList.add(addNewUserName);
+                textFieldList.add(addNewUserFirstName);
+                textFieldList.add(addNewUserLastName);
+                textFieldList.add(addNewUserPhoneNo);
+                textFieldList.add(addNewUserNIC);
+                textFieldList.add(AddNewStaffID);
+                textFieldClear(textFieldList);
                     }
                 }
             }
@@ -5344,6 +5304,15 @@ public class homeAdminGUI extends javax.swing.JFrame {
                     //passing the value to model for write txt
                     MedicalOfficerModel.writingTXT(newMedicalOfficerObj.toString());
                     newMedicalOfficerObj.newLoginMedicalOfficer();
+                                         //text box clear part    
+                ArrayList<JTextField> textFieldList=new ArrayList<JTextField>();
+                textFieldList.add(addNewUserName);
+                textFieldList.add(addNewUserFirstName);
+                textFieldList.add(addNewUserLastName);
+                textFieldList.add(addNewUserPhoneNo);
+                textFieldList.add(addNewUserNIC);
+                textFieldList.add(AddNewStaffID);
+                textFieldClear(textFieldList);
                     }
                     }
              }
@@ -5578,6 +5547,10 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 AppointmentModel.getNextAppRefNo());//6
 
             AppointmentModel.writingTXT(addNewApp.toString());
+                ArrayList<JTextField> textFieldList=new ArrayList<JTextField>();
+                textFieldList.add(addNewAppointmentPatientName);
+                textFieldList.add(addNewAppointmentSymptoms);
+                textFieldClear(textFieldList);
 
         }else{
             addNewAppointmentNotficationLabel.setText("Please fill all fields");
