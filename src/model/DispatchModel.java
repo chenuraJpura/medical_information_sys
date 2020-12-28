@@ -1,7 +1,6 @@
 package model;
 
 import controllers.dispatchPostController;
-import controllers.recievedPostController;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -87,7 +86,7 @@ public class DispatchModel {
                 model.addRow(dataRow);
             }
             
-            
+            br.close();
         } catch (Exception ex) {
             Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -127,7 +126,7 @@ public class DispatchModel {
                 if(deleteObj.objectMathcer(loopObj)){
                    break;
                 }
-                deleteIndexNo=+1;
+                deleteIndexNo+=1;
                 
             }
           dispPostObjList.remove(deleteIndexNo);
@@ -138,6 +137,8 @@ public class DispatchModel {
               writingTXT(loopObj.toString());
                 
           }
+          
+          br.close();
                   
         }catch (Exception ex){
                     Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -185,6 +186,8 @@ public class DispatchModel {
              writingTXT(loopObj.toString());
                 
             }
+            
+            br.close();
                   
         }catch (Exception ex){
                     Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);

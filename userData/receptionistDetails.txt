@@ -1,2 +1,6 @@
-21121,asas,123,rec,fer,123456,123,1/1/1990,asa,MALE,MARRIED
-123,wqw,rec,recEva,eva,1234,123,1/1/1990,west,MALE,MARRIED
+10023,hansika@gmail.com,hansika,kushani,fernando,765477889,995612564V,12/5/1999,moratuwa,FEMALE,UNMARRIED
+20001,nirmaniguna546@gmail.com,nirmaniiii,Nirmani,Gunathilake,712967546,956735633V,21/6/1995,Maharagama,FEMALE,UNMARRIED
+20002,sandunijayasinghe@gmail.com,SanduniJ,Sanduni,Jayasinghe,754678562,934762345V,26/11/1993,Kottawa,FEMALE,MARRIED
+20003,dilminavodya97@gmail.com,dilmi97,Dilmi,Navodya,778303633,978655670V,30/6/1997,Malabe,FEMALE,UNMARRIED
+20004,paramibhagya95@yahoo.com,parami123,Parami,Bhagya,778384567,956784456V,30/2/1995,Kaduwela,FEMALE,UNMARRIED
+20005,HansaniSam@yahoo.com,HansaniSam,Samadhi,Hansani,712997896,967895543V,19/4/1996,Pannipitiya,FEMALE,UNMARRIED

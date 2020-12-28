@@ -1,1 +1,4 @@
-asa,4654562,15/12/2020,sasa121,no-action-taken,sasa,Out-Patient & Front-Office Department
+anuShi,765477889,23/12/2020,departmt is dirty,taken,mad on the floor,Radiology Department,1002
+Ridmi Perera,713342453,20/12/2020,Pharamacists take long time to give medicines.,taken,take an action.,Pharmacy Department,1003
+Namal Kumara,776675467,20/12/2020,Take care of the workers healthful manners.,maybe taken,Tell them to wear masks every time,Human Resources Department,1004
+hashiniDi,754367896,27/12/2020,some thing wrong with workers,no-action-taken,blame my child,Pathology Department,1005

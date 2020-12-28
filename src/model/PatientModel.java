@@ -78,6 +78,8 @@ public class PatientModel {
                 String[] dataRow = line.split(",");
                 model.addRow(dataRow);
             }
+            
+            br.close();
                   
         }catch (Exception ex){
                     Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -119,7 +121,7 @@ public class PatientModel {
                 if(deleteObj.objectMathcer(loopObj)){
                    break;
                 }
-                deleteIndexNo=+1;
+                deleteIndexNo+=1;
                 
             }
           patientObjList.remove(deleteIndexNo);
@@ -130,6 +132,8 @@ public class PatientModel {
               writingTXT(loopObj.toString());
                 
           }
+          
+          br.close();
                   
         }catch (Exception ex){
                     Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -175,6 +179,8 @@ public class PatientModel {
               writingTXT(loopObj.toString());
                 
             }
+            
+            br.close();
                   
         }catch (Exception ex){
                     Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);

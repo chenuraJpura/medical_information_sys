@@ -86,7 +86,7 @@ public class RecievedPostModel {
                 model.addRow(dataRow);
             }
             
-            
+            br.close();
         } catch (Exception ex) {
             Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -132,6 +132,8 @@ public class RecievedPostModel {
               writingTXT(loopObj.toString());
                 
             }
+            
+            br.close();
                   
         }catch (Exception ex){
                     Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -173,7 +175,7 @@ public class RecievedPostModel {
                 if(deleteObj.objectMathcer(loopObj)){
                    break;
                 }
-                deleteIndexNo=+1;
+                deleteIndexNo+=1;
                 
             }
           reciPostObjList.remove(deleteIndexNo);
@@ -184,6 +186,8 @@ public class RecievedPostModel {
               writingTXT(loopObj.toString());
                 
           }
+          
+          br.close();
                   
         }catch (Exception ex){
                     Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);

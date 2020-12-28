@@ -31,7 +31,36 @@ public class dropDownFeederModel {
     
     }
     
-    public void dropFeeder(){
+    public void dropDownFeederMedical(){
+        String filePath = "userData\\"+this.fileName;
+            File file = new File(filePath);
+        
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            
+            // get lines from txt file
+            Object[] tableLines = br.lines().toArray();
+            
+            // extratct data from lines
+            // set data to jtable model
+            for(int i = 0; i < tableLines.length; i++)
+            {
+                String line = tableLines[i].toString().trim();
+                String[] dataRow = line.split(",");
+                    this.comboBoxForFeed.addItem(dataRow[4]+" "+dataRow[5]);
+                    
+            }
+            
+            
+        } catch (Exception ex) {
+            Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    }
+    
+    
+    
+    public void dropFeeder(){//medical officers full name feeder
         String filePath = "userData\\"+this.fileName;
             File file = new File(filePath);
         

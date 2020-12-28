@@ -90,7 +90,7 @@ public class loginFeederModel {
                 }
                
             }
-
+            br.close();
          
                   
         }catch (Exception ex){
@@ -117,14 +117,15 @@ public class loginFeederModel {
                 String line = tableLines[i].toString().trim();
                 String[] dataRow = line.split(",");
                 currAppObj=new medicalOfficers(dataRow);
-                if(currAppObj.getUserName()==getUserName()){
+
+                if(currAppObj.getUserName().equals(getUserName())){
                     setMatchedMedicalOfficerObj(currAppObj);
                     break;
                 }
                
             }
-
-         
+            br.close();
+            
                   
         }catch (Exception ex){
                     Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -157,7 +158,7 @@ public class loginFeederModel {
                
             }
 
-         
+         br.close();
                   
         }catch (Exception ex){
                     Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);

@@ -49,6 +49,12 @@ public class date {
     public String toString(){
         return this.day+"/"+this.month+"/"+this.year;
     }
+    
+    //rename ready to string
+    public String RenameReadyToString(){
+        return this.day+"_"+this.month+"_"+this.year;
+    }
+    
 
     public int getDay() {
         return day;

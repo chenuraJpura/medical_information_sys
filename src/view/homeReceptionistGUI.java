@@ -5,7 +5,6 @@ import controllers.complainsController;
 import controllers.date;
 import controllers.dispatchPostController;
 import controllers.encryptionController;
-import controllers.loginController;
 import controllers.patient;
 import controllers.receptionist;
 import controllers.recievedPostController;
@@ -17,13 +16,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ButtonModel;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.table.TableModel;
 import medi_info_system.startLogin;
 import model.AppointmentModel;
@@ -32,9 +39,11 @@ import model.DispatchModel;
 import model.PatientModel;
 import model.ReceptionistModel;
 import model.RecievedPostModel;
+import model.ReportModel;
 import model.UserModel;
 import model.VisitorModel;
 import model.dropDownFeederModel;
+import model.profilePictureModel;
 
 public class homeReceptionistGUI extends javax.swing.JFrame {
     private static int updateRow;
@@ -46,8 +55,17 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         initComponents();
         setUndecorated(true);
         setBackground(new Color(0,0,0,0));
-        
+        homeMainPannel.setBackground(new Color(0,0,0,55));
+        TableCellListener tcl1 = new TableCellListener(viewAppointmentTable, action);
+        TableCellListener tcl2 = new TableCellListener(viewVisitorsRecordTable, action);
+        TableCellListener tcl3 = new TableCellListener(viewDispatchTable, action);
+        TableCellListener tcl4 = new TableCellListener(ComplainViewTable, action);
+        TableCellListener tcl5 = new TableCellListener(patientDetailsTable, action);
+
         this.pass=pass;
+        //profile picture loader---------------------------------------------------
+        profilePictureModel.profilePicLoader(profilePicture,logged.getUserName());
+        //------------------------------------------------------------------------
         //digital clock start----------------------------------
         new Thread(){
             public void run(){
@@ -64,6 +82,9 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                     if(AM_PM==1){
                         
                         Am_Pm="PM";
+                        if(hour==0){
+                            hour+=12;
+                        }
                     }
                     else{
                         Am_Pm="AM";
@@ -72,6 +93,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                    headerTextClock.setText(""+hour+":"+min+":"+sec+" "+Am_Pm);
                    mainClockHours.setText(""+hour+"");
                    mainClockMinutes.setText(""+min+"");
+                   mainClockSeconds.setText(""+sec+"");
                    mainClockAMPM.setText(Am_Pm);
                 }
             }
@@ -119,9 +141,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         patientDeleteConformationYes.setVisible(false);
         patientDeleteConformationNo.setVisible(false);
         
-        //user
-        loginDetailsConformationYes.setVisible(false);
-        loginDetailsConformationNo.setVisible(false);
     }
 
     /**
@@ -171,16 +190,20 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         jPanel36 = new javax.swing.JPanel();
         jPanel37 = new javax.swing.JPanel();
         homeMainPannel = new javax.swing.JPanel();
-        minutesHome = new keeptoo.KGradientPanel();
-        mainClockMinutes = new javax.swing.JLabel();
         hourHome = new keeptoo.KGradientPanel();
         mainClockHours = new javax.swing.JLabel();
+        hourHome1 = new keeptoo.KGradientPanel();
+        mainClockMinutes = new javax.swing.JLabel();
+        hourHome2 = new keeptoo.KGradientPanel();
+        mainClockSeconds = new javax.swing.JLabel();
+        jLabel87 = new javax.swing.JLabel();
+        jLabel86 = new javax.swing.JLabel();
+        jLabel85 = new javax.swing.JLabel();
+        jLabel88 = new javax.swing.JLabel();
+        jLabel89 = new javax.swing.JLabel();
         mainClockAMPM = new javax.swing.JLabel();
-        jLabel81 = new javax.swing.JLabel();
-        jLabel82 = new javax.swing.JLabel();
-        jLabel83 = new javax.swing.JLabel();
-        calenderMonth = new javax.swing.JLabel();
         calenderYear = new javax.swing.JLabel();
+        calenderMonth = new javax.swing.JLabel();
         calenderDay = new javax.swing.JLabel();
         appPanel = new javax.swing.JPanel();
         viewAppointmentBtn = new javax.swing.JTabbedPane();
@@ -190,14 +213,12 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         addNewAppointmentPatientName = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         AddNewAppointmentBtn = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        addNewAppointmentConclution = new javax.swing.JTextField();
         AddNewAppointmentAMPM = new javax.swing.JComboBox<>();
         AddNewAppointmentMinutes = new javax.swing.JSpinner();
         AddNewAppointmentHours = new javax.swing.JSpinner();
@@ -211,6 +232,11 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         AddNewAppointmnetSpecializedAreaDropDown = new javax.swing.JComboBox<>();
         AddNewUserSpecializedAreaLabel1 = new javax.swing.JLabel();
         jLabel71 = new javax.swing.JLabel();
+        jLabel102 = new javax.swing.JLabel();
+        jLabel103 = new javax.swing.JLabel();
+        jLabel104 = new javax.swing.JLabel();
+        jLabel105 = new javax.swing.JLabel();
+        jLabel107 = new javax.swing.JLabel();
         jPanel33 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         addNewAppointmentNotficationLabel = new javax.swing.JLabel();
@@ -221,6 +247,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         areYouWantToDelete = new javax.swing.JLabel();
         deleteConformationYes = new javax.swing.JButton();
         deleteConformationNo = new javax.swing.JButton();
+        changeAppointmentStatus = new javax.swing.JButton();
         jScrollPane7 = new javax.swing.JScrollPane();
         viewAppointmentTable = new javax.swing.JTable();
         visitorsPanel = new javax.swing.JPanel();
@@ -230,6 +257,12 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         jLabel36 = new javax.swing.JLabel();
         VisitorRecordNotification = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
+        jLabel108 = new javax.swing.JLabel();
+        jLabel109 = new javax.swing.JLabel();
+        jLabel110 = new javax.swing.JLabel();
+        jLabel111 = new javax.swing.JLabel();
+        jLabel112 = new javax.swing.JLabel();
+        jLabel113 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         VisitorRecordNIC = new javax.swing.JTextField();
         VisitorRecordName = new javax.swing.JTextField();
@@ -250,14 +283,15 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         VisitorRecordNote = new javax.swing.JTextArea();
         viewVisitors = new javax.swing.JPanel();
-        viewVisitorsTable = new javax.swing.JScrollPane();
-        viewVisitorsRecordTable = new javax.swing.JTable();
         jPanel26 = new javax.swing.JPanel();
         visitorUpdateIntialBtn = new javax.swing.JButton();
         VisitorIntialDeleteBtn = new javax.swing.JButton();
         VisitorAreYouWantToDelete = new javax.swing.JLabel();
         deleteVisitorRecordConformationYes = new javax.swing.JButton();
         deleteVisitorRecordConformationNo = new javax.swing.JButton();
+        jPanel24 = new javax.swing.JPanel();
+        viewVisitorsTable = new javax.swing.JScrollPane();
+        viewVisitorsRecordTable = new javax.swing.JTable();
         postalPanel = new javax.swing.JPanel();
         ViewRecievedDispatchPost = new javax.swing.JTabbedPane();
         recievedTab = new javax.swing.JPanel();
@@ -285,6 +319,12 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         RecievedPostMonth = new javax.swing.JSpinner();
         RecievedPostYear = new javax.swing.JSpinner();
         AddNewRecievedPost = new javax.swing.JButton();
+        jLabel114 = new javax.swing.JLabel();
+        jLabel115 = new javax.swing.JLabel();
+        jLabel116 = new javax.swing.JLabel();
+        jLabel117 = new javax.swing.JLabel();
+        jLabel118 = new javax.swing.JLabel();
+        jLabel119 = new javax.swing.JLabel();
         dispatchTab = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel54 = new javax.swing.JLabel();
@@ -348,6 +388,11 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         jLabel68 = new javax.swing.JLabel();
         AddNewComplainReferenceDepartment = new javax.swing.JComboBox<>();
         jLabel69 = new javax.swing.JLabel();
+        jLabel97 = new javax.swing.JLabel();
+        jLabel98 = new javax.swing.JLabel();
+        jLabel99 = new javax.swing.JLabel();
+        jLabel100 = new javax.swing.JLabel();
+        jLabel101 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
@@ -396,6 +441,13 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         jLabel65 = new javax.swing.JLabel();
         allergiesLabel = new javax.swing.JLabel();
         jLabel66 = new javax.swing.JLabel();
+        jLabel46 = new javax.swing.JLabel();
+        jLabel79 = new javax.swing.JLabel();
+        jLabel80 = new javax.swing.JLabel();
+        jLabel81 = new javax.swing.JLabel();
+        jLabel84 = new javax.swing.JLabel();
+        jLabel92 = new javax.swing.JLabel();
+        jLabel93 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         patientDetailsTab = new javax.swing.JPanel();
         jPanel30 = new javax.swing.JPanel();
@@ -404,18 +456,9 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         patientAreYouWantToDelete = new javax.swing.JLabel();
         patientDeleteConformationYes = new javax.swing.JButton();
         patientDeleteConformationNo = new javax.swing.JButton();
+        resetPatientPassword = new javax.swing.JButton();
         jScrollPane8 = new javax.swing.JScrollPane();
         patientDetailsTable = new javax.swing.JTable();
-        jPanel39 = new javax.swing.JPanel();
-        jPanel40 = new javax.swing.JPanel();
-        userLoginUpdateSaveBtn = new javax.swing.JButton();
-        loginDetailsIntialDeleteBtn = new javax.swing.JButton();
-        loginDetailsAreYouWantToDelete = new javax.swing.JLabel();
-        loginDetailsConformationYes = new javax.swing.JButton();
-        loginDetailsConformationNo = new javax.swing.JButton();
-        jPanel41 = new javax.swing.JPanel();
-        jScrollPane13 = new javax.swing.JScrollPane();
-        userLoginTable = new javax.swing.JTable();
         jPanel22 = new javax.swing.JPanel();
         jPanel25 = new javax.swing.JPanel();
         jLabel70 = new javax.swing.JLabel();
@@ -436,16 +479,24 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         jLabel77 = new javax.swing.JLabel();
         updateReceptionist = new javax.swing.JButton();
         kGradientPanel3 = new keeptoo.KGradientPanel();
-        jLabel78 = new javax.swing.JLabel();
+        profilePicture = new javax.swing.JLabel();
         receptionistFullName = new javax.swing.JLabel();
+        profilePicImgBrowse = new javax.swing.JButton();
+        jLabel78 = new javax.swing.JLabel();
+        jLabel94 = new javax.swing.JLabel();
+        jLabel95 = new javax.swing.JLabel();
+        jLabel96 = new javax.swing.JLabel();
         jPanel21 = new javax.swing.JPanel();
         receptionistUpdateNotfication = new javax.swing.JLabel();
+        jPanel23 = new javax.swing.JPanel();
         reportPanel = new javax.swing.JPanel();
         kGradientPanel1 = new keeptoo.KGradientPanel();
-        jLabel46 = new javax.swing.JLabel();
-        jLabel79 = new javax.swing.JLabel();
-        jsonCreateBtn = new keeptoo.KButton();
-        jLabel80 = new javax.swing.JLabel();
+        jLabel82 = new javax.swing.JLabel();
+        jLabel90 = new javax.swing.JLabel();
+        jLabel91 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        saveToJson = new javax.swing.JButton();
+        jLabel83 = new javax.swing.JLabel();
         footer = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -566,6 +617,11 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         minimumBtn.setkStartColor(new java.awt.Color(0, 255, 204));
         minimumBtn.setOpaque(false);
         minimumBtn.setPreferredSize(new java.awt.Dimension(70, 10));
+        minimumBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                minimumBtnMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout minimumBtnLayout = new javax.swing.GroupLayout(minimumBtn);
         minimumBtn.setLayout(minimumBtnLayout);
@@ -866,7 +922,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         appCount.setFont(new java.awt.Font("Montserrat", 0, 48)); // NOI18N
         appCount.setForeground(new java.awt.Color(0, 102, 255));
         appCount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        appCount.setText("00");
+        appCount.setText("0");
         appCount.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         sideMenu.add(appCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 380, 80, 80));
 
@@ -893,20 +949,15 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 appIncreBtnMouseClicked(evt);
             }
         });
-        appIncreBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                appIncreBtnActionPerformed(evt);
-            }
-        });
         sideMenu.add(appIncreBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, -1, 30));
 
         appDecrBtn.setBackground(new java.awt.Color(100, 153, 254));
         appDecrBtn.setFont(new java.awt.Font("Montserrat", 0, 20)); // NOI18N
         appDecrBtn.setForeground(new java.awt.Color(255, 255, 255));
         appDecrBtn.setText("-");
-        appDecrBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                appDecrBtnActionPerformed(evt);
+        appDecrBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                appDecrBtnMouseClicked(evt);
             }
         });
         sideMenu.add(appDecrBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 470, 36, 30));
@@ -937,10 +988,11 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         content.setPreferredSize(new java.awt.Dimension(850, 620));
         content.setLayout(new java.awt.CardLayout());
 
+        homePannel.setBackground(new java.awt.Color(255, 255, 255));
         homePannel.setPreferredSize(new java.awt.Dimension(700, 620));
         homePannel.setLayout(new java.awt.BorderLayout());
 
-        jPanel36.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel36.setBackground(new java.awt.Color(38, 99, 255));
         jPanel36.setPreferredSize(new java.awt.Dimension(700, 40));
 
         javax.swing.GroupLayout jPanel36Layout = new javax.swing.GroupLayout(jPanel36);
@@ -956,7 +1008,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
 
         homePannel.add(jPanel36, java.awt.BorderLayout.PAGE_START);
 
-        jPanel37.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel37.setBackground(new java.awt.Color(38, 99, 255));
         jPanel37.setPreferredSize(new java.awt.Dimension(700, 40));
 
         javax.swing.GroupLayout jPanel37Layout = new javax.swing.GroupLayout(jPanel37);
@@ -973,40 +1025,17 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         homePannel.add(jPanel37, java.awt.BorderLayout.PAGE_END);
 
         homeMainPannel.setBackground(new java.awt.Color(255, 255, 255));
+        homeMainPannel.setOpaque(false);
 
-        minutesHome.setkBorderRadius(50);
-        minutesHome.setkEndColor(new java.awt.Color(0, 153, 255));
-        minutesHome.setkGradientFocus(200);
-        minutesHome.setkStartColor(new java.awt.Color(51, 102, 255));
-        minutesHome.setkTransparentControls(false);
-        minutesHome.setOpaque(false);
-
-        mainClockMinutes.setFont(new java.awt.Font("Oswald", 0, 70)); // NOI18N
-        mainClockMinutes.setForeground(new java.awt.Color(255, 255, 255));
-        mainClockMinutes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        mainClockMinutes.setText("00");
-        mainClockMinutes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        javax.swing.GroupLayout minutesHomeLayout = new javax.swing.GroupLayout(minutesHome);
-        minutesHome.setLayout(minutesHomeLayout);
-        minutesHomeLayout.setHorizontalGroup(
-            minutesHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainClockMinutes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-        );
-        minutesHomeLayout.setVerticalGroup(
-            minutesHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainClockMinutes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        hourHome.setkBorderRadius(60);
-        hourHome.setkEndColor(new java.awt.Color(0, 153, 255));
+        hourHome.setkBorderRadius(120);
+        hourHome.setkEndColor(new java.awt.Color(9, 238, 221));
         hourHome.setkGradientFocus(200);
         hourHome.setkStartColor(new java.awt.Color(0, 51, 255));
         hourHome.setkTransparentControls(false);
         hourHome.setOpaque(false);
         hourHome.setPreferredSize(new java.awt.Dimension(120, 120));
 
-        mainClockHours.setFont(new java.awt.Font("Oswald", 0, 70)); // NOI18N
+        mainClockHours.setFont(new java.awt.Font("Oswald", 0, 48)); // NOI18N
         mainClockHours.setForeground(new java.awt.Color(255, 255, 255));
         mainClockHours.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         mainClockHours.setText("00");
@@ -1017,87 +1046,187 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         hourHome.setLayout(hourHomeLayout);
         hourHomeLayout.setHorizontalGroup(
             hourHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainClockHours, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+            .addGroup(hourHomeLayout.createSequentialGroup()
+                .addComponent(mainClockHours, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         hourHomeLayout.setVerticalGroup(
             hourHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainClockHours, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+            .addGroup(hourHomeLayout.createSequentialGroup()
+                .addComponent(mainClockHours, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        mainClockAMPM.setFont(new java.awt.Font("Montserrat", 0, 60)); // NOI18N
+        hourHome1.setkBorderRadius(120);
+        hourHome1.setkEndColor(new java.awt.Color(9, 238, 221));
+        hourHome1.setkGradientFocus(200);
+        hourHome1.setkStartColor(new java.awt.Color(0, 51, 255));
+        hourHome1.setkTransparentControls(false);
+        hourHome1.setOpaque(false);
+        hourHome1.setPreferredSize(new java.awt.Dimension(120, 120));
+
+        mainClockMinutes.setFont(new java.awt.Font("Oswald", 0, 48)); // NOI18N
+        mainClockMinutes.setForeground(new java.awt.Color(255, 255, 255));
+        mainClockMinutes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        mainClockMinutes.setText("00");
+        mainClockMinutes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout hourHome1Layout = new javax.swing.GroupLayout(hourHome1);
+        hourHome1.setLayout(hourHome1Layout);
+        hourHome1Layout.setHorizontalGroup(
+            hourHome1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(hourHome1Layout.createSequentialGroup()
+                .addComponent(mainClockMinutes, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        hourHome1Layout.setVerticalGroup(
+            hourHome1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(hourHome1Layout.createSequentialGroup()
+                .addComponent(mainClockMinutes, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        hourHome2.setkBorderRadius(120);
+        hourHome2.setkEndColor(new java.awt.Color(9, 238, 221));
+        hourHome2.setkGradientFocus(200);
+        hourHome2.setkStartColor(new java.awt.Color(0, 51, 255));
+        hourHome2.setkTransparentControls(false);
+        hourHome2.setOpaque(false);
+        hourHome2.setPreferredSize(new java.awt.Dimension(120, 120));
+
+        mainClockSeconds.setBackground(new java.awt.Color(255, 255, 255));
+        mainClockSeconds.setFont(new java.awt.Font("Oswald", 0, 48)); // NOI18N
+        mainClockSeconds.setForeground(new java.awt.Color(255, 255, 255));
+        mainClockSeconds.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        mainClockSeconds.setText("00");
+        mainClockSeconds.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout hourHome2Layout = new javax.swing.GroupLayout(hourHome2);
+        hourHome2.setLayout(hourHome2Layout);
+        hourHome2Layout.setHorizontalGroup(
+            hourHome2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(hourHome2Layout.createSequentialGroup()
+                .addComponent(mainClockSeconds, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        hourHome2Layout.setVerticalGroup(
+            hourHome2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(hourHome2Layout.createSequentialGroup()
+                .addComponent(mainClockSeconds, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        jLabel87.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel87.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/home_main.png"))); // NOI18N
+        jLabel87.setOpaque(true);
+
+        jLabel86.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel86.setFont(new java.awt.Font("Montserrat", 0, 48)); // NOI18N
+        jLabel86.setForeground(new java.awt.Color(0, 102, 255));
+        jLabel86.setText("WELCOME!");
+        jLabel86.setOpaque(true);
+
+        jLabel85.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel85.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
+        jLabel85.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel85.setText("MEDICAL INFO SYS");
+        jLabel85.setOpaque(true);
+
+        jLabel88.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel88.setFont(new java.awt.Font("Montserrat", 0, 60)); // NOI18N
+        jLabel88.setForeground(new java.awt.Color(0, 102, 255));
+        jLabel88.setText(":");
+        jLabel88.setOpaque(true);
+
+        jLabel89.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel89.setFont(new java.awt.Font("Montserrat", 0, 60)); // NOI18N
+        jLabel89.setForeground(new java.awt.Color(0, 102, 255));
+        jLabel89.setText(":");
+        jLabel89.setOpaque(true);
+
+        mainClockAMPM.setBackground(new java.awt.Color(255, 255, 255));
+        mainClockAMPM.setFont(new java.awt.Font("Montserrat", 0, 36)); // NOI18N
         mainClockAMPM.setForeground(new java.awt.Color(0, 102, 255));
         mainClockAMPM.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         mainClockAMPM.setText("AM");
         mainClockAMPM.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        mainClockAMPM.setOpaque(true);
 
-        jLabel81.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
-        jLabel81.setText("YEAR");
-
-        jLabel82.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
-        jLabel82.setText("MONTH");
-
-        jLabel83.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
-        jLabel83.setText("DAY");
-
-        calenderMonth.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
-        calenderMonth.setText("01");
-
+        calenderYear.setBackground(new java.awt.Color(255, 255, 255));
         calenderYear.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
+        calenderYear.setForeground(new java.awt.Color(153, 153, 153));
         calenderYear.setText("2021");
+        calenderYear.setOpaque(true);
         calenderYear.setPreferredSize(new java.awt.Dimension(100, 30));
 
+        calenderMonth.setBackground(new java.awt.Color(255, 255, 255));
+        calenderMonth.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
+        calenderMonth.setForeground(new java.awt.Color(153, 153, 153));
+        calenderMonth.setText("01");
+        calenderMonth.setOpaque(true);
+
+        calenderDay.setBackground(new java.awt.Color(255, 255, 255));
         calenderDay.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
+        calenderDay.setForeground(new java.awt.Color(153, 153, 153));
         calenderDay.setText("01");
+        calenderDay.setOpaque(true);
 
         javax.swing.GroupLayout homeMainPannelLayout = new javax.swing.GroupLayout(homeMainPannel);
         homeMainPannel.setLayout(homeMainPannelLayout);
         homeMainPannelLayout.setHorizontalGroup(
             homeMainPannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(homeMainPannelLayout.createSequentialGroup()
-                .addContainerGap(148, Short.MAX_VALUE)
-                .addGroup(homeMainPannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(hourHome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel81)
-                    .addComponent(calenderYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homeMainPannelLayout.createSequentialGroup()
+                .addContainerGap(152, Short.MAX_VALUE)
                 .addGroup(homeMainPannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(homeMainPannelLayout.createSequentialGroup()
-                        .addComponent(calenderMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
-                        .addComponent(calenderDay, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(homeMainPannelLayout.createSequentialGroup()
+                        .addComponent(hourHome, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel89)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(hourHome1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel88)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(hourHome2, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(homeMainPannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel82)
-                            .addComponent(minutesHome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(homeMainPannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(mainClockAMPM)
                             .addGroup(homeMainPannelLayout.createSequentialGroup()
-                                .addGap(32, 32, 32)
-                                .addComponent(jLabel83))
-                            .addGroup(homeMainPannelLayout.createSequentialGroup()
+                                .addComponent(calenderYear, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(calenderMonth)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(mainClockAMPM)))))
-                .addContainerGap(176, Short.MAX_VALUE))
+                                .addComponent(calenderDay))))
+                    .addComponent(jLabel85)
+                    .addComponent(jLabel86)
+                    .addComponent(jLabel87))
+                .addGap(93, 93, 93))
         );
         homeMainPannelLayout.setVerticalGroup(
             homeMainPannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(homeMainPannelLayout.createSequentialGroup()
-                .addContainerGap(245, Short.MAX_VALUE)
-                .addGroup(homeMainPannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(homeMainPannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(hourHome, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(minutesHome, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(mainClockAMPM, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(48, 48, 48)
-                .addGroup(homeMainPannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel81)
-                    .addComponent(jLabel82)
-                    .addComponent(jLabel83))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(homeMainPannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(calenderMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(calenderDay, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(calenderYear, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(52, 52, 52))
+                .addContainerGap(49, Short.MAX_VALUE)
+                .addComponent(jLabel87, javax.swing.GroupLayout.PREFERRED_SIZE, 189, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel86, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel85)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(homeMainPannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(homeMainPannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel89)
+                        .addComponent(jLabel88))
+                    .addComponent(hourHome, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(hourHome1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(hourHome2, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, homeMainPannelLayout.createSequentialGroup()
+                        .addComponent(mainClockAMPM)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(homeMainPannelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(calenderYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(calenderDay)
+                            .addComponent(calenderMonth))))
+                .addContainerGap(138, Short.MAX_VALUE))
         );
 
         homePannel.add(homeMainPannel, java.awt.BorderLayout.CENTER);
@@ -1144,10 +1273,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel9.setText("Patient Name");
 
-        jLabel10.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel10.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jLabel10.setText("Conclution");
-
         jLabel11.setBackground(new java.awt.Color(255, 255, 255));
         jLabel11.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel11.setText("Symptoms");
@@ -1164,11 +1289,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 AddNewAppointmentBtnMouseClicked(evt);
             }
         });
-        AddNewAppointmentBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddNewAppointmentBtnActionPerformed(evt);
-            }
-        });
 
         jLabel13.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         jLabel13.setText("Day");
@@ -1179,15 +1299,8 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         jLabel15.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         jLabel15.setText("Year");
 
-        addNewAppointmentConclution.setPreferredSize(new java.awt.Dimension(250, 25));
-
         AddNewAppointmentAMPM.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         AddNewAppointmentAMPM.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AM", "PM" }));
-        AddNewAppointmentAMPM.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddNewAppointmentAMPMActionPerformed(evt);
-            }
-        });
 
         AddNewAppointmentMinutes.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         AddNewAppointmentMinutes.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
@@ -1216,13 +1329,12 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         addNewAppointmentDay.setModel(new javax.swing.SpinnerNumberModel(1, 1, 31, 1));
 
         addNewAppointmentMonth.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        addNewAppointmentMonth.setModel(new javax.swing.SpinnerNumberModel(1, 1, 1, 12));
+        addNewAppointmentMonth.setModel(new javax.swing.SpinnerNumberModel(1, 1, 12, 1));
 
         addNewAppointmentYear.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         addNewAppointmentYear.setModel(new javax.swing.SpinnerNumberModel(2020, 2020, 2030, 1));
 
         AddNewAppointmnetSpecializedAreaDropDown.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        AddNewAppointmnetSpecializedAreaDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Physician", "Pediatrician", "Obstetrician", "Psychiatrist", "Cardiologist", "Dermatologist", "Gastroenterologist", "Ophthalmologist", "Neurologist", "Radiologist", "Anesthesiologist   " }));
         AddNewAppointmnetSpecializedAreaDropDown.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 AddNewAppointmnetSpecializedAreaDropDownItemStateChanged(evt);
@@ -1235,21 +1347,55 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         jLabel71.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel71.setText("Dr.");
 
+        jLabel102.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel102.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_name_25px_2.png"))); // NOI18N
+
+        jLabel103.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel103.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_doctor_male_25px.png"))); // NOI18N
+
+        jLabel104.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel104.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_wheelchair_25px.png"))); // NOI18N
+
+        jLabel105.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel105.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_runny_nose_25px.png"))); // NOI18N
+
+        jLabel107.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel107.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_today_25px.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(78, 78, 78)
-                .addComponent(jLabel71)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(addNewAppointmentPatientName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
-                    .addComponent(MedicalOfficerDropDown, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(addNewAppointmentSymptoms, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(addNewAppointmentConclution, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(AddNewAppointmnetSpecializedAreaDropDown, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel102, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel104, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel105, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel71)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel103, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(addNewAppointmentPatientName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
+                            .addComponent(MedicalOfficerDropDown, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(addNewAppointmentSymptoms, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(AddNewAppointmnetSpecializedAreaDropDown, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(AddNewUserSpecializedAreaLabel1, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGap(0, 230, Short.MAX_VALUE)))
+                        .addGap(245, 245, 245))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel107, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1274,16 +1420,10 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(AddNewAppointmentAMPM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel17)))
-                            .addComponent(AddNewAppointmentBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(AddNewUserSpecializedAreaLabel1, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(245, 245, 245))
+                            .addComponent(AddNewAppointmentBtn, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1291,42 +1431,55 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 .addGap(13, 13, 13)
                 .addComponent(AddNewUserSpecializedAreaLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(AddNewAppointmnetSpecializedAreaDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(AddNewAppointmnetSpecializedAreaDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel102, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(MedicalOfficerDropDown, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                    .addComponent(jLabel71))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addNewAppointmentPatientName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addNewAppointmentSymptoms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addNewAppointmentConclution, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel13)
-                            .addComponent(jLabel14))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel71, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(MedicalOfficerDropDown)
+                                .addGap(6, 6, 6)))
+                        .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(addNewAppointmentDay)
-                            .addComponent(addNewAppointmentMonth)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel15)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addNewAppointmentPatientName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel104, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addNewAppointmentYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(addNewAppointmentSymptoms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel105)))
+                    .addComponent(jLabel103, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel13)
+                                    .addComponent(jLabel14))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(addNewAppointmentDay)
+                                    .addComponent(addNewAppointmentMonth)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel15)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(addNewAppointmentYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addComponent(jLabel107, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1339,7 +1492,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                     .addComponent(AddNewAppointmentAMPM))
                 .addGap(18, 18, 18)
                 .addComponent(AddNewAppointmentBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(161, 161, 161))
+                .addGap(215, 215, 215))
         );
 
         newAppPanel.add(jPanel2, java.awt.BorderLayout.CENTER);
@@ -1379,7 +1532,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         viewAppPanel.setLayout(new java.awt.BorderLayout());
 
         jPanel18.setBackground(new java.awt.Color(241, 246, 253));
-        jPanel18.setPreferredSize(new java.awt.Dimension(700, 45));
+        jPanel18.setPreferredSize(new java.awt.Dimension(700, 40));
 
         AppIntialSaveBtn.setBackground(new java.awt.Color(40, 167, 69));
         AppIntialSaveBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -1389,11 +1542,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         AppIntialSaveBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 AppIntialSaveBtnMouseClicked(evt);
-            }
-        });
-        AppIntialSaveBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AppIntialSaveBtnActionPerformed(evt);
             }
         });
 
@@ -1407,11 +1555,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 AppIntialDeleteBtnMouseClicked(evt);
             }
         });
-        AppIntialDeleteBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AppIntialDeleteBtnActionPerformed(evt);
-            }
-        });
 
         areYouWantToDelete.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
 
@@ -1420,11 +1563,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         deleteConformationYes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 deleteConformationYesMouseClicked(evt);
-            }
-        });
-        deleteConformationYes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteConformationYesActionPerformed(evt);
             }
         });
 
@@ -1441,6 +1579,16 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
             }
         });
 
+        changeAppointmentStatus.setBackground(new java.awt.Color(255, 153, 0));
+        changeAppointmentStatus.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        changeAppointmentStatus.setForeground(new java.awt.Color(255, 255, 255));
+        changeAppointmentStatus.setText("Status");
+        changeAppointmentStatus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                changeAppointmentStatusMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
@@ -1450,7 +1598,9 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 .addComponent(AppIntialSaveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(AppIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 347, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(changeAppointmentStatus)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 264, Short.MAX_VALUE)
                 .addComponent(areYouWantToDelete)
                 .addGap(27, 27, 27)
                 .addComponent(deleteConformationYes)
@@ -1462,13 +1612,13 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel18Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(AppIntialDeleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                        .addComponent(areYouWantToDelete)
-                        .addComponent(deleteConformationYes)
-                        .addComponent(deleteConformationNo))
-                    .addComponent(AppIntialSaveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AppIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(areYouWantToDelete)
+                    .addComponent(deleteConformationYes)
+                    .addComponent(deleteConformationNo)
+                    .addComponent(changeAppointmentStatus)
+                    .addComponent(AppIntialSaveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -1480,15 +1630,22 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Patient name", "Medical Officer", "Appointment Date", "Appointment Time", "Symptoms", "Conclution", "Status"
+                "Patient name", "Medical Officer", "Appointment Date", "Appointment Time", "Symptoms", "Status", "AppRefNo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, true, true, true, true, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         viewAppointmentTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1555,15 +1712,57 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
 
         jPanel9.setBackground(new java.awt.Color(241, 246, 253));
 
+        jLabel108.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel108.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_name_25px_3.png"))); // NOI18N
+
+        jLabel109.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel109.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_identity_theft_25px_1.png"))); // NOI18N
+
+        jLabel110.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel110.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_question_mark_25px.png"))); // NOI18N
+
+        jLabel111.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel111.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_phone_25px_2.png"))); // NOI18N
+
+        jLabel112.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel112.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_time_25px.png"))); // NOI18N
+
+        jLabel113.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel113.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_note_25px_1.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addContainerGap(64, Short.MAX_VALUE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel108, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel110, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel111, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel112, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel113, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel109, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 582, Short.MAX_VALUE)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(jLabel108, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(60, 60, 60)
+                        .addComponent(jLabel110, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel111))
+                    .addComponent(jLabel109, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addComponent(jLabel112, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(jLabel113, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(199, 199, 199))
         );
 
         addVisitors.add(jPanel9, java.awt.BorderLayout.LINE_START);
@@ -1622,11 +1821,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         AddNewVisitorRecord.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 AddNewVisitorRecordMouseClicked(evt);
-            }
-        });
-        AddNewVisitorRecord.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddNewVisitorRecordActionPerformed(evt);
             }
         });
 
@@ -1741,35 +1935,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
 
         viewVisitors.setLayout(new java.awt.BorderLayout());
 
-        viewVisitorsRecordTable.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        viewVisitorsRecordTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Visitors NIC", "Visitors Name", "Visitors Purpose", "Phone No", "Date", "In Time", "Out Time", "Note"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        viewVisitorsRecordTable.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                viewVisitorsRecordTablePropertyChange(evt);
-            }
-        });
-        viewVisitorsTable.setViewportView(viewVisitorsRecordTable);
-
-        viewVisitors.add(viewVisitorsTable, java.awt.BorderLayout.CENTER);
-
         jPanel26.setBackground(new java.awt.Color(241, 246, 253));
         jPanel26.setPreferredSize(new java.awt.Dimension(700, 45));
 
@@ -1783,11 +1948,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 visitorUpdateIntialBtnMouseClicked(evt);
             }
         });
-        visitorUpdateIntialBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                visitorUpdateIntialBtnActionPerformed(evt);
-            }
-        });
 
         VisitorIntialDeleteBtn.setBackground(new java.awt.Color(220, 53, 69));
         VisitorIntialDeleteBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -1797,11 +1957,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         VisitorIntialDeleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 VisitorIntialDeleteBtnMouseClicked(evt);
-            }
-        });
-        VisitorIntialDeleteBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VisitorIntialDeleteBtnActionPerformed(evt);
             }
         });
 
@@ -1814,22 +1969,12 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 deleteVisitorRecordConformationYesMouseClicked(evt);
             }
         });
-        deleteVisitorRecordConformationYes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteVisitorRecordConformationYesActionPerformed(evt);
-            }
-        });
 
         deleteVisitorRecordConformationNo.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         deleteVisitorRecordConformationNo.setText("No");
         deleteVisitorRecordConformationNo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 deleteVisitorRecordConformationNoMouseClicked(evt);
-            }
-        });
-        deleteVisitorRecordConformationNo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteVisitorRecordConformationNoActionPerformed(evt);
             }
         });
 
@@ -1865,6 +2010,36 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         );
 
         viewVisitors.add(jPanel26, java.awt.BorderLayout.PAGE_START);
+
+        jPanel24.setLayout(new java.awt.BorderLayout());
+
+        viewVisitorsTable.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+
+        viewVisitorsRecordTable.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        viewVisitorsRecordTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Visitors NIC", "Visitors Name", "Visitors Purpose", "Phone No", "Date", "In Time", "Out Time", "Note"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        viewVisitorsTable.setViewportView(viewVisitorsRecordTable);
+
+        jPanel24.add(viewVisitorsTable, java.awt.BorderLayout.CENTER);
+
+        viewVisitors.add(jPanel24, java.awt.BorderLayout.CENTER);
 
         viewVisitorsBtn.addTab("View/Edit/Delete Visitors", viewVisitors);
 
@@ -1986,12 +2161,38 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel114.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel114.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_google_calendar_25px_1.png"))); // NOI18N
+
+        jLabel115.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel115.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_date_from_25px_1.png"))); // NOI18N
+
+        jLabel116.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel116.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_touch_id_25px.png"))); // NOI18N
+
+        jLabel117.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel117.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_home_address_25px_1.png"))); // NOI18N
+
+        jLabel118.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel118.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_torrent_25px.png"))); // NOI18N
+
+        jLabel119.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel119.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_note_25px_2.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(101, 101, 101)
+                .addGap(59, 59, 59)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel114, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel115, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel116, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel117, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel118, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel119, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addComponent(jLabel28)
@@ -2024,40 +2225,58 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+            .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap(43, Short.MAX_VALUE)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel32)
-                    .addComponent(RecievedPostDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(RecievedPostMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(RecievedPostYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel33)
-                    .addComponent(jLabel34)
-                    .addComponent(jLabel35))
-                .addGap(7, 7, 7)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(RecievedPostFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(RecievedPostRefNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel28))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(RecievedPostAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel29))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(RecievedPostTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel30))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(jLabel114, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel115, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel32)
+                            .addComponent(RecievedPostDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(RecievedPostMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(RecievedPostYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel33)
+                            .addComponent(jLabel34)
+                            .addComponent(jLabel35))
+                        .addGap(7, 7, 7)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(RecievedPostFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel31)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(AddNewRecievedPost, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(RecievedPostRefNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel28))
+                    .addComponent(jLabel116, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(RecievedPostAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel29))
+                    .addComponent(jLabel117, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(RecievedPostTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel30)))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel118, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel31)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(AddNewRecievedPost, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel119, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(43, Short.MAX_VALUE))
         );
 
@@ -2283,11 +2502,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 recievedUpdateBtnMouseClicked(evt);
             }
         });
-        recievedUpdateBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                recievedUpdateBtnActionPerformed(evt);
-            }
-        });
 
         RecivedPostIntialDeleteBtn.setBackground(new java.awt.Color(220, 53, 69));
         RecivedPostIntialDeleteBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -2297,11 +2511,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         RecivedPostIntialDeleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 RecivedPostIntialDeleteBtnMouseClicked(evt);
-            }
-        });
-        RecivedPostIntialDeleteBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RecivedPostIntialDeleteBtnActionPerformed(evt);
             }
         });
 
@@ -2406,11 +2615,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 dispatchUpdateBtnMouseClicked(evt);
             }
         });
-        dispatchUpdateBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dispatchUpdateBtnActionPerformed(evt);
-            }
-        });
 
         DispatchIntialDeleteBtn.setBackground(new java.awt.Color(220, 53, 69));
         DispatchIntialDeleteBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -2420,11 +2624,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         DispatchIntialDeleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 DispatchIntialDeleteBtnMouseClicked(evt);
-            }
-        });
-        DispatchIntialDeleteBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DispatchIntialDeleteBtnActionPerformed(evt);
             }
         });
 
@@ -2437,22 +2636,12 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 DispatchDeleteConformationYesMouseClicked(evt);
             }
         });
-        DispatchDeleteConformationYes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DispatchDeleteConformationYesActionPerformed(evt);
-            }
-        });
 
         DispatchDeleteConformationNo.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         DispatchDeleteConformationNo.setText("No");
         DispatchDeleteConformationNo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 DispatchDeleteConformationNoMouseClicked(evt);
-            }
-        });
-        DispatchDeleteConformationNo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DispatchDeleteConformationNoActionPerformed(evt);
             }
         });
 
@@ -2549,6 +2738,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         jLabel51.setText("Your Name");
 
         AddNewComplainName.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        AddNewComplainName.setPreferredSize(new java.awt.Dimension(64, 30));
         AddNewComplainName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AddNewComplainNameActionPerformed(evt);
@@ -2556,6 +2746,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         });
 
         AddNewComplainPhoneNumber.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
+        AddNewComplainPhoneNumber.setPreferredSize(new java.awt.Dimension(64, 30));
         AddNewComplainPhoneNumber.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AddNewComplainPhoneNumberActionPerformed(evt);
@@ -2597,28 +2788,51 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         jLabel68.setText("Note");
 
         AddNewComplainReferenceDepartment.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        AddNewComplainReferenceDepartment.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Out-Patient & Front-Office Department", "Pathology Department", "Pharmacy Department", "Radiology Department", "Finance Department", "Human Resources Department" }));
+        AddNewComplainReferenceDepartment.setMinimumSize(new java.awt.Dimension(329, 30));
+        AddNewComplainReferenceDepartment.setPreferredSize(new java.awt.Dimension(329, 30));
 
         jLabel69.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel69.setText("Relvent Department");
+
+        jLabel97.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel97.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_name_25px_2.png"))); // NOI18N
+
+        jLabel98.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel98.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_mobile_25px.png"))); // NOI18N
+
+        jLabel99.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel99.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_dropdown_field_25px.png"))); // NOI18N
+
+        jLabel100.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel100.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_paste_as_text_25px.png"))); // NOI18N
+
+        jLabel101.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel101.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_note_25px.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addGap(165, 165, 165)
+                .addGap(129, 129, 129)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel97, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel101, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel99, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel100, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel98, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel51)
                     .addComponent(jLabel68, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel51)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel67)
                     .addComponent(jLabel69)
                     .addComponent(jLabel1)
                     .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(AddNewComplainReferenceDepartment, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(AddNewComplainPhoneNumber, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(AddNewComplainPhoneNumber, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(AddNewComplainName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(AddNewComplainBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(195, Short.MAX_VALUE))
@@ -2629,26 +2843,42 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addComponent(jLabel51)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(AddNewComplainName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(AddNewComplainPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addComponent(AddNewComplainName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(AddNewComplainPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addComponent(jLabel97, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel98, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(7, 7, 7)
-                .addComponent(jLabel69)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(AddNewComplainReferenceDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addComponent(jLabel69)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(AddNewComplainReferenceDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel99, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel67)
-                .addGap(3, 3, 3)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel100)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel68)
-                .addGap(5, 5, 5)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(AddNewComplainBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(jLabel101, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(AddNewComplainBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel11, java.awt.BorderLayout.CENTER);
@@ -2668,12 +2898,19 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Complained By", "Phone No", "Date", "Description", "Action Take", "Note", "Reference No"
+                "Complained By", "Phone No", "Date", "Description", "Action Take", "Note", "Ref Department", "Ref No"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                true, true, false, true, false, true, true
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                true, true, false, true, false, true, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -2694,11 +2931,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         complainUpdateSaveBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 complainUpdateSaveBtnMouseClicked(evt);
-            }
-        });
-        complainUpdateSaveBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                complainUpdateSaveBtnActionPerformed(evt);
             }
         });
 
@@ -2911,11 +3143,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 addNewPatientBtnuserAddFunction(evt);
             }
         });
-        addNewPatientBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addNewPatientBtnActionPerformed(evt);
-            }
-        });
 
         jLabel58.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         jLabel58.setForeground(new java.awt.Color(0, 102, 255));
@@ -3017,12 +3244,39 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         jLabel66.setText("Gender");
         jLabel66.setToolTipText("");
 
+        jLabel46.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel46.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_name_25px_2.png"))); // NOI18N
+
+        jLabel79.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel79.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_mobile_25px.png"))); // NOI18N
+
+        jLabel80.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel80.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_toilet_25px.png"))); // NOI18N
+
+        jLabel81.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel81.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_wedding_day_25px.png"))); // NOI18N
+
+        jLabel84.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel84.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_drop_of_blood_25px.png"))); // NOI18N
+
+        jLabel92.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel92.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_identity_theft_25px.png"))); // NOI18N
+
+        jLabel93.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel93.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_birthday_25px.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
         jPanel17.setLayout(jPanel17Layout);
         jPanel17Layout.setHorizontalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel17Layout.createSequentialGroup()
-                .addGap(74, 74, 74)
+                .addGap(38, 38, 38)
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel46, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel79, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel92, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel93, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel53)
                     .addComponent(jLabel61)
@@ -3048,25 +3302,37 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                         .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(AddNewUserDOBYear, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel58))))
-                .addGap(36, 36, 36)
-                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(bloodG)
-                    .addComponent(jLabel63)
-                    .addComponent(jLabel66)
-                    .addComponent(jLabel65)
-                    .addComponent(allergiesLabel)
-                    .addComponent(addNewUserAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(addNewUserAllergies, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel17Layout.createSequentialGroup()
-                        .addComponent(addNewUserUnMarriedState)
-                        .addGap(18, 18, 18)
-                        .addComponent(addNewUserMarriedState))
+                        .addGap(35, 35, 35)
+                        .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(bloodG)
+                                .addComponent(jLabel63)
+                                .addComponent(jLabel66)
+                                .addComponent(jLabel65)
+                                .addComponent(allergiesLabel)
+                                .addComponent(addNewUserAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addComponent(addNewUserAllergies, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                                .addGroup(jPanel17Layout.createSequentialGroup()
+                                    .addComponent(jLabel80, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(AddNewUserGenderMale)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(AddNewUserGenderFemale))
+                                .addComponent(addNewPatientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel17Layout.createSequentialGroup()
+                                .addComponent(jLabel81, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(addNewUserUnMarriedState)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(addNewUserMarriedState)
+                                .addGap(12, 12, 12))))
                     .addGroup(jPanel17Layout.createSequentialGroup()
-                        .addComponent(AddNewUserGenderMale)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(AddNewUserGenderFemale))
-                    .addComponent(bloodSel, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addNewPatientBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE))
+                        .addGap(34, 34, 34)
+                        .addComponent(jLabel84, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(bloodSel, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(80, Short.MAX_VALUE))
         );
         jPanel17Layout.setVerticalGroup(
@@ -3077,7 +3343,11 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                     .addGroup(jPanel17Layout.createSequentialGroup()
                         .addComponent(jLabel53)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addNewUserName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addNewUserName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel17Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel46, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel57, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -3102,19 +3372,33 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                     .addComponent(jLabel61)
                     .addComponent(jLabel66))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addNewUserPhoneNo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(AddNewUserGenderFemale)
-                    .addComponent(AddNewUserGenderMale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(addNewUserPhoneNo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(AddNewUserGenderFemale)
+                        .addComponent(AddNewUserGenderMale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel17Layout.createSequentialGroup()
+                        .addComponent(jLabel79, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel17Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel80, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel62, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel63))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addNewUserNIC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(addNewUserUnMarriedState, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(addNewUserMarriedState))
+                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(addNewUserNIC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(addNewUserUnMarriedState, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(addNewUserMarriedState))
+                    .addGroup(jPanel17Layout.createSequentialGroup()
+                        .addComponent(jLabel81, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel17Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel92, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel52, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -3132,8 +3416,13 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                             .addComponent(AddNewUserDOBMoth)
                             .addComponent(AddNewUserDOBYear)))
                     .addGroup(jPanel17Layout.createSequentialGroup()
-                        .addComponent(bloodSel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel84, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bloodSel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel17Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel93, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(addNewPatientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(224, 224, 224))
@@ -3166,11 +3455,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 patientUpdateBtnMouseClicked(evt);
             }
         });
-        patientUpdateBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                patientUpdateBtnActionPerformed(evt);
-            }
-        });
 
         patientIntialDeleteBtn.setBackground(new java.awt.Color(220, 53, 69));
         patientIntialDeleteBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -3180,11 +3464,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         patientIntialDeleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 patientIntialDeleteBtnMouseClicked(evt);
-            }
-        });
-        patientIntialDeleteBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                patientIntialDeleteBtnActionPerformed(evt);
             }
         });
 
@@ -3216,6 +3495,16 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
             }
         });
 
+        resetPatientPassword.setBackground(new java.awt.Color(255, 153, 0));
+        resetPatientPassword.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        resetPatientPassword.setForeground(new java.awt.Color(255, 255, 255));
+        resetPatientPassword.setText("Reset Password");
+        resetPatientPassword.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                resetPatientPasswordMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel30Layout = new javax.swing.GroupLayout(jPanel30);
         jPanel30.setLayout(jPanel30Layout);
         jPanel30Layout.setHorizontalGroup(
@@ -3225,8 +3514,10 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 .addComponent(patientUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(patientIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(patientAreYouWantToDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
+                .addGap(5, 5, 5)
+                .addComponent(resetPatientPassword)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(patientAreYouWantToDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(patientDeleteConformationYes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -3235,16 +3526,17 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         );
         jPanel30Layout.setVerticalGroup(
             jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(patientAreYouWantToDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel30Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(patientIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(patientDeleteConformationYes)
                         .addComponent(patientDeleteConformationNo))
-                    .addComponent(patientUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(patientUpdateBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(resetPatientPassword, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(8, Short.MAX_VALUE))
-            .addComponent(patientAreYouWantToDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         patientDetailsTab.add(jPanel30, java.awt.BorderLayout.PAGE_START);
@@ -3263,9 +3555,16 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true, true, true, true, true, true
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane8.setViewportView(patientDetailsTable);
@@ -3273,125 +3572,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         jPanel15.add(jScrollPane8, java.awt.BorderLayout.CENTER);
 
         jTabbedPane5.addTab("View/Edit/Delete Users", jPanel15);
-
-        jPanel39.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel39MouseClicked(evt);
-            }
-        });
-        jPanel39.setLayout(new java.awt.BorderLayout());
-
-        jPanel40.setBackground(new java.awt.Color(241, 246, 253));
-        jPanel40.setPreferredSize(new java.awt.Dimension(700, 40));
-
-        userLoginUpdateSaveBtn.setBackground(new java.awt.Color(40, 167, 69));
-        userLoginUpdateSaveBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        userLoginUpdateSaveBtn.setForeground(new java.awt.Color(255, 255, 255));
-        userLoginUpdateSaveBtn.setText("Save");
-        userLoginUpdateSaveBtn.setPreferredSize(new java.awt.Dimension(72, 35));
-        userLoginUpdateSaveBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                userLoginUpdateSaveBtnMouseClicked(evt);
-            }
-        });
-        userLoginUpdateSaveBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                userLoginUpdateSaveBtnActionPerformed(evt);
-            }
-        });
-
-        loginDetailsIntialDeleteBtn.setBackground(new java.awt.Color(220, 53, 69));
-        loginDetailsIntialDeleteBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        loginDetailsIntialDeleteBtn.setForeground(new java.awt.Color(255, 255, 255));
-        loginDetailsIntialDeleteBtn.setText("Delete");
-        loginDetailsIntialDeleteBtn.setPreferredSize(new java.awt.Dimension(78, 26));
-        loginDetailsIntialDeleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                loginDetailsIntialDeleteBtnMouseClicked(evt);
-            }
-        });
-
-        loginDetailsAreYouWantToDelete.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-
-        loginDetailsConformationYes.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        loginDetailsConformationYes.setText("Yes");
-        loginDetailsConformationYes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                loginDetailsConformationYesMouseClicked(evt);
-            }
-        });
-
-        loginDetailsConformationNo.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        loginDetailsConformationNo.setText("No");
-        loginDetailsConformationNo.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                loginDetailsConformationNoMouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel40Layout = new javax.swing.GroupLayout(jPanel40);
-        jPanel40.setLayout(jPanel40Layout);
-        jPanel40Layout.setHorizontalGroup(
-            jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel40Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(userLoginUpdateSaveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(loginDetailsIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(loginDetailsAreYouWantToDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(loginDetailsConformationYes)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(loginDetailsConformationNo)
-                .addContainerGap())
-        );
-        jPanel40Layout.setVerticalGroup(
-            jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel40Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(loginDetailsConformationNo)
-                        .addComponent(loginDetailsConformationYes))
-                    .addGroup(jPanel40Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(loginDetailsIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(userLoginUpdateSaveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(8, Short.MAX_VALUE))
-            .addComponent(loginDetailsAreYouWantToDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        jPanel39.add(jPanel40, java.awt.BorderLayout.PAGE_START);
-
-        jPanel41.setLayout(new java.awt.BorderLayout());
-
-        userLoginTable.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        userLoginTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "userName", "userID", "userType", "userPass"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane13.setViewportView(userLoginTable);
-
-        jPanel41.add(jScrollPane13, java.awt.BorderLayout.CENTER);
-
-        jPanel39.add(jPanel41, java.awt.BorderLayout.CENTER);
-
-        jTabbedPane5.addTab("EditLogin Details", jPanel39);
 
         jPanel22.setLayout(new java.awt.BorderLayout());
 
@@ -3428,7 +3608,9 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         jLabel73.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel73.setText("Retype You New Password");
 
+        receptionistPassChangeBtn.setBackground(new java.awt.Color(2, 127, 255));
         receptionistPassChangeBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        receptionistPassChangeBtn.setForeground(new java.awt.Color(255, 255, 255));
         receptionistPassChangeBtn.setText("Change Password");
         receptionistPassChangeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -3477,7 +3659,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         jLabel77.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel77.setText("Address");
 
-        updateReceptionist.setBackground(new java.awt.Color(95, 0, 231));
+        updateReceptionist.setBackground(new java.awt.Color(2, 127, 255));
         updateReceptionist.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         updateReceptionist.setForeground(new java.awt.Color(255, 255, 255));
         updateReceptionist.setText("Update");
@@ -3486,56 +3668,81 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 updateReceptionistMouseClicked(evt);
             }
         });
-        updateReceptionist.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateReceptionistActionPerformed(evt);
-            }
-        });
 
         kGradientPanel3.setkBorderRadius(200);
+        kGradientPanel3.setkFillBackground(false);
         kGradientPanel3.setOpaque(false);
         kGradientPanel3.setPreferredSize(new java.awt.Dimension(100, 100));
         kGradientPanel3.setLayout(new java.awt.BorderLayout());
 
-        jLabel78.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel78.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_hospital_sign_24px.png"))); // NOI18N
-        kGradientPanel3.add(jLabel78, java.awt.BorderLayout.CENTER);
+        profilePicture.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        kGradientPanel3.add(profilePicture, java.awt.BorderLayout.CENTER);
 
         receptionistFullName.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        receptionistFullName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        receptionistFullName.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+
+        profilePicImgBrowse.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        profilePicImgBrowse.setText("Browse");
+        profilePicImgBrowse.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                profilePicImgBrowseMouseClicked(evt);
+            }
+        });
+
+        jLabel78.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel78.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_name_25px_2.png"))); // NOI18N
+
+        jLabel94.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_phone_25px.png"))); // NOI18N
+
+        jLabel95.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_home_address_25px.png"))); // NOI18N
+
+        jLabel96.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel96.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_password_25px.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
         jPanel25.setLayout(jPanel25Layout);
         jPanel25Layout.setHorizontalGroup(
             jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel25Layout.createSequentialGroup()
-                .addGap(77, 77, 77)
                 .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel25Layout.createSequentialGroup()
-                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(updateReceptionist, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(receptionistFName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(receptionistPhoneNo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel49)
-                            .addComponent(jLabel64)
-                            .addComponent(receptionistLName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel76)
-                            .addComponent(addNewUserAddress1, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                            .addComponent(jLabel77))
-                        .addGap(60, 60, 60)
-                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel70)
-                            .addComponent(jLabel73)
-                            .addComponent(receptionistPassChangeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel72)
-                            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(receptionistOldPass, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
-                                .addComponent(receptionistNewPass, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(receptionistNewConfPass, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(jPanel25Layout.createSequentialGroup()
+                        .addGap(77, 77, 77)
                         .addComponent(kGradientPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(receptionistFullName, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(receptionistFullName, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(profilePicImgBrowse)))
+                    .addGroup(jPanel25Layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel95, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel78, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel94, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(updateReceptionist, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel25Layout.createSequentialGroup()
+                                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(receptionistFName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(receptionistPhoneNo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel49)
+                                    .addComponent(jLabel64)
+                                    .addComponent(receptionistLName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel76)
+                                    .addComponent(addNewUserAddress1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel77))
+                                .addGap(24, 24, 24)
+                                .addComponent(jLabel96, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel70)
+                                    .addComponent(jLabel73)
+                                    .addComponent(jLabel72)
+                                    .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(receptionistOldPass, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                                        .addComponent(receptionistNewPass, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(receptionistNewConfPass, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(receptionistPassChangeBtn))))))
                 .addContainerGap(73, Short.MAX_VALUE))
         );
         jPanel25Layout.setVerticalGroup(
@@ -3544,17 +3751,45 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel25Layout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addComponent(kGradientPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel25Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(kGradientPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel25Layout.createSequentialGroup()
+                        .addGap(56, 56, 56)
                         .addComponent(receptionistFullName, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)))
-                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(profilePicImgBrowse)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel25Layout.createSequentialGroup()
+                        .addGap(186, 186, 186)
+                        .addComponent(jLabel77)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(addNewUserAddress1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel25Layout.createSequentialGroup()
+                        .addComponent(jLabel49)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel25Layout.createSequentialGroup()
+                                .addComponent(receptionistFName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel76)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(receptionistLName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel64)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(receptionistPhoneNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel25Layout.createSequentialGroup()
+                                .addComponent(jLabel78, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(90, 90, 90)
+                                .addComponent(jLabel94, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(32, 32, 32)
+                                .addComponent(jLabel95, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel25Layout.createSequentialGroup()
                         .addComponent(jLabel70)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(receptionistOldPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(receptionistOldPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel96, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel72)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -3562,44 +3797,44 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel73)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(receptionistNewConfPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel25Layout.createSequentialGroup()
-                        .addComponent(jLabel49)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(receptionistFName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel76)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(receptionistLName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel64)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(receptionistPhoneNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel25Layout.createSequentialGroup()
-                        .addComponent(jLabel77)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addNewUserAddress1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(receptionistPassChangeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(receptionistNewConfPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(receptionistPassChangeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
                 .addComponent(updateReceptionist, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         jPanel22.add(jPanel25, java.awt.BorderLayout.CENTER);
 
-        jPanel21.setBackground(new java.awt.Color(95, 0, 231));
-        jPanel21.setPreferredSize(new java.awt.Dimension(700, 40));
+        jPanel21.setBackground(new java.awt.Color(2, 127, 255));
+        jPanel21.setPreferredSize(new java.awt.Dimension(700, 30));
         jPanel21.setLayout(new java.awt.BorderLayout());
 
+        receptionistUpdateNotfication.setBackground(new java.awt.Color(2, 127, 255));
         receptionistUpdateNotfication.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        receptionistUpdateNotfication.setForeground(new java.awt.Color(255, 255, 255));
         receptionistUpdateNotfication.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         receptionistUpdateNotfication.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        receptionistUpdateNotfication.setPreferredSize(new java.awt.Dimension(700, 40));
+        receptionistUpdateNotfication.setPreferredSize(new java.awt.Dimension(700, 30));
         jPanel21.add(receptionistUpdateNotfication, java.awt.BorderLayout.CENTER);
 
         jPanel22.add(jPanel21, java.awt.BorderLayout.PAGE_START);
+
+        jPanel23.setBackground(new java.awt.Color(2, 127, 255));
+
+        javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
+        jPanel23.setLayout(jPanel23Layout);
+        jPanel23Layout.setHorizontalGroup(
+            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 700, Short.MAX_VALUE)
+        );
+        jPanel23Layout.setVerticalGroup(
+            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 30, Short.MAX_VALUE)
+        );
+
+        jPanel22.add(jPanel23, java.awt.BorderLayout.PAGE_END);
 
         jTabbedPane5.addTab("User Settings", jPanel22);
 
@@ -3613,51 +3848,72 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         kGradientPanel1.setkEndColor(new java.awt.Color(255, 255, 255));
         kGradientPanel1.setkStartColor(new java.awt.Color(255, 255, 255));
 
-        jLabel46.setText("Save Today Appointments");
+        jLabel82.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_json_download_120px.png"))); // NOI18N
+        jLabel82.setText("jLabel80");
 
-        jLabel79.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
-        jLabel79.setText("Save Patient Details");
+        jLabel90.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_pdf_120px.png"))); // NOI18N
 
-        jsonCreateBtn.setForeground(new java.awt.Color(0, 102, 255));
-        jsonCreateBtn.setText("Save JSON");
-        jsonCreateBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jsonCreateBtn.setkAllowGradient(false);
-        jsonCreateBtn.setkFillButton(false);
-        jsonCreateBtn.addActionListener(new java.awt.event.ActionListener() {
+        jLabel91.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLabel91.setText("Save Today Appointments");
+
+        jButton2.setBackground(new java.awt.Color(159, 2, 221));
+        jButton2.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Save To PDF");
+
+        saveToJson.setBackground(new java.awt.Color(159, 2, 221));
+        saveToJson.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        saveToJson.setForeground(new java.awt.Color(255, 255, 255));
+        saveToJson.setText("Save As JSON");
+        saveToJson.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                saveToJsonMouseClicked(evt);
+            }
+        });
+        saveToJson.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jsonCreateBtnActionPerformed(evt);
+                saveToJsonActionPerformed(evt);
             }
         });
 
-        jLabel80.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_json_download_20px.png"))); // NOI18N
+        jLabel83.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLabel83.setText("Save Patient Details");
 
         javax.swing.GroupLayout kGradientPanel1Layout = new javax.swing.GroupLayout(kGradientPanel1);
         kGradientPanel1.setLayout(kGradientPanel1Layout);
         kGradientPanel1Layout.setHorizontalGroup(
             kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(kGradientPanel1Layout.createSequentialGroup()
-                .addGap(47, 47, 47)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kGradientPanel1Layout.createSequentialGroup()
+                .addContainerGap(166, Short.MAX_VALUE)
                 .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel46)
-                    .addComponent(jLabel79)
-                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
-                        .addComponent(jsonCreateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel80)))
-                .addContainerGap(410, Short.MAX_VALUE))
+                    .addComponent(jLabel83)
+                    .addComponent(saveToJson)
+                    .addComponent(jLabel82, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(48, 48, 48)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel91)
+                    .addComponent(jButton2)
+                    .addComponent(jLabel90, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(147, 147, 147))
         );
         kGradientPanel1Layout.setVerticalGroup(
             kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(kGradientPanel1Layout.createSequentialGroup()
-                .addGap(176, 176, 176)
-                .addComponent(jLabel79)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(196, 196, 196)
                 .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel80, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-                    .addComponent(jsonCreateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel46)
-                .addContainerGap(347, Short.MAX_VALUE))
+                    .addComponent(jLabel82, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel90, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel91)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel83)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(saveToJson)))
+                .addContainerGap(244, Short.MAX_VALUE))
         );
 
         reportPanel.add(kGradientPanel1, java.awt.BorderLayout.CENTER);
@@ -3688,6 +3944,22 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+        //text field clear function-------------------------------------------------
+    private static void textFieldClear(ArrayList <JTextField> textFieldList){
+        for(JTextField loopField:textFieldList){
+            loopField.setText("");
+        }
+    }
+    
+    //notification clear--------------------------------------------------------
+    private static void notificationClear(JLabel notificationLabel){   
+    new Timer(2500, (ActionEvent e) -> {
+        notificationLabel.setText("");
+    }).start();
+    }
+    
+    
+    
         Action action = new AbstractAction()
 {
     public void actionPerformed(ActionEvent e)
@@ -3703,12 +3975,19 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
             return dataRow;
     }
 
+    private String getSelectedState(JTable relevantTable){
+        TableModel model = relevantTable.getModel();
+        int selectedRowIndex = relevantTable.getSelectedRow();
+        if(String.valueOf(model.getValueAt(selectedRowIndex,5)).equals("Approved")){
+            return "Pending";
+        }else{
+            return "Approved";
+        }
+    }
     
     private String getSelectedRowStringFromReleventTable(JTable relevantTable){
         TableModel model = relevantTable.getModel();
-        
         int selectedRowIndex = relevantTable.getSelectedRow();
-            
           String objectString="";  
           for(int i = 0; i < model.getColumnCount(); i++){
             if(i==0){  
@@ -3717,15 +3996,12 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
             objectString=objectString+","+String.valueOf(model.getValueAt(selectedRowIndex,i));
             }
          }
-          
-          
          return objectString; 
     }
     
     private String getUpdatedRowStringFromReleventTable(JTable relevantTable,
             int updateRowNo){
         TableModel model = relevantTable.getModel();
-                  
           String objectString="";  
           for(int i = 0; i < model.getColumnCount(); i++){
             if(i==0){  
@@ -3734,13 +4010,9 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
             objectString=objectString+","+String.valueOf(model.getValueAt(updateRowNo,i));
             }
          }
-          
-          
          return objectString; 
     }
-    
-    
-    
+     
     private void headerMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_headerMouseDragged
         int xCordinate=evt.getXOnScreen();
         int yCordinate=evt.getYOnScreen();
@@ -3805,11 +4077,10 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     private void AddNewAppointmentBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddNewAppointmentBtnMouseClicked
         boolean textField11=addNewAppointmentPatientName.getText().equals("");
         boolean textField12=addNewAppointmentSymptoms.getText().equals("");
-        boolean textField13=addNewAppointmentConclution.getText().equals("");
 
-        if(!(textField11 || textField12 || textField13)){
-
-            addNewAppointmentNotficationLabel.setText("Sumbiting the Complain");
+        if(!(textField11 || textField12)){
+            addNewAppointmentNotficationLabel.setText("Sumbiting the Appointment");
+            notificationClear(addNewAppointmentNotficationLabel);
             date appointmentDateObj=new date(
                 (Integer)addNewAppointmentDay.getValue(),
                 (Integer)addNewAppointmentMonth.getValue(),
@@ -3821,29 +4092,24 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 AddNewAppointmentAMPM.getSelectedItem().toString()
             );
             appointmentController addNewApp=new appointmentController(
-                addNewAppointmentPatientName.getText(),
-                MedicalOfficerDropDown.getSelectedItem().toString(),
-                appointmentDateObj,
-                appointmentTimeObj,
-                addNewAppointmentSymptoms.getText(),
-                addNewAppointmentConclution.getText(),
-                "incoming");
-
-            AppointmentModel.writingTXT(addNewApp.toString());
-
-        }else{
+                addNewAppointmentPatientName.getText(),//0
+                MedicalOfficerDropDown.getSelectedItem().toString(),//1
+                appointmentDateObj,//2
+                appointmentTimeObj,//3
+                addNewAppointmentSymptoms.getText(),//4
+                "Pending",//5
+                AppointmentModel.getNextAppRefNo());//6
+                AppointmentModel.writingTXT(addNewApp.toString());
+                ArrayList<JTextField> textFieldList=new ArrayList<JTextField>();
+                textFieldList.add(addNewAppointmentPatientName);
+                textFieldList.add(addNewAppointmentSymptoms);
+                textFieldClear(textFieldList);
+           }else{
             addNewAppointmentNotficationLabel.setText("Please fill all fields");
+            notificationClear(addNewAppointmentNotficationLabel);
+            
         }
-
     }//GEN-LAST:event_AddNewAppointmentBtnMouseClicked
-
-    private void AddNewAppointmentBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewAppointmentBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AddNewAppointmentBtnActionPerformed
-
-    private void AddNewAppointmentAMPMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewAppointmentAMPMActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AddNewAppointmentAMPMActionPerformed
 
     private void MedicalOfficerDropDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MedicalOfficerDropDownActionPerformed
         // TODO add your handling code here:
@@ -3862,19 +4128,14 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_AddNewAppointmnetSpecializedAreaDropDownItemStateChanged
 
     private void AppIntialSaveBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AppIntialSaveBtnMouseClicked
-        TableCellListener tcl = new TableCellListener(viewAppointmentTable, action);
         areYouWantToDelete.setVisible(true);
         areYouWantToDelete.setText("Record Has Been Updated");
-
+        notificationClear(areYouWantToDelete);
         AppointmentModel.updateAppointment(updateRow,
             getUpdatedRowStringFromReleventTable(viewAppointmentTable,updateRow)
         );
         AppointmentModel.viewAppointment(viewAppointmentTable);
     }//GEN-LAST:event_AppIntialSaveBtnMouseClicked
-
-    private void AppIntialSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AppIntialSaveBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AppIntialSaveBtnActionPerformed
 
     private void AppIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AppIntialDeleteBtnMouseClicked
         if(!viewAppointmentTable.getSelectionModel().isSelectionEmpty()){
@@ -3885,12 +4146,9 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         }else{
             areYouWantToDelete.setVisible(true);
             areYouWantToDelete.setText("Please Select the Record To Delete");
+            notificationClear(areYouWantToDelete);
         }
     }//GEN-LAST:event_AppIntialDeleteBtnMouseClicked
-
-    private void AppIntialDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AppIntialDeleteBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AppIntialDeleteBtnActionPerformed
 
     private void deleteConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteConformationYesMouseClicked
         if(!viewAppointmentTable.getSelectionModel().isSelectionEmpty()){
@@ -3907,14 +4165,11 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
             areYouWantToDelete.setText("Please Select the Row to Delete");
             deleteConformationYes.setVisible(false);
             deleteConformationNo.setVisible(false);
+            notificationClear(areYouWantToDelete);
 
         }
 
     }//GEN-LAST:event_deleteConformationYesMouseClicked
-
-    private void deleteConformationYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteConformationYesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_deleteConformationYesActionPerformed
 
     private void deleteConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteConformationNoMouseClicked
         deleteConformationYes.setVisible(false);
@@ -3954,6 +4209,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         boolean textField17=VisitorRecordNIC.getText().equals("");
         if(!(textField14 || textField15 || textField16 || textField17)){
             VisitorRecordNotification.setText("Sumbiting Record");
+            notificationClear(VisitorRecordNotification);
             //craeting date/time object for get current date/time
 
             date visitorCurrentDateObj=new date();
@@ -3977,38 +4233,32 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 visitorOutTimeObj,
                 VisitorRecordNote.getText());
             VisitorModel.writingTXT(addNewVisitorRecordObj.toString());
+            ArrayList<JTextField> textFieldList=new ArrayList<JTextField>();
+            textFieldList.add(VisitorRecordName);
+            textFieldList.add(VisitorRecordPhoneNo);
+            textFieldList.add(VisitorRecordPurpose);
+            textFieldList.add(VisitorRecordNIC);
+            textFieldClear(textFieldList);
 
         }else{
             VisitorRecordNotification.setText("Please fill the Fields");
-
+            notificationClear(VisitorRecordNotification);
         }
     }//GEN-LAST:event_AddNewVisitorRecordMouseClicked
-
-    private void AddNewVisitorRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewVisitorRecordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AddNewVisitorRecordActionPerformed
 
     private void VisitorRecordAmPmStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisitorRecordAmPmStateActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_VisitorRecordAmPmStateActionPerformed
 
-    private void viewVisitorsRecordTablePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_viewVisitorsRecordTablePropertyChange
-
-    }//GEN-LAST:event_viewVisitorsRecordTablePropertyChange
-
     private void visitorUpdateIntialBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_visitorUpdateIntialBtnMouseClicked
-        TableCellListener tcl = new TableCellListener(viewVisitorsRecordTable, action);
         VisitorAreYouWantToDelete.setText("Record Has Been Updated");
+        notificationClear(VisitorAreYouWantToDelete);
         VisitorModel.updateVisitors(updateRow,
-            getUpdatedRowStringFromReleventTable(viewVisitorsRecordTable,updateRow)
+          getUpdatedRowStringFromReleventTable(viewVisitorsRecordTable,updateRow)
         );
         VisitorModel.viewVisitor(viewVisitorsRecordTable);
 
     }//GEN-LAST:event_visitorUpdateIntialBtnMouseClicked
-
-    private void visitorUpdateIntialBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visitorUpdateIntialBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_visitorUpdateIntialBtnActionPerformed
 
     private void VisitorIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VisitorIntialDeleteBtnMouseClicked
         if(!viewVisitorsRecordTable.getSelectionModel().isSelectionEmpty()){
@@ -4019,18 +4269,14 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         }else{
             VisitorAreYouWantToDelete.setVisible(true);
             VisitorAreYouWantToDelete.setText("Please Select the Record To Delete");
+            notificationClear(VisitorAreYouWantToDelete);
         }
     }//GEN-LAST:event_VisitorIntialDeleteBtnMouseClicked
 
-    private void VisitorIntialDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisitorIntialDeleteBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_VisitorIntialDeleteBtnActionPerformed
-
     private void deleteVisitorRecordConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteVisitorRecordConformationYesMouseClicked
         if(!viewVisitorsRecordTable.getSelectionModel().isSelectionEmpty()){
-
             visitorsController deleteAppObj=new visitorsController(
-                getSelectedRowStringFromReleventTable(viewVisitorsRecordTable));
+            getSelectedRowStringFromReleventTable(viewVisitorsRecordTable));
             VisitorModel.deleteVisitors(deleteAppObj);
             VisitorModel.viewVisitor(viewVisitorsRecordTable);
             deleteVisitorRecordConformationYes.setVisible(false);
@@ -4046,19 +4292,11 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_deleteVisitorRecordConformationYesMouseClicked
 
-    private void deleteVisitorRecordConformationYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteVisitorRecordConformationYesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_deleteVisitorRecordConformationYesActionPerformed
-
     private void deleteVisitorRecordConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteVisitorRecordConformationNoMouseClicked
         deleteVisitorRecordConformationYes.setVisible(false);
         deleteVisitorRecordConformationNo.setVisible(false);
         VisitorAreYouWantToDelete.setVisible(false);
     }//GEN-LAST:event_deleteVisitorRecordConformationNoMouseClicked
-
-    private void deleteVisitorRecordConformationNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteVisitorRecordConformationNoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_deleteVisitorRecordConformationNoActionPerformed
 
     private void viewVisitorsBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewVisitorsBtnMouseClicked
         VisitorModel.viewVisitor(viewVisitorsRecordTable);
@@ -4072,6 +4310,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         boolean textField22=RecievedPostAddress.getText().equals("");
         if(!(textField18 || textField19 || textField20 || textField21 || textField22)){
             recievedPostNotification.setText("Sumbiting Record");
+            notificationClear(recievedPostNotification);
             //craeting date/time object for get current date/time
 
             date postalRecievedDateObj=new date(
@@ -4090,8 +4329,14 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 postalRecievedDateObj);
 
             RecievedPostModel.writingTXT(newRecievedPostObj.toString());
+            ArrayList<JTextField> textFieldList=new ArrayList<JTextField>();
+            textFieldList.add(RecievedPostFrom);
+            textFieldList.add(RecievedPostTo);
+            textFieldList.add(RecievedPostRefNo);
+            textFieldClear(textFieldList);
         }else{
             recievedPostNotification.setText("Please Fill The Fields");
+            notificationClear(recievedPostNotification);
         }
     }//GEN-LAST:event_AddNewRecievedPostMouseClicked
 
@@ -4104,7 +4349,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         if(!(textField23 || textField24 || textField25 || textField26 || textField27)){
             dispatchPostNotification.setText("Sumbiting Record");
             //craeting date/time object for get current date/time
-
+            notificationClear(dispatchPostNotification);
             date postalDispatchDateObj=new date(
                 (Integer)DispatchPostDay.getValue(),
                 (Integer)DispatchPostMonth.getValue(),
@@ -4121,8 +4366,14 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 postalDispatchDateObj);
 
             DispatchModel.writingTXT(newDispatchPostObj.toString());
+            ArrayList<JTextField> textFieldList=new ArrayList<JTextField>();
+            textFieldList.add(DispatchPostFrom);
+            textFieldList.add(DispatchPostTo);
+            textFieldList.add(DispatchPostRefNo);
+            textFieldClear(textFieldList);
         }else{
             dispatchPostNotification.setText("Please Fill The Fields");
+            notificationClear(dispatchPostNotification);
         }
 
     }//GEN-LAST:event_AddNewDispatchPostMouseClicked
@@ -4134,6 +4385,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
             RecievedDeleteConformationNo.setEnabled(true);
         }else{
             recievedAreYouWantToDelete.setText("Please Select The Record");
+            notificationClear(recievedAreYouWantToDelete);
         }
 
     }//GEN-LAST:event_viewRecivedTableMouseClicked
@@ -4141,16 +4393,12 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     private void recievedUpdateBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_recievedUpdateBtnMouseClicked
         TableCellListener tcl = new TableCellListener(viewRecivedTable, action);
         recievedAreYouWantToDelete.setText("Record Has Been Updated");
-
+        notificationClear(recievedAreYouWantToDelete);
         RecievedPostModel.updateRecieved(updateRow,
             getUpdatedRowStringFromReleventTable(viewRecivedTable,updateRow)
         );
         RecievedPostModel.viewRecievedPost(viewRecivedTable);
     }//GEN-LAST:event_recievedUpdateBtnMouseClicked
-
-    private void recievedUpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recievedUpdateBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_recievedUpdateBtnActionPerformed
 
     private void RecivedPostIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RecivedPostIntialDeleteBtnMouseClicked
         if(!viewRecivedTable.getSelectionModel().isSelectionEmpty()){
@@ -4161,12 +4409,9 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         }else{
             recievedAreYouWantToDelete.setVisible(true);
             recievedAreYouWantToDelete.setText("Please Select the Record To Delete");
+            notificationClear(recievedAreYouWantToDelete);
         }
     }//GEN-LAST:event_RecivedPostIntialDeleteBtnMouseClicked
-
-    private void RecivedPostIntialDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RecivedPostIntialDeleteBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_RecivedPostIntialDeleteBtnActionPerformed
 
     private void RecievedDeleteConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RecievedDeleteConformationYesMouseClicked
         if(!viewRecivedTable.getSelectionModel().isSelectionEmpty()){
@@ -4203,7 +4448,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_RecievedDeleteConformationNoActionPerformed
 
     private void dispatchUpdateBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dispatchUpdateBtnMouseClicked
-        TableCellListener tcl = new TableCellListener(viewDispatchTable, action);
         dispatchAreYouWantToDelete.setText("Record Has Been Updated");
 
         DispatchModel.updateDispatch(updateRow,
@@ -4212,25 +4456,9 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         DispatchModel.viewDispatchPost(viewDispatchTable);
     }//GEN-LAST:event_dispatchUpdateBtnMouseClicked
 
-    private void dispatchUpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dispatchUpdateBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dispatchUpdateBtnActionPerformed
-
     private void DispatchIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DispatchIntialDeleteBtnMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_DispatchIntialDeleteBtnMouseClicked
-
-    private void DispatchIntialDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DispatchIntialDeleteBtnActionPerformed
-        if(!viewDispatchTable.getSelectionModel().isSelectionEmpty()){
-            dispatchAreYouWantToDelete.setVisible(true);
-            dispatchAreYouWantToDelete.setText("Are you sure want to delete this record?");
-            DispatchDeleteConformationNo.setVisible(true);
-            DispatchDeleteConformationYes.setVisible(true);
-        }else{
-            dispatchAreYouWantToDelete.setVisible(true);
-            dispatchAreYouWantToDelete.setText("Please Select the Record To Delete");
-        }
-    }//GEN-LAST:event_DispatchIntialDeleteBtnActionPerformed
 
     private void DispatchDeleteConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DispatchDeleteConformationYesMouseClicked
         if(!viewDispatchTable.getSelectionModel().isSelectionEmpty()){
@@ -4252,19 +4480,11 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
 
     }//GEN-LAST:event_DispatchDeleteConformationYesMouseClicked
 
-    private void DispatchDeleteConformationYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DispatchDeleteConformationYesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DispatchDeleteConformationYesActionPerformed
-
     private void DispatchDeleteConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DispatchDeleteConformationNoMouseClicked
         DispatchDeleteConformationYes.setVisible(false);
         DispatchDeleteConformationNo.setVisible(false);
         dispatchAreYouWantToDelete.setVisible(false);
     }//GEN-LAST:event_DispatchDeleteConformationNoMouseClicked
-
-    private void DispatchDeleteConformationNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DispatchDeleteConformationNoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DispatchDeleteConformationNoActionPerformed
 
     private void ViewRecievedDispatchPostMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ViewRecievedDispatchPostMouseClicked
         RecievedPostModel.viewRecievedPost(viewRecivedTable);
@@ -4297,8 +4517,13 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 AddNewComplainDesTextArea.getText(),
                 "no-action-taken",
                 AddNewComplainNote.getText(),
-                AddNewComplainReferenceDepartment.getSelectedItem().toString());
+                AddNewComplainReferenceDepartment.getSelectedItem().toString(),
+            ComplainModel.getNextReferenceNo());
             ComplainModel.writingTXT(newComplain.toString());
+            ArrayList<JTextField> textFieldList=new ArrayList<JTextField>();
+            textFieldList.add(AddNewComplainName);
+            textFieldList.add(AddNewComplainPhoneNumber);
+            textFieldClear(textFieldList);
         }else{
             complainWarning.setText("Please fill all fields");
         }
@@ -4309,7 +4534,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_AddNewComplainBtnActionPerformed
 
     private void complainUpdateSaveBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_complainUpdateSaveBtnMouseClicked
-        TableCellListener tcl = new TableCellListener(ComplainViewTable, action);
         ComplainAreYouWantToDelete.setText("Record Has Been Updated");
 
         ComplainModel.updateComplain(updateRow,
@@ -4318,10 +4542,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         ComplainModel.viewComplain(ComplainViewTable);
 
     }//GEN-LAST:event_complainUpdateSaveBtnMouseClicked
-
-    private void complainUpdateSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_complainUpdateSaveBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_complainUpdateSaveBtnActionPerformed
 
     private void ComplainDeleteIntialBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ComplainDeleteIntialBtnMouseClicked
         if(!ComplainViewTable.getSelectionModel().isSelectionEmpty()){
@@ -4421,9 +4641,11 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
 
                 if(addNewUserAllergies.getText().equals("")){
                     addNewUserFormNotificationLabel.setText("Please Fill The Data Fields");
+                    notificationClear(addNewUserFormNotificationLabel);
                 }else{
 
                     addNewUserFormNotificationLabel.setText("Sumbiting A Requset");
+                    notificationClear(addNewUserFormNotificationLabel);
                     //setup a date
 
                     patient newPatient=new patient(
@@ -4442,6 +4664,15 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                     //passing the value to model for write txt
                     PatientModel.writingTXT(newPatient.toString());
                     newPatient.newLoginPatient();
+            //text fields clear part-------------------------------------        
+            ArrayList<JTextField> textFieldList=new ArrayList<JTextField>();
+            textFieldList.add(addNewUserName);
+            textFieldList.add(addNewUserFirstName);
+            textFieldList.add(addNewUserLastName);
+            textFieldList.add(addNewUserPhoneNo);
+            textFieldList.add(addNewUserNIC);
+            textFieldClear(textFieldList);
+            //-----------------------------------------------------------
                 }
 
           
@@ -4449,13 +4680,9 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         }else{
 
             addNewUserFormNotificationLabel.setText("Please Fill The Data Fields");
-
+            notificationClear(addNewUserFormNotificationLabel);
         }
     }//GEN-LAST:event_addNewPatientBtnuserAddFunction
-
-    private void addNewPatientBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewPatientBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addNewPatientBtnActionPerformed
 
     private void AddNewUserGenderMaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewUserGenderMaleActionPerformed
         // TODO add your handling code here:
@@ -4470,19 +4697,14 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_bloodSelActionPerformed
 
     private void patientUpdateBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientUpdateBtnMouseClicked
-        TableCellListener tcl = new TableCellListener(patientDetailsTable, action);
         patientAreYouWantToDelete.setVisible(true);
         patientAreYouWantToDelete.setText("Record Has Been Updated");
-
+        notificationClear(patientAreYouWantToDelete);
         PatientModel.updatePatient(updateRow,
             getUpdatedRowStringFromReleventTable(patientDetailsTable,updateRow)
         );
         PatientModel.viewPatientDetails(patientDetailsTable);
     }//GEN-LAST:event_patientUpdateBtnMouseClicked
-
-    private void patientUpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientUpdateBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_patientUpdateBtnActionPerformed
 
     private void patientIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientIntialDeleteBtnMouseClicked
         if(!patientDetailsTable.getSelectionModel().isSelectionEmpty()){
@@ -4493,12 +4715,9 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         }else{
             patientAreYouWantToDelete.setVisible(true);
             patientAreYouWantToDelete.setText("Please Select the Record To Delete");
+            notificationClear(patientAreYouWantToDelete);
         }
     }//GEN-LAST:event_patientIntialDeleteBtnMouseClicked
-
-    private void patientIntialDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientIntialDeleteBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_patientIntialDeleteBtnActionPerformed
 
     private void patientDeleteConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientDeleteConformationYesMouseClicked
         if(!patientDetailsTable.getSelectionModel().isSelectionEmpty()){
@@ -4538,64 +4757,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel15MouseClicked
 
-    private void userLoginUpdateSaveBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userLoginUpdateSaveBtnMouseClicked
-        TableCellListener tcl = new TableCellListener(userLoginTable, action);
-        loginDetailsAreYouWantToDelete.setText("Record Has Been Updated");
-
-        UserModel.updateUser(updateRow,
-            getUpdatedRowStringFromReleventTable(userLoginTable,updateRow)
-        );
-        UserModel.viewLoginDetails(userLoginTable);
-
-    }//GEN-LAST:event_userLoginUpdateSaveBtnMouseClicked
-
-    private void userLoginUpdateSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userLoginUpdateSaveBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_userLoginUpdateSaveBtnActionPerformed
-
-    private void loginDetailsIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginDetailsIntialDeleteBtnMouseClicked
-        if(!userLoginTable.getSelectionModel().isSelectionEmpty()){
-            loginDetailsAreYouWantToDelete.setVisible(true);
-            loginDetailsAreYouWantToDelete.setText("Are you sure want to delete this record?");
-            loginDetailsConformationYes.setVisible(true);
-            loginDetailsConformationNo.setVisible(true);
-        }else{
-            loginDetailsAreYouWantToDelete.setVisible(true);
-            loginDetailsAreYouWantToDelete.setText("Please Select the Record To Delete");
-        }
-    }//GEN-LAST:event_loginDetailsIntialDeleteBtnMouseClicked
-
-    private void loginDetailsConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginDetailsConformationYesMouseClicked
-        if(!userLoginTable.getSelectionModel().isSelectionEmpty()){
-
-            loginController deleteAppObj=new loginController(stringSeparator(
-                getSelectedRowStringFromReleventTable(userLoginTable)));
-        UserModel.deleteUser(deleteAppObj);
-        UserModel.viewLoginDetails(userLoginTable);
-        loginDetailsConformationYes.setVisible(false);
-        loginDetailsConformationNo.setVisible(false);
-        loginDetailsAreYouWantToDelete.setVisible(false);
-
-        }else{
-
-            loginDetailsAreYouWantToDelete.setText("Please Select the Row to Delete");
-            loginDetailsConformationNo.setVisible(false);
-            loginDetailsConformationYes.setVisible(false);
-
-        }
-
-    }//GEN-LAST:event_loginDetailsConformationYesMouseClicked
-
-    private void loginDetailsConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginDetailsConformationNoMouseClicked
-        loginDetailsAreYouWantToDelete.setVisible(false);
-        loginDetailsConformationYes.setVisible(false);
-        loginDetailsConformationNo.setVisible(false);
-    }//GEN-LAST:event_loginDetailsConformationNoMouseClicked
-
-    private void jPanel39MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel39MouseClicked
-        UserModel.viewLoginDetails(userLoginTable);
-    }//GEN-LAST:event_jPanel39MouseClicked
-
     private void receptionistOldPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receptionistOldPassActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_receptionistOldPassActionPerformed
@@ -4606,7 +4767,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
 
     private void jTabbedPane5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane5MouseClicked
         PatientModel.viewPatientDetails(patientDetailsTable);
-        UserModel.viewLoginDetails(userLoginTable);
+
     }//GEN-LAST:event_jTabbedPane5MouseClicked
 
     private void MenuSwitch(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MenuSwitch
@@ -4627,6 +4788,8 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
             visitorsPanel.setVisible(false);
             userPanel.setVisible(false);
             reportPanel.setVisible(false);
+            dropDownFeederModel specialAreaObj=new dropDownFeederModel("specializedArea.txt",AddNewAppointmnetSpecializedAreaDropDown);
+            specialAreaObj.dropFeeder(true);
         }
         if(evt.getSource()==postal){
             homePannel.setVisible(false);
@@ -4645,6 +4808,8 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
             visitorsPanel.setVisible(false);
             userPanel.setVisible(false);
             reportPanel.setVisible(false);
+        dropDownFeederModel departmentObj=new dropDownFeederModel("departments.txt",AddNewComplainReferenceDepartment);
+        departmentObj.dropFeeder(true);
         }
         if(evt.getSource()==visitors){
             homePannel.setVisible(false);
@@ -4687,10 +4852,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_receptionistLNameActionPerformed
 
-    private void updateReceptionistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateReceptionistActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_updateReceptionistActionPerformed
-
     private void updateReceptionistMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateReceptionistMouseClicked
         ReceptionistModel.deleteReceptionist(logged);
         receptionist updateObj=logged;
@@ -4726,28 +4887,19 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
                 UserModel.updatePasswordByUser(logged.getUserName(),
                         new String(this.receptionistNewPass.getPassword()));
                 receptionistUpdateNotfication.setText("Passwords Updated!");
-                
+                notificationClear(receptionistUpdateNotfication);
             }else{
                 receptionistUpdateNotfication.setText("Old Password Wrong");
-            
+                notificationClear(receptionistUpdateNotfication);
             }
             
         }else{
             receptionistUpdateNotfication.setText("Password Are UnMatched");
+            notificationClear(receptionistUpdateNotfication);
         }
         
         
     }//GEN-LAST:event_receptionistPassChangeBtnMouseClicked
-
-    private void appIncreBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_appIncreBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_appIncreBtnActionPerformed
-
-    private void appDecrBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_appDecrBtnActionPerformed
-        if(appCount.getText()!="0"){
-            appCount.setText(""+(Integer.parseInt(appCount.getText())-1)+"");
-        }
-    }//GEN-LAST:event_appDecrBtnActionPerformed
 
     private void appClearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_appClearBtnActionPerformed
         // TODO add your handling code here:
@@ -4769,11 +4921,64 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
         receptionist nullObj=null;
         logged=nullObj;
         new startLogin().setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_logOutBtnMouseClicked
 
-    private void jsonCreateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jsonCreateBtnActionPerformed
+    private void minimumBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimumBtnMouseClicked
+        this.setState(JFrame.ICONIFIED);
+    }//GEN-LAST:event_minimumBtnMouseClicked
+
+    private void resetPatientPasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resetPatientPasswordMouseClicked
+        if(!patientDetailsTable.getSelectionModel().isSelectionEmpty()){
+             
+        UserModel.patientPassReset(getSelectedRowStringFromReleventTable(patientDetailsTable));
+        patientAreYouWantToDelete.setText("Password Reset");
+        notificationClear(patientAreYouWantToDelete);
+        }else{
+            patientAreYouWantToDelete.setText("Select the Row to Reset");
+            notificationClear(patientAreYouWantToDelete);
+        }
+    }//GEN-LAST:event_resetPatientPasswordMouseClicked
+
+    private void saveToJsonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveToJsonMouseClicked
+        ReportModel.patientToJson();
+    }//GEN-LAST:event_saveToJsonMouseClicked
+
+    private void saveToJsonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveToJsonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jsonCreateBtnActionPerformed
+    }//GEN-LAST:event_saveToJsonActionPerformed
+
+    private void profilePicImgBrowseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profilePicImgBrowseMouseClicked
+        profilePictureModel.changeProfilePicture(receptionistUpdateNotfication,logged.getUserNIC(),logged.getUserName());
+        //profile picture loader---------------------------------------------------
+        profilePictureModel.profilePicLoader(profilePicture,logged.getUserName());
+        //------------------------------------------------------------------------
+    }//GEN-LAST:event_profilePicImgBrowseMouseClicked
+
+    private void changeAppointmentStatusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_changeAppointmentStatusMouseClicked
+        if(!viewAppointmentTable.getSelectionModel().isSelectionEmpty()){
+
+            try {
+                AppointmentModel.updateAppointmentState(getSelectedRowStringFromReleventTable(viewAppointmentTable),getSelectedState(viewAppointmentTable));
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(homeReceptionistGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            AppointmentModel.viewAppointment(viewAppointmentTable);
+            areYouWantToDelete.setText("Status Changed");
+            notificationClear(areYouWantToDelete);
+        }else{
+            areYouWantToDelete.setText("Select the Row to change");
+            notificationClear(areYouWantToDelete);
+        }
+    }//GEN-LAST:event_changeAppointmentStatusMouseClicked
+
+    private void appDecrBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_appDecrBtnMouseClicked
+        if(appCount.getText().equals("0")){
+            
+        }else{
+            appCount.setText(""+(Integer.parseInt(appCount.getText())-1)+"");
+        }
+    }//GEN-LAST:event_appDecrBtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -4871,7 +5076,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     private javax.swing.JSpinner VisitorRecordOutMinutes;
     private javax.swing.JTextField VisitorRecordPhoneNo;
     private javax.swing.JTextField VisitorRecordPurpose;
-    private javax.swing.JTextField addNewAppointmentConclution;
     private javax.swing.JSpinner addNewAppointmentDay;
     private javax.swing.JSpinner addNewAppointmentMonth;
     private javax.swing.JLabel addNewAppointmentNotficationLabel;
@@ -4905,6 +5109,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     private javax.swing.JLabel calenderDay;
     private javax.swing.JLabel calenderMonth;
     private javax.swing.JLabel calenderYear;
+    private javax.swing.JButton changeAppointmentStatus;
     private keeptoo.KGradientPanel closeBtn;
     private javax.swing.JPanel closeMaxMinPanel;
     private javax.swing.JPanel complain;
@@ -4932,9 +5137,30 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     private javax.swing.JPanel homeMainPannel;
     private javax.swing.JPanel homePannel;
     private keeptoo.KGradientPanel hourHome;
+    private keeptoo.KGradientPanel hourHome1;
+    private keeptoo.KGradientPanel hourHome2;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel100;
+    private javax.swing.JLabel jLabel101;
+    private javax.swing.JLabel jLabel102;
+    private javax.swing.JLabel jLabel103;
+    private javax.swing.JLabel jLabel104;
+    private javax.swing.JLabel jLabel105;
+    private javax.swing.JLabel jLabel107;
+    private javax.swing.JLabel jLabel108;
+    private javax.swing.JLabel jLabel109;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel110;
+    private javax.swing.JLabel jLabel111;
+    private javax.swing.JLabel jLabel112;
+    private javax.swing.JLabel jLabel113;
+    private javax.swing.JLabel jLabel114;
+    private javax.swing.JLabel jLabel115;
+    private javax.swing.JLabel jLabel116;
+    private javax.swing.JLabel jLabel117;
+    private javax.swing.JLabel jLabel118;
+    private javax.swing.JLabel jLabel119;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -5014,7 +5240,23 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel81;
     private javax.swing.JLabel jLabel82;
     private javax.swing.JLabel jLabel83;
+    private javax.swing.JLabel jLabel84;
+    private javax.swing.JLabel jLabel85;
+    private javax.swing.JLabel jLabel86;
+    private javax.swing.JLabel jLabel87;
+    private javax.swing.JLabel jLabel88;
+    private javax.swing.JLabel jLabel89;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel90;
+    private javax.swing.JLabel jLabel91;
+    private javax.swing.JLabel jLabel92;
+    private javax.swing.JLabel jLabel93;
+    private javax.swing.JLabel jLabel94;
+    private javax.swing.JLabel jLabel95;
+    private javax.swing.JLabel jLabel96;
+    private javax.swing.JLabel jLabel97;
+    private javax.swing.JLabel jLabel98;
+    private javax.swing.JLabel jLabel99;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -5030,6 +5272,8 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
     private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel27;
@@ -5040,10 +5284,7 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel33;
     private javax.swing.JPanel jPanel36;
     private javax.swing.JPanel jPanel37;
-    private javax.swing.JPanel jPanel39;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel40;
-    private javax.swing.JPanel jPanel41;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
@@ -5052,7 +5293,6 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
-    private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -5061,21 +5301,16 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTabbedPane jTabbedPane5;
-    private keeptoo.KButton jsonCreateBtn;
     private keeptoo.KGradientPanel kGradientPanel1;
     private keeptoo.KGradientPanel kGradientPanel3;
     private javax.swing.JButton logOutBtn;
-    private javax.swing.JLabel loginDetailsAreYouWantToDelete;
-    private javax.swing.JButton loginDetailsConformationNo;
-    private javax.swing.JButton loginDetailsConformationYes;
-    private javax.swing.JButton loginDetailsIntialDeleteBtn;
     private javax.swing.JLabel mainClockAMPM;
     private javax.swing.JLabel mainClockHours;
     private javax.swing.JLabel mainClockMinutes;
+    private javax.swing.JLabel mainClockSeconds;
     private javax.swing.ButtonGroup marriedState;
     private keeptoo.KGradientPanel maximumBtn;
     private keeptoo.KGradientPanel minimumBtn;
-    private keeptoo.KGradientPanel minutesHome;
     private javax.swing.JPanel newAppPanel;
     private javax.swing.JLabel patientAreYouWantToDelete;
     private javax.swing.JButton patientDeleteConformationNo;
@@ -5086,6 +5321,8 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     private javax.swing.JButton patientUpdateBtn;
     private javax.swing.JPanel postal;
     private javax.swing.JPanel postalPanel;
+    private javax.swing.JButton profilePicImgBrowse;
+    private javax.swing.JLabel profilePicture;
     private javax.swing.JTextArea receptionistAddress;
     private javax.swing.JTextField receptionistFName;
     private javax.swing.JLabel receptionistFullName;
@@ -5103,12 +5340,12 @@ public class homeReceptionistGUI extends javax.swing.JFrame {
     private javax.swing.JButton recievedUpdateBtn;
     private javax.swing.JPanel report;
     private javax.swing.JPanel reportPanel;
+    private javax.swing.JButton resetPatientPassword;
+    private javax.swing.JButton saveToJson;
     private javax.swing.JPanel sideMenu;
     private javax.swing.JButton updateReceptionist;
     private javax.swing.JPanel user;
     private javax.swing.JPanel userDetails;
-    private javax.swing.JTable userLoginTable;
-    private javax.swing.JButton userLoginUpdateSaveBtn;
     private javax.swing.JPanel userPanel;
     private javax.swing.JPanel viewAppPanel;
     private javax.swing.JTabbedPane viewAppointmentBtn;

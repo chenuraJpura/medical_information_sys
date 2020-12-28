@@ -69,16 +69,10 @@ public static void viewVisitor(JTable visitorViewTable){
         
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
-            // get the first line
-            // get the columns name from the first line
-            // set columns name to the jtable model
-            //String firstLine = br.readLine().trim();
-            //String[] columnsName = firstLine.split(",");
+
             DefaultTableModel model=(DefaultTableModel) visitorViewTable.getModel();
             model.setRowCount(0);
         
-        //model.setColumnIdentifiers(columnsName);
-            
             // get lines from txt file
             Object[] tableLines = br.lines().toArray();
             
@@ -90,7 +84,7 @@ public static void viewVisitor(JTable visitorViewTable){
                 String[] dataRow = line.split(",");
                 model.addRow(dataRow);
             }
-            
+            br.close();
             
         } catch (Exception ex) {
             Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -140,7 +134,7 @@ public static void viewVisitor(JTable visitorViewTable){
                 if(deleteObj.objectMathcer(loopObj)){
                    break;
                 }
-                deleteIndexNo=+1;
+                deleteIndexNo+=1;
                 
             }
           visitObjList.remove(deleteIndexNo);
@@ -151,6 +145,8 @@ public static void viewVisitor(JTable visitorViewTable){
              writingTXT(loopObj.toString());
                 
           }
+          
+          br.close();
                   
         }catch (Exception ex){
                     Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -179,13 +175,11 @@ public static void viewVisitor(JTable visitorViewTable){
             // extratct data from lines and add to the object array list
             for(int i = 0; i < tableLines.length; i++){
                 String line = tableLines[i].toString().trim();
-                
                 currAppObj=new visitorsController(line);
-                
                 visitObjList.add(currAppObj);
                 
             }
-            
+              
             visitObjList.set(deleteRowNumber,updatedObj);
 
             //deleting a all lines in the txt
@@ -199,6 +193,8 @@ public static void viewVisitor(JTable visitorViewTable){
               writingTXT(loopObj.toString());
                 
             }
+            
+            br.close();
                   
         }catch (Exception ex){
                     Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);

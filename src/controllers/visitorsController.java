@@ -29,7 +29,6 @@ public class visitorsController {
     public visitorsController(String commaSeperatedString){
         
         String[] dataRow = commaSeperatedString.split(",");
-        
                 setVisitID(dataRow[0]);
                 setVisitName(dataRow[1]);
                 setVisitPurpose(dataRow[2]);

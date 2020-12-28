@@ -78,6 +78,8 @@ private static String filePath = "userData\\receptionistDetails.txt";
                 String[] dataRow = line.split(",");
                 model.addRow(dataRow);
             }
+            
+            br.close();
                   
         }catch (Exception ex){
                     Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -124,6 +126,8 @@ public static void updateReceptionist(int deleteRowNumber,String updatedString){
               writingTXT(loopObj.toString());
                 
             }
+            
+            br.close();
                   
         }catch (Exception ex){
                     Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -165,7 +169,7 @@ public static void updateReceptionist(int deleteRowNumber,String updatedString){
                 if(deleteObj.objectMathcer(loopObj)){
                    break;
                 }
-                deleteIndexNo=+1;
+                deleteIndexNo+=1;
                 
             }
           receptionObjList.remove(deleteIndexNo);
@@ -176,6 +180,8 @@ public static void updateReceptionist(int deleteRowNumber,String updatedString){
              writingTXT(loopObj.toString());
                 
           }
+          
+          br.close();
                   
         }catch (Exception ex){
                     Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);

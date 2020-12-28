@@ -1,4 +1,3 @@
-
 package controllers;
 
 public class appointmentController {
@@ -7,45 +6,40 @@ public class appointmentController {
     private date appDate;
     private time appTime;
     private String appSymptoms;
-    private String appConclution;
     private String appStatus;
     private String medicalOfficersFullName;
+    private int appRefNo;
     //default constructor
+    
     public appointmentController(
             String appPatientName,
             String medicalOfficersFullName,
             date appDate,
             time appTime, 
             String appSymptoms, 
-            String appConclution, 
-            String appStatus) {
+            String appStatus,
+            int appRefNo) {
         this.appPatientName = appPatientName;
         this.medicalOfficersFullName=medicalOfficersFullName;
         this.appDate = appDate;
         this.appTime = appTime;
         this.appSymptoms = appSymptoms;
-        this.appConclution = appConclution;
         this.appStatus = appStatus;
+        setAppRefNo(appRefNo);
     }
-        public appointmentController(String commaSeperatedString){
-        
-        String[] dataRow = commaSeperatedString.split(",");
-        
+    public appointmentController(String commaSeperatedString){
+    String[] dataRow = commaSeperatedString.split(",");
                 setAppPatientName(dataRow[0]);
                 setMedicalOfficersFullName(dataRow[1]);
                 setAppDate(new date(dataRow[2]));
                 setAppTime(new time(dataRow[3]));
                 setAppSymptoms(dataRow[4]);
-                setAppConclution(dataRow[5]);
-                setAppStatus(dataRow[6]);
-       
-    
+                setAppStatus(dataRow[5]);
+                setAppRefNo(Integer.parseInt(dataRow[6]));
     }
             
     public boolean objectMathcer(appointmentController matchObj){
-        
         return matchObj.toString().equals(this.toString());
-         
     }
 
     public String getMedicalOfficersFullName() {
@@ -55,8 +49,6 @@ public class appointmentController {
     public void setMedicalOfficersFullName(String medicalOfficersFullName) {
         this.medicalOfficersFullName = medicalOfficersFullName;
     }
-
-    
     
     @Override
     public String toString(){
@@ -65,8 +57,8 @@ public class appointmentController {
                appDate.toString()+","+
                appTime.toString()+","+
                getAppSymptoms()+","+
-               getAppConclution()+","+
-               getAppStatus() ;
+               getAppStatus()+","+
+               getAppRefNo();
     }
     
     public String getAppPatientName() {
@@ -76,7 +68,7 @@ public class appointmentController {
     public void setAppPatientName(String appPatientName) {
         this.appPatientName = appPatientName;
     }
-//getter and setter
+    //getter and setter
     public date getAppDate() {
         return appDate;
     }
@@ -101,14 +93,6 @@ public class appointmentController {
         this.appSymptoms = appSymptoms;
     }
 
-    public String getAppConclution() {
-        return appConclution;
-    }
-
-    public void setAppConclution(String appConclution) {
-        this.appConclution = appConclution;
-    }
-
     public String getAppStatus() {
         return appStatus;
     }
@@ -116,11 +100,13 @@ public class appointmentController {
     public void setAppStatus(String appStatus) {
         this.appStatus = appStatus;
     }
-    
 
-    
+    public int getAppRefNo() {
+        return appRefNo;
+    }
 
-
-
-    
+    public void setAppRefNo(int appRefNo) {
+        this.appRefNo = appRefNo;
+    }
+  
 }

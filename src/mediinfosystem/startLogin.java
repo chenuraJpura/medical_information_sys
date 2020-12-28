@@ -4,10 +4,17 @@ import com.formdev.flatlaf.FlatLightLaf;
 import controllers.encryptionController;
 import controllers.loginUserController;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JLabel;
+import javax.swing.Timer;
 import javax.swing.UIManager;
 import model.UserModel;
 import model.loginFeederModel;
 import view.homeAdminGUI;
+import view.homeMedicalOfficer;
 import view.homePatientGUI;
 import view.homeReceptionistGUI;
 
@@ -179,16 +186,11 @@ public class startLogin extends javax.swing.JFrame {
 
         userImg.setBackground(new java.awt.Color(0, 0, 0));
         userImg.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
-        userImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_medical_doctor_48px_1.png"))); // NOI18N
+        userImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_medical_doctor_48px.png"))); // NOI18N
 
         passImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/password.png"))); // NOI18N
 
         userNameTextField.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        userNameTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                userNameTextFieldActionPerformed(evt);
-            }
-        });
 
         jLabel6.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(204, 0, 153));
@@ -214,7 +216,7 @@ public class startLogin extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_hospital_3_120px.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_treatment_120px_1.png"))); // NOI18N
 
         passPasswordField.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         passPasswordField.setPreferredSize(new java.awt.Dimension(90, 24));
@@ -289,13 +291,16 @@ public class startLogin extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    //notification clear--------------------------------------------------------
+    private void notificationClear(JLabel notificationLabel){   
+    new Timer(1500, (ActionEvent e) -> {
+        notificationLabel.setText("");
+    }).start();
+    }
+    
     private void closeLoginBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeLoginBtnMouseClicked
         System.exit(0);
     }//GEN-LAST:event_closeLoginBtnMouseClicked
-
-    private void userNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNameTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_userNameTextFieldActionPerformed
 
     private void userLoginBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userLoginBtnMouseClicked
         if(!userNameTextField.getText().equals("") && !passPasswordField.getPassword().equals("")){
@@ -310,10 +315,6 @@ public class startLogin extends javax.swing.JFrame {
                 loginFeederModel loginFeedObj=new loginFeederModel(userName,newLogin.getUserType());
                 UserModel.writeNewLog(newLogin.loginLogNewRecord());
                 switch(newLogin.getUserType()){
-                    case "ADMIN":
-                        new homeAdminGUI("ADMIN","CHENURA").setVisible(true);
-                        this.setVisible(false);
-                        break;
                     case "PAT":
                         loginFeedObj.getMatchedPatientObj();
                         new homePatientGUI(loginFeedObj.getMatchedPatientObj(),userPass).setVisible(true);
@@ -324,17 +325,35 @@ public class startLogin extends javax.swing.JFrame {
                         this.setVisible(false);
                         break;
                     case "MED":
-                        
+                        loginFeedObj.getMatchedMedicalOfficerObj();
+                    {
+                        try {
+                            new homeMedicalOfficer(loginFeedObj.getMatchedMedicalOfficerObj(), userPass).setVisible(true);
+                        } catch (FileNotFoundException ex) {
+                            Logger.getLogger(startLogin.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                        this.setVisible(false);
                         break;
+
                 }
             }else{
+                        //hard coded admin login section------------------------
+                        
+                        if(userPass.equals("5b67b9cea41a79fcf64bb35f66de6689") && userName.equals("Admin")){
+                            new homeAdminGUI("ADMIN").setVisible(true);
+                            this.setVisible(false);
+                        }
+                        
+                        //--------------------------------------------------------
                         loginNotification.setText("Login Details Are Wrong");
+                        notificationClear(loginNotification);
                  }
 
         }else{
 
             loginNotification.setText("Enter Username & Password");
-
+            notificationClear(loginNotification);
         }
     }//GEN-LAST:event_userLoginBtnMouseClicked
 

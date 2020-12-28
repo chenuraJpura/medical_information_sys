@@ -1,8 +1,6 @@
 
 package controllers;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 
 public class complainsController {
     
@@ -13,6 +11,7 @@ public class complainsController {
     private String complainDescription;
     private String complainActionTaken;
     private String complainNote;
+    private int complainRefNo;
 
     public complainsController(String commaSeperatedString){
         String[] dataRow = commaSeperatedString.split(",");
@@ -24,6 +23,7 @@ public class complainsController {
                 setComplainActionTaken(dataRow[4]);
                 setComplainNote(dataRow[5]);
                 setComplainReference(dataRow[6]);
+                setComplainRefNo(Integer.parseInt(dataRow[7]));
                 
     }
     
@@ -35,7 +35,8 @@ public class complainsController {
                 getComplainDescription()+","+
                 getComplainActionTaken()+","+
                 getComplainNote()+","+
-                getComplainReference();
+                getComplainReference()+","+
+                getComplainRefNo();
     }
     
     public complainsController(
@@ -45,7 +46,9 @@ public class complainsController {
             String complainDescription,
             String complainActionTaken,
             String complainNote,
-            String complainRefference) {
+            String complainRefference,
+            int complainReferenceNo
+    ) {
         this.complainByName = complainByName;
         this.complainPhoneNo = complainPhoneNo;
         this.complainDateObj = complainDateObj;
@@ -53,6 +56,8 @@ public class complainsController {
         this.complainActionTaken = complainActionTaken;
         this.complainNote = complainNote;
         this.complainReference=complainRefference;
+        this.setComplainRefNo(complainReferenceNo);
+        
     }
 
     public boolean objectMathcer(complainsController matchObj){
@@ -116,17 +121,16 @@ public class complainsController {
     public void setComplainReference(String complainReference) {
         this.complainReference = complainReference;
     }
-    
-    public static void readComplain(BufferedReader br)throws IOException{
-       
-    String complainLine = br.readLine();
-    
-    String[] resultString = complainLine.split("[,]", 0);
-    for(String textField: resultString) {
-          System.out.println(textField);
-       }
-          
+
+    public int getComplainRefNo() {
+        return complainRefNo;
     }
+
+    public void setComplainRefNo(int complainRefNo) {
+        this.complainRefNo = complainRefNo;
+    }
+    
+    
 
 
 

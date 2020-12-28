@@ -19,8 +19,8 @@ import view.homeAdminGUI;
 public class UserModel {
 private static String filePath = "userData\\loginDetails.txt";
 
-    //insert function----------------------------------------------------------
-       public static void writingTXT(String AddNewUserDetail){//writing to objcet to file 
+//insert function----------------------------------------------------------
+public static void writingTXT(String AddNewUserDetail){//writing to objcet to file 
     BufferedWriter bw = null;
       try {//try catch start
                 //file function
@@ -39,7 +39,9 @@ private static String filePath = "userData\\loginDetails.txt";
                 bw.write(AddNewUserDetail);
                 bw.newLine();
         
-
+                
+                
+                
                     
       } catch (IOException ioe) {
           System.out.println(ioe);
@@ -59,8 +61,8 @@ private static String filePath = "userData\\loginDetails.txt";
 	}
     }//end of the function
  
-    //view function------------------------------------------------------------
-        public static void viewLoginDetails(JTable loginViewTable){
+//view function------------------------------------------------------------
+public static void viewLoginDetails(JTable loginViewTable){
             File file = new File(filePath);
         
         try {
@@ -79,6 +81,7 @@ private static String filePath = "userData\\loginDetails.txt";
                 String[] dataRow = line.split(",");
                 model.addRow(dataRow);
             }
+            br.close();
                   
         }catch (Exception ex){
                     Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -87,10 +90,9 @@ private static String filePath = "userData\\loginDetails.txt";
     
     }
 
-
-    //delete function----------------------------------------------------------
+//delete function----------------------------------------------------------
         
-          public static void deleteUser(loginController deleteObj){
+ public static void deleteUser(loginController deleteObj){
             File file = new File(filePath);
         
         try {
@@ -122,9 +124,10 @@ private static String filePath = "userData\\loginDetails.txt";
                 if(deleteObj.objectMathcer(loopObj)){
                    break;
                 }
-                deleteIndexNo=+1;
+                deleteIndexNo+=1;
                 
             }
+            
           loginObjList.remove(deleteIndexNo);
           deleteIndexNo=0;
           //writing existing files to txt 
@@ -133,6 +136,7 @@ private static String filePath = "userData\\loginDetails.txt";
               writingTXT(loopObj.toString());
                 
           }
+          br.close();
                   
         }catch (Exception ex){
                     Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -140,7 +144,6 @@ private static String filePath = "userData\\loginDetails.txt";
         }
     
     }
-
         
 //admin update function----------------------------------------------------------
           
@@ -181,7 +184,7 @@ private static String filePath = "userData\\loginDetails.txt";
               writingTXT(loopObj.toString());
                 
             }
-                  
+            br.close();      
         }catch (Exception ex){
                     Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
         
@@ -227,7 +230,7 @@ private static String filePath = "userData\\loginDetails.txt";
               writingTXT(loopObj.toString());
                 
             }
-                  
+            br.close();      
         }catch (Exception ex){
                     Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
         
@@ -235,8 +238,9 @@ private static String filePath = "userData\\loginDetails.txt";
     
 
  }
+
 //user logger data enter function------------------------------------------------------------
-     //insert function----------------------------------------------------------
+//insert function----------------------------------------------------------
  public static void writeNewLog(String AddNewUserDetail){//writing to objcet to file 
      String filePath = "userData\\loginLog.txt";
 
@@ -278,9 +282,132 @@ private static String filePath = "userData\\loginDetails.txt";
 	}
     }//end of the function
 
- 
- 
- 
- 
+//userName checker-------------------------------------------------------------------------
+ public static boolean userNameChecker(String userName){
+     boolean mathchState=false;
+     File file = new File(filePath);
+        
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            
+            // get lines from txt file
+            Object[] tableLines = br.lines().toArray();
+            
+            // extratct data from lines
+            for(int i = 0; i < tableLines.length; i++){
+                String line = tableLines[i].toString().trim();
+                String[] dataRow = line.split(",");
+                if(userName.equals(dataRow[0])){
+                   mathchState=true;
+                }
+            }
+        br.close();          
+        }catch (Exception ex){
+                    Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+        
+        }
+    return mathchState;
     
+    }
+//patient viewer for receptionist---------------------------------------------------------- 
+ public static void patientView(JTable loginViewTable){
+ 
+         File file = new File(filePath);
+        
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            
+            DefaultTableModel model=(DefaultTableModel) loginViewTable.getModel();
+            
+            model.setRowCount(0);
+        
+            // get lines from txt file
+            Object[] tableLines = br.lines().toArray();
+            
+            // extratct data from lines
+            for(int i = 0; i < tableLines.length; i++){
+                String line = tableLines[i].toString().trim();
+                String[] dataRow = line.split(",");
+                if(dataRow[2].equals("PAT")){
+                    model.addRow(dataRow);
+                }
+                
+            }
+            br.close();
+                  
+        }catch (Exception ex){
+                    Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+        
+        }
+    
+ 
+ }
+ 
+ //patient password reset------------------------------------------------------------------
+ public static void patientPassReset(String rowString){
+ 
+                 String[] PatientUserName = rowString.split(",");
+           
+                 String patientNIC=encryptionController.getEncryptedString(PatientUserName[4]);
+                 
+                 File file = new File(filePath);
+            
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            //all object are stor in temp in this array 
+            ArrayList<loginController> lineObjList = new ArrayList<loginController>();
+            //object for match the delete object
+            loginController currAppObj;
+            // get lines from txt file
+            Object[] tableLines = br.lines().toArray();
+            
+            // extratct data from lines and add to the object array list-------------
+            for(int i = 0; i < tableLines.length; i++){
+                String line = tableLines[i].toString().trim();
+                currAppObj=new loginController(line);
+                lineObjList.add(currAppObj);
+            }
+            //resting the new password------------------------------------------------
+            for(loginController loopObj:lineObjList){
+                
+                if(loopObj.getUserName().equals(PatientUserName[0])){
+                    loopObj.setUserPass(patientNIC);
+                }
+            
+            }
+            
+            //deleting a all lines in the txt
+            PrintWriter writer = new PrintWriter(file);
+            writer.print("");
+            writer.close();
+            
+            //writing existing files to txt 
+            for(loginController loopObj: lineObjList){
+                
+              writingTXT(loopObj.toString());
+                
+            }
+            br.close();      
+        }catch (Exception ex){
+                    Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+        
+        }
+ 
+ }
+ //medical officer password reset----------------------------------------------------------
+ public static void medicalPassReset(String rowString){
+ 
+                 String[] medicalUserDetail = rowString.split(",");
+                 
+                 updatePasswordByUser(medicalUserDetail[3],medicalUserDetail[7]);
+//-----------------------------------------------------------------------------------------    
+}
+ //receptionist passs reset----------------------------------------------------------------
+  public static void receptionistPassReset(String rowString){
+ 
+                 String[] receptionistUserDetail = rowString.split(",");
+                 
+                updatePasswordByUser(receptionistUserDetail[2],receptionistUserDetail[6]);
+//-----------------------------------------------------------------------------------------    
+}
 }

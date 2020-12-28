@@ -98,9 +98,9 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="minimumBtn" alignment="0" min="-2" pref="15" max="-2" attributes="0"/>
-                              <Component id="maximumBtn" alignment="0" min="-2" pref="15" max="-2" attributes="0"/>
-                              <Component id="closeBtn" alignment="0" min="-2" pref="15" max="-2" attributes="0"/>
+                              <Component id="minimumBtn" alignment="0" min="-2" pref="10" max="-2" attributes="0"/>
+                              <Component id="maximumBtn" alignment="0" min="-2" pref="10" max="-2" attributes="0"/>
+                              <Component id="closeBtn" alignment="0" min="-2" pref="10" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                       </Group>
@@ -133,7 +133,7 @@
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="15" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="10" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
@@ -160,7 +160,7 @@
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="15" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="10" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
@@ -181,6 +181,9 @@
                       <Dimension value="[100, 30]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="minimumBtnMouseClicked"/>
+                  </Events>
 
                   <Layout>
                     <DimensionLayout dim="0">
@@ -190,7 +193,7 @@
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <EmptySpace min="0" pref="15" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="10" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
@@ -236,6 +239,9 @@
                       <Color blue="ff" green="66" red="0" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/icon/icons8_name_25px.png"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Patient Dashboard"/>
                   </Properties>
                 </Component>
@@ -266,7 +272,7 @@
             <Container class="javax.swing.JPanel" name="sideBar">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="fd" green="ce" red="ad" type="rgb"/>
+                  <Color blue="fd" green="f6" red="f1" type="rgb"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[200, 620]"/>
@@ -289,6 +295,11 @@
                           </Group>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                          <Component id="logOutBtn" min="-2" pref="160" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
@@ -299,7 +310,9 @@
                           <Component id="complain" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                           <Component id="user" min="-2" pref="48" max="-2" attributes="0"/>
-                          <EmptySpace pref="472" max="32767" attributes="0"/>
+                          <EmptySpace pref="418" max="32767" attributes="0"/>
+                          <Component id="logOutBtn" min="-2" pref="30" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -447,6 +460,24 @@
                     </Component>
                   </SubComponents>
                 </Container>
+                <Component class="javax.swing.JButton" name="logOutBtn">
+                  <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="66" green="0" red="ff" type="rgb"/>
+                    </Property>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Montserrat" size="14" style="0"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Logout"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="logOutBtnMouseClicked"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="logOutBtnActionPerformed"/>
+                  </Events>
+                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="content">
@@ -459,6 +490,11 @@
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
               <SubComponents>
                 <Container class="javax.swing.JPanel" name="Appointment">
+                  <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                    </Property>
+                  </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
                       <CardConstraints cardName="card2"/>
@@ -498,7 +534,7 @@
                             <Container class="javax.swing.JPanel" name="jPanel7">
                               <Properties>
                                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                  <Color blue="fd" green="f6" red="f1" type="rgb"/>
+                                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
                                 </Property>
                                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[300, 531]"/>
@@ -514,8 +550,43 @@
                                 <DimensionLayout dim="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="116" max="-2" attributes="0"/>
-                                          <Component id="jLabel71" min="-2" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" attributes="0">
+                                                  <EmptySpace min="-2" pref="101" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="1" attributes="0">
+                                                      <Component id="jLabel102" alignment="1" min="-2" pref="30" max="-2" attributes="0"/>
+                                                      <Component id="jLabel104" alignment="1" min="-2" pref="30" max="-2" attributes="0"/>
+                                                      <Component id="jLabel105" alignment="1" min="-2" pref="30" max="-2" attributes="0"/>
+                                                  </Group>
+                                              </Group>
+                                              <Group type="102" alignment="1" attributes="0">
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="jLabel71" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="jLabel103" min="-2" pref="30" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="addNewAppointmentSymptoms" alignment="0" pref="326" max="32767" attributes="0"/>
+                                              <Component id="MedicalOfficerDropDown" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="addNewAppointmentPatientName" alignment="0" max="32767" attributes="0"/>
+                                              <Group type="102" attributes="0">
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Component id="jLabel19" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jLabel11" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="AddNewUserSpecializedAreaLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <EmptySpace min="0" pref="206" max="32767" attributes="0"/>
+                                              </Group>
+                                              <Component id="AddNewAppointmnetSpecializedAreaDropDown" alignment="0" max="32767" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="-2" pref="237" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="-2" pref="101" max="-2" attributes="0"/>
+                                          <Component id="jLabel107" min="-2" pref="30" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="0" attributes="0">
@@ -535,7 +606,6 @@
                                                   </Group>
                                               </Group>
                                               <Component id="jLabel12" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="AddNewAppointmentBtn" min="-2" pref="250" max="-2" attributes="0"/>
                                               <Group type="102" alignment="0" attributes="0">
                                                   <Group type="103" groupAlignment="0" attributes="0">
                                                       <Component id="jLabel16" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -552,75 +622,75 @@
                                                   </Group>
                                               </Group>
                                               <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel19" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel11" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel10" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="AddNewUserSpecializedAreaLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                                  <Component id="AddNewAppointmnetSpecializedAreaDropDown" alignment="0" max="32767" attributes="0"/>
-                                                  <Component id="MedicalOfficerDropDown" alignment="0" pref="270" max="32767" attributes="0"/>
-                                                  <Component id="addNewAppointmentPatientName" alignment="0" max="32767" attributes="0"/>
-                                                  <Component id="addNewAppointmentSymptoms" alignment="0" max="32767" attributes="0"/>
-                                                  <Component id="addNewAppointmentConclution" alignment="0" max="32767" attributes="0"/>
-                                              </Group>
+                                              <Component id="AddNewAppointmentBtn" alignment="0" min="-2" pref="170" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace pref="275" max="32767" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
                                 <DimensionLayout dim="1">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                                           <Component id="AddNewUserSpecializedAreaLabel1" min="-2" pref="18" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" max="-2" attributes="0"/>
-                                          <Component id="AddNewAppointmnetSpecializedAreaDropDown" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="MedicalOfficerDropDown" alignment="3" max="32767" attributes="0"/>
-                                              <Component id="jLabel71" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="jLabel102" pref="30" max="32767" attributes="0"/>
+                                              <Component id="AddNewAppointmnetSpecializedAreaDropDown" max="32767" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                                          <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="addNewAppointmentPatientName" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                                          <Component id="addNewAppointmentSymptoms" min="-2" pref="30" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" attributes="0">
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Component id="jLabel71" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
+                                                      <Component id="MedicalOfficerDropDown" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                                                  <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Component id="jLabel103" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
+                                          </Group>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jLabel10" min="-2" pref="18" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="addNewAppointmentConclution" min="-2" pref="30" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="addNewAppointmentPatientName" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Component id="jLabel104" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jLabel105" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="addNewAppointmentSymptoms" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="102" alignment="1" attributes="0">
+                                                  <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="1" attributes="0">
-                                                      <Group type="102" alignment="1" attributes="0">
-                                                          <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
-                                                          <EmptySpace min="-2" max="-2" attributes="0"/>
-                                                          <Component id="addNewAppointmentDay" min="-2" max="-2" attributes="0"/>
-                                                      </Group>
-                                                      <Group type="102" alignment="1" attributes="0">
-                                                          <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
-                                                          <EmptySpace max="32767" attributes="0"/>
-                                                          <Component id="addNewAppointmentYear" min="-2" pref="24" max="-2" attributes="0"/>
-                                                      </Group>
+                                                  <Component id="addNewAppointmentDay" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="1" attributes="0">
+                                                  <Group type="103" groupAlignment="3" attributes="0">
+                                                      <Component id="jLabel15" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="3" attributes="0">
+                                                      <Component id="addNewAppointmentYear" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
+                                                      <Component id="addNewAppointmentMonth" alignment="3" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                                  <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                                                  <Component id="addNewAppointmentMonth" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                                                  <Component id="jLabel107" min="-2" pref="30" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
-                                          <EmptySpace max="32767" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="3" attributes="0">
@@ -633,9 +703,9 @@
                                               <Component id="AddNewAppointmentMinutes" alignment="3" max="32767" attributes="0"/>
                                               <Component id="AddNewAppointmentAMPM" alignment="3" max="32767" attributes="0"/>
                                           </Group>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="AddNewAppointmentBtn" min="-2" pref="40" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="150" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -687,17 +757,6 @@
                                     <Property name="text" type="java.lang.String" value="Patient Name"/>
                                   </Properties>
                                 </Component>
-                                <Component class="javax.swing.JLabel" name="jLabel10">
-                                  <Properties>
-                                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                                    </Property>
-                                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                                      <Font name="Montserrat" size="14" style="0"/>
-                                    </Property>
-                                    <Property name="text" type="java.lang.String" value="Conclution"/>
-                                  </Properties>
-                                </Component>
                                 <Component class="javax.swing.JLabel" name="jLabel11">
                                   <Properties>
                                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -732,7 +791,6 @@
                                   </Properties>
                                   <Events>
                                     <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="AddNewAppointmentBtnMouseClicked"/>
-                                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AddNewAppointmentBtnActionPerformed"/>
                                   </Events>
                                 </Component>
                                 <Component class="javax.swing.JLabel" name="jLabel13">
@@ -759,16 +817,6 @@
                                     <Property name="text" type="java.lang.String" value="Year"/>
                                   </Properties>
                                 </Component>
-                                <Component class="javax.swing.JTextField" name="addNewAppointmentConclution">
-                                  <Properties>
-                                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                                      <Font name="Montserrat" size="15" style="0"/>
-                                    </Property>
-                                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                                      <Dimension value="[250, 30]"/>
-                                    </Property>
-                                  </Properties>
-                                </Component>
                                 <Component class="javax.swing.JComboBox" name="AddNewAppointmentAMPM">
                                   <Properties>
                                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -781,9 +829,6 @@
                                       </StringArray>
                                     </Property>
                                   </Properties>
-                                  <Events>
-                                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AddNewAppointmentAMPMActionPerformed"/>
-                                  </Events>
                                   <AuxValues>
                                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                                   </AuxValues>
@@ -847,9 +892,6 @@
                                       <Dimension value="[250, 30]"/>
                                     </Property>
                                   </Properties>
-                                  <Events>
-                                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MedicalOfficerDropDownActionPerformed"/>
-                                  </Events>
                                   <AuxValues>
                                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                                   </AuxValues>
@@ -870,7 +912,7 @@
                                       <Font name="Montserrat" size="14" style="0"/>
                                     </Property>
                                     <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                                      <SpinnerModel initial="1" maximum="1" minimum="1" numberType="java.lang.Integer" stepSize="12" type="number"/>
+                                      <SpinnerModel initial="1" maximum="12" minimum="1" numberType="java.lang.Integer" stepSize="1" type="number"/>
                                     </Property>
                                   </Properties>
                                 </Component>
@@ -890,19 +932,7 @@
                                       <Font name="Montserrat" size="14" style="0"/>
                                     </Property>
                                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                                      <StringArray count="11">
-                                        <StringItem index="0" value="Physician"/>
-                                        <StringItem index="1" value="Pediatrician"/>
-                                        <StringItem index="2" value="Obstetrician"/>
-                                        <StringItem index="3" value="Psychiatrist"/>
-                                        <StringItem index="4" value="Cardiologist"/>
-                                        <StringItem index="5" value="Dermatologist"/>
-                                        <StringItem index="6" value="Gastroenterologist"/>
-                                        <StringItem index="7" value="Ophthalmologist"/>
-                                        <StringItem index="8" value="Neurologist"/>
-                                        <StringItem index="9" value="Radiologist"/>
-                                        <StringItem index="10" value="Anesthesiologist   "/>
-                                      </StringArray>
+                                      <StringArray count="0"/>
                                     </Property>
                                   </Properties>
                                   <Events>
@@ -926,6 +956,46 @@
                                       <Font name="Montserrat" size="14" style="0"/>
                                     </Property>
                                     <Property name="text" type="java.lang.String" value="Dr."/>
+                                  </Properties>
+                                </Component>
+                                <Component class="javax.swing.JLabel" name="jLabel102">
+                                  <Properties>
+                                    <Property name="horizontalAlignment" type="int" value="0"/>
+                                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                      <Image iconType="3" name="/icon/icons8_name_25px_2.png"/>
+                                    </Property>
+                                  </Properties>
+                                </Component>
+                                <Component class="javax.swing.JLabel" name="jLabel103">
+                                  <Properties>
+                                    <Property name="horizontalAlignment" type="int" value="0"/>
+                                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                      <Image iconType="3" name="/icon/icons8_doctor_male_25px.png"/>
+                                    </Property>
+                                  </Properties>
+                                </Component>
+                                <Component class="javax.swing.JLabel" name="jLabel104">
+                                  <Properties>
+                                    <Property name="horizontalAlignment" type="int" value="0"/>
+                                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                      <Image iconType="3" name="/icon/icons8_wheelchair_25px.png"/>
+                                    </Property>
+                                  </Properties>
+                                </Component>
+                                <Component class="javax.swing.JLabel" name="jLabel105">
+                                  <Properties>
+                                    <Property name="horizontalAlignment" type="int" value="0"/>
+                                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                      <Image iconType="3" name="/icon/icons8_runny_nose_25px.png"/>
+                                    </Property>
+                                  </Properties>
+                                </Component>
+                                <Component class="javax.swing.JLabel" name="jLabel107">
+                                  <Properties>
+                                    <Property name="horizontalAlignment" type="int" value="0"/>
+                                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                      <Image iconType="3" name="/icon/icons8_today_25px.png"/>
+                                    </Property>
                                   </Properties>
                                 </Component>
                               </SubComponents>
@@ -1076,7 +1146,6 @@
                                   </Properties>
                                   <Events>
                                     <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="AppIntialSaveBtnMouseClicked"/>
-                                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AppIntialSaveBtnActionPerformed"/>
                                   </Events>
                                 </Component>
                                 <Component class="javax.swing.JButton" name="AppIntialDeleteBtn">
@@ -1116,7 +1185,6 @@
                                   </Properties>
                                   <Events>
                                     <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="deleteConformationYesMouseClicked"/>
-                                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteConformationYesActionPerformed"/>
                                   </Events>
                                 </Component>
                                 <Component class="javax.swing.JButton" name="deleteConformationNo">
@@ -1151,12 +1219,14 @@
                                       <Font name="Montserrat" size="12" style="0"/>
                                     </Property>
                                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                                      <Table columnCount="5" rowCount="0">
+                                      <Table columnCount="7" rowCount="0">
                                         <Column editable="false" title="Patient name" type="java.lang.String"/>
                                         <Column editable="false" title="Medical Officer" type="java.lang.String"/>
                                         <Column editable="true" title="Appointment Date" type="java.lang.String"/>
                                         <Column editable="true" title="Appointment Time" type="java.lang.String"/>
                                         <Column editable="true" title="Symptoms" type="java.lang.String"/>
+                                        <Column editable="false" title="Status" type="java.lang.String"/>
+                                        <Column editable="false" title="RefID" type="java.lang.String"/>
                                       </Table>
                                     </Property>
                                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -1166,7 +1236,17 @@
                                           <Editor/>
                                           <Renderer/>
                                         </Column>
-                                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                          <Title/>
+                                          <Editor/>
+                                          <Renderer/>
+                                        </Column>
+                                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                          <Title/>
+                                          <Editor/>
+                                          <Renderer/>
+                                        </Column>
+                                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                                           <Title/>
                                           <Editor/>
                                           <Renderer/>
@@ -1210,7 +1290,7 @@
                 <Container class="javax.swing.JPanel" name="Complain">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="fd" green="f6" red="f1" type="rgb"/>
+                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
                     </Property>
                   </Properties>
                   <Constraints>
@@ -1311,6 +1391,9 @@
                                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                       <Font name="Montserrat" size="14" style="0"/>
                                     </Property>
+                                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                                    </Property>
                                   </Properties>
                                 </Component>
                               </SubComponents>
@@ -1318,7 +1401,7 @@
                             <Container class="javax.swing.JPanel" name="jPanel11">
                               <Properties>
                                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                  <Color blue="fd" green="f6" red="f1" type="rgb"/>
+                                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
                                 </Property>
                               </Properties>
                               <Constraints>
@@ -1331,7 +1414,15 @@
                                 <DimensionLayout dim="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="162" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="126" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="1" attributes="0">
+                                              <Component id="jLabel24" alignment="1" min="-2" pref="30" max="-2" attributes="0"/>
+                                              <Component id="jLabel21" alignment="1" min="-2" pref="30" max="-2" attributes="0"/>
+                                              <Component id="jLabel25" min="-2" pref="30" max="-2" attributes="0"/>
+                                              <Component id="jLabel26" min="-2" pref="30" max="-2" attributes="0"/>
+                                              <Component id="jLabel27" min="-2" pref="30" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                               <Component id="jLabel51" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="jLabel68" alignment="0" min="-2" pref="43" max="-2" attributes="0"/>
@@ -1342,8 +1433,8 @@
                                               <Component id="jScrollPane4" alignment="0" max="32767" attributes="0"/>
                                               <Component id="AddNewComplainReferenceDepartment" alignment="0" max="32767" attributes="0"/>
                                               <Component id="AddNewComplainPhoneNumber" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="AddNewComplainBtn" alignment="0" min="-2" pref="181" max="-2" attributes="0"/>
                                               <Component id="AddNewComplainName" alignment="0" min="-2" pref="340" max="-2" attributes="0"/>
+                                              <Component id="AddNewComplainBtn" alignment="0" min="-2" pref="180" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace pref="198" max="32767" attributes="0"/>
                                       </Group>
@@ -1355,26 +1446,43 @@
                                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                                           <Component id="jLabel51" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="AddNewComplainName" min="-2" pref="31" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="1" attributes="0">
+                                              <Component id="jLabel24" min="-2" pref="30" max="-2" attributes="0"/>
+                                              <Component id="AddNewComplainName" min="-2" pref="31" max="-2" attributes="0"/>
+                                          </Group>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="AddNewComplainPhoneNumber" min="-2" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="1" attributes="0">
+                                              <Group type="102" attributes="0">
+                                                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="AddNewComplainPhoneNumber" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Component id="jLabel27" min="-2" pref="30" max="-2" attributes="0"/>
+                                          </Group>
                                           <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                                           <Component id="jLabel69" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="AddNewComplainReferenceDepartment" min="-2" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="AddNewComplainReferenceDepartment" min="-2" pref="34" max="-2" attributes="0"/>
+                                              <Component id="jLabel25" min="-2" pref="30" max="-2" attributes="0"/>
+                                          </Group>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jLabel67" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
-                                          <Component id="jScrollPane4" min="-2" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jScrollPane4" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabel26" min="-2" max="-2" attributes="0"/>
+                                          </Group>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jLabel68" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                                          <Component id="jScrollPane5" min="-2" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jLabel21" min="-2" pref="30" max="-2" attributes="0"/>
+                                              <Component id="jScrollPane5" min="-2" max="-2" attributes="0"/>
+                                          </Group>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="AddNewComplainBtn" min="-2" pref="40" max="-2" attributes="0"/>
-                                          <EmptySpace pref="53" max="32767" attributes="0"/>
+                                          <EmptySpace pref="55" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                 </DimensionLayout>
@@ -1397,8 +1505,18 @@
                                 <Component class="javax.swing.JTextField" name="AddNewComplainName">
                                   <Properties>
                                     <Property name="editable" type="boolean" value="false"/>
+                                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                      <Color blue="fd" green="f6" red="f1" type="rgb"/>
+                                    </Property>
                                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                       <Font name="Montserrat" size="15" style="0"/>
+                                    </Property>
+                                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                                      <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                                        <LineBorder thickness="-1">
+                                          <Color PropertyName="color" blue="ff" green="66" red="33" type="rgb"/>
+                                        </LineBorder>
+                                      </Border>
                                     </Property>
                                   </Properties>
                                   <Events>
@@ -1408,8 +1526,18 @@
                                 <Component class="javax.swing.JTextField" name="AddNewComplainPhoneNumber">
                                   <Properties>
                                     <Property name="editable" type="boolean" value="false"/>
+                                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                                      <Color blue="fd" green="f6" red="f1" type="rgb"/>
+                                    </Property>
                                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                       <Font name="Montserrat" size="15" style="0"/>
+                                    </Property>
+                                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                                      <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                                        <LineBorder thickness="-1">
+                                          <Color PropertyName="color" blue="ff" green="66" red="33" type="rgb"/>
+                                        </LineBorder>
+                                      </Border>
                                     </Property>
                                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                       <Dimension value="[64, 30]"/>
@@ -1433,6 +1561,13 @@
                                           <Font name="Montserrat" size="14" style="0"/>
                                         </Property>
                                         <Property name="rows" type="int" value="5"/>
+                                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                                          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                                            <LineBorder thickness="-1">
+                                              <Color PropertyName="color" blue="ff" green="66" red="33" type="rgb"/>
+                                            </LineBorder>
+                                          </Border>
+                                        </Property>
                                       </Properties>
                                     </Component>
                                   </SubComponents>
@@ -1440,7 +1575,7 @@
                                 <Component class="javax.swing.JButton" name="AddNewComplainBtn">
                                   <Properties>
                                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                                      <Color blue="66" green="0" red="ff" type="rgb"/>
+                                      <Color blue="ff" green="78" red="0" type="rgb"/>
                                     </Property>
                                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                       <Font name="Montserrat" size="14" style="0"/>
@@ -1469,6 +1604,13 @@
                                           <Font name="Montserrat" size="14" style="0"/>
                                         </Property>
                                         <Property name="rows" type="int" value="5"/>
+                                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                                          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                                            <LineBorder thickness="-1">
+                                              <Color PropertyName="color" blue="ff" green="66" red="33" type="rgb"/>
+                                            </LineBorder>
+                                          </Border>
+                                        </Property>
                                       </Properties>
                                     </Component>
                                   </SubComponents>
@@ -1512,6 +1654,13 @@
                                         <StringItem index="5" value="Human Resources Department"/>
                                       </StringArray>
                                     </Property>
+                                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                                      <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                                        <LineBorder>
+                                          <Color PropertyName="color" blue="99" green="99" red="99" type="rgb"/>
+                                        </LineBorder>
+                                      </Border>
+                                    </Property>
                                   </Properties>
                                   <AuxValues>
                                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -1523,6 +1672,46 @@
                                       <Font name="Montserrat" size="14" style="0"/>
                                     </Property>
                                     <Property name="text" type="java.lang.String" value="Relvent Department"/>
+                                  </Properties>
+                                </Component>
+                                <Component class="javax.swing.JLabel" name="jLabel21">
+                                  <Properties>
+                                    <Property name="horizontalAlignment" type="int" value="0"/>
+                                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                      <Image iconType="3" name="/icon/icons8_note_25px.png"/>
+                                    </Property>
+                                  </Properties>
+                                </Component>
+                                <Component class="javax.swing.JLabel" name="jLabel24">
+                                  <Properties>
+                                    <Property name="horizontalAlignment" type="int" value="0"/>
+                                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                      <Image iconType="3" name="/icon/icons8_name_25px_2.png"/>
+                                    </Property>
+                                  </Properties>
+                                </Component>
+                                <Component class="javax.swing.JLabel" name="jLabel25">
+                                  <Properties>
+                                    <Property name="horizontalAlignment" type="int" value="0"/>
+                                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                      <Image iconType="3" name="/icon/icons8_dropdown_field_25px.png"/>
+                                    </Property>
+                                  </Properties>
+                                </Component>
+                                <Component class="javax.swing.JLabel" name="jLabel26">
+                                  <Properties>
+                                    <Property name="horizontalAlignment" type="int" value="0"/>
+                                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                      <Image iconType="3" name="/icon/icons8_paste_as_text_25px.png"/>
+                                    </Property>
+                                  </Properties>
+                                </Component>
+                                <Component class="javax.swing.JLabel" name="jLabel27">
+                                  <Properties>
+                                    <Property name="horizontalAlignment" type="int" value="0"/>
+                                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                                      <Image iconType="3" name="/icon/icons8_mobile_25px.png"/>
+                                    </Property>
                                   </Properties>
                                 </Component>
                               </SubComponents>
@@ -1585,15 +1774,60 @@
                                           <Font name="Montserrat" size="12" style="0"/>
                                         </Property>
                                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                                          <Table columnCount="7" rowCount="0">
-                                            <Column editable="true" title="Complained By" type="java.lang.Object"/>
-                                            <Column editable="true" title="Phone No" type="java.lang.Object"/>
-                                            <Column editable="false" title="Date" type="java.lang.Object"/>
-                                            <Column editable="true" title="Description" type="java.lang.Object"/>
-                                            <Column editable="false" title="Action Take" type="java.lang.Object"/>
-                                            <Column editable="true" title="Note" type="java.lang.Object"/>
-                                            <Column editable="true" title="Reference No" type="java.lang.Object"/>
+                                          <Table columnCount="8" rowCount="0">
+                                            <Column editable="false" title="Complained By" type="java.lang.String"/>
+                                            <Column editable="false" title="Phone No" type="java.lang.String"/>
+                                            <Column editable="true" title="Date" type="java.lang.String"/>
+                                            <Column editable="true" title="Description" type="java.lang.String"/>
+                                            <Column editable="false" title="Action Take" type="java.lang.String"/>
+                                            <Column editable="true" title="Note" type="java.lang.String"/>
+                                            <Column editable="false" title="RefDepartment" type="java.lang.String"/>
+                                            <Column editable="false" title="RefID" type="java.lang.String"/>
                                           </Table>
+                                        </Property>
+                                        <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                                          <TableColumnModel selectionModel="0">
+                                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                              <Title/>
+                                              <Editor/>
+                                              <Renderer/>
+                                            </Column>
+                                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                              <Title/>
+                                              <Editor/>
+                                              <Renderer/>
+                                            </Column>
+                                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                              <Title/>
+                                              <Editor/>
+                                              <Renderer/>
+                                            </Column>
+                                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                              <Title/>
+                                              <Editor/>
+                                              <Renderer/>
+                                            </Column>
+                                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                              <Title/>
+                                              <Editor/>
+                                              <Renderer/>
+                                            </Column>
+                                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                              <Title/>
+                                              <Editor/>
+                                              <Renderer/>
+                                            </Column>
+                                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                              <Title/>
+                                              <Editor/>
+                                              <Renderer/>
+                                            </Column>
+                                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                              <Title/>
+                                              <Editor/>
+                                              <Renderer/>
+                                            </Column>
+                                          </TableColumnModel>
                                         </Property>
                                         <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                                           <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
@@ -1622,7 +1856,7 @@
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" alignment="0" attributes="0">
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jButton11" min="-2" max="-2" attributes="0"/>
+                                              <Component id="complainUpdateSaveBtn" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="ComplainDeleteIntialBtn" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace pref="347" max="32767" attributes="0"/>
@@ -1646,7 +1880,7 @@
                                                       <Component id="deleteComplainConformationYes" alignment="3" min="-2" max="-2" attributes="0"/>
                                                       <Component id="deleteComplainConformationNo" alignment="3" min="-2" max="-2" attributes="0"/>
                                                   </Group>
-                                                  <Component id="jButton11" alignment="1" pref="0" max="32767" attributes="0"/>
+                                                  <Component id="complainUpdateSaveBtn" alignment="1" pref="0" max="32767" attributes="0"/>
                                               </Group>
                                               <EmptySpace max="-2" attributes="0"/>
                                           </Group>
@@ -1654,7 +1888,7 @@
                                     </DimensionLayout>
                                   </Layout>
                                   <SubComponents>
-                                    <Component class="javax.swing.JButton" name="jButton11">
+                                    <Component class="javax.swing.JButton" name="complainUpdateSaveBtn">
                                       <Properties>
                                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                                           <Color blue="45" green="a7" red="28" type="rgb"/>
@@ -1671,7 +1905,7 @@
                                         </Property>
                                       </Properties>
                                       <Events>
-                                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton11ActionPerformed"/>
+                                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="complainUpdateSaveBtnMouseClicked"/>
                                       </Events>
                                     </Component>
                                     <Component class="javax.swing.JButton" name="ComplainDeleteIntialBtn">
@@ -1751,7 +1985,7 @@
                           <Color blue="e7" green="0" red="5f" type="rgb"/>
                         </Property>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[700, 40]"/>
+                          <Dimension value="[700, 30]"/>
                         </Property>
                       </Properties>
                       <Constraints>
@@ -1760,32 +1994,23 @@
                         </Constraint>
                       </Constraints>
 
-                      <Layout>
-                        <DimensionLayout dim="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="700" max="32767" attributes="0"/>
-                              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                                  <Component id="patientUpdateNotfication" alignment="1" pref="700" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
-                        </DimensionLayout>
-                        <DimensionLayout dim="1">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <EmptySpace min="0" pref="40" max="32767" attributes="0"/>
-                              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                                  <Component id="patientUpdateNotfication" alignment="0" pref="40" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
-                        </DimensionLayout>
-                      </Layout>
+                      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                       <SubComponents>
                         <Component class="javax.swing.JLabel" name="patientUpdateNotfication">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Montserrat" size="14" style="0"/>
                             </Property>
+                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                            </Property>
                             <Property name="horizontalAlignment" type="int" value="0"/>
                           </Properties>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+                              <BorderConstraints direction="Center"/>
+                            </Constraint>
+                          </Constraints>
                         </Component>
                       </SubComponents>
                     </Container>
@@ -1805,47 +2030,75 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="jLabel2" min="-2" pref="30" max="-2" attributes="0"/>
+                                      <Component id="jLabel6" min="-2" pref="30" max="-2" attributes="0"/>
+                                      <Component id="jLabel18" min="-2" pref="30" max="-2" attributes="0"/>
+                                      <Component id="jLabel20" min="-2" pref="30" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="allergiesLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Group type="102" attributes="0">
-                                                  <Component id="kGradientPanel2" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                  <Component id="patientFullName" min="-2" pref="140" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Group type="102" attributes="0">
+                                                          <Group type="103" groupAlignment="0" attributes="0">
+                                                              <Component id="patientLName" alignment="0" pref="250" max="32767" attributes="0"/>
+                                                              <Component id="patientFName" alignment="0" pref="250" max="32767" attributes="0"/>
+                                                              <Component id="addNewUserAddress" alignment="0" pref="250" max="32767" attributes="0"/>
+                                                          </Group>
+                                                          <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                                                      </Group>
+                                                      <Group type="102" attributes="0">
+                                                          <Group type="103" groupAlignment="0" attributes="0">
+                                                              <Component id="jLabel22" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                              <Component id="jLabel23" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                              <Component id="jLabel65" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                              <Component id="patientPhoneNo" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
+                                                          </Group>
+                                                          <EmptySpace max="32767" attributes="0"/>
+                                                      </Group>
+                                                  </Group>
+                                                  <Component id="jLabel3" min="-2" pref="30" max="-2" attributes="0"/>
                                               </Group>
-                                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                                  <Component id="savePatientBtnConformation" alignment="0" max="32767" attributes="0"/>
-                                                  <Component id="patientAllergies" alignment="0" pref="250" max="32767" attributes="0"/>
+                                              <Group type="102" attributes="0">
+                                                  <Component id="jLabel61" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                               </Group>
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="patientPhoneNo" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
-                                              <Component id="jLabel22" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="patientLName" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
-                                              <Component id="jLabel23" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="patientFName" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
-                                              <Component id="jLabel61" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel65" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="addNewUserAddress" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jLabel70" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="patientOldPassword" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="jLabel72" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="patientOldPassword" alignment="0" pref="258" max="32767" attributes="0"/>
                                               <Component id="patientNewPassword" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="patientNewPasswordConformation" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="jLabel70" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabel72" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="jLabel73" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="patientNewPasswordConformation" alignment="0" min="-2" pref="240" max="-2" attributes="0"/>
-                                              <Component id="changePassword" alignment="0" min="-2" pref="240" max="-2" attributes="0"/>
+                                              <Component id="changePassword" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="-2" pref="102" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="allergiesLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="patientAllergies" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
+                                              <Component id="savePatientBtnConformation" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="kGradientPanel2" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="profilePicImgBrowse" min="-2" max="-2" attributes="0"/>
+                                      <Component id="patientFullName" min="-2" pref="200" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="157" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -1853,57 +2106,75 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                                          <Component id="kGradientPanel2" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
                                           <Component id="patientFullName" min="-2" pref="25" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="profilePicImgBrowse" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                                          <Component id="kGradientPanel2" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="jLabel70" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="1" attributes="0">
+                                              <Component id="patientOldPassword" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabel3" min="-2" pref="30" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="jLabel72" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="patientNewPassword" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="jLabel73" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="patientNewPasswordConformation" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="changePassword" min="-2" pref="34" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <Component id="jLabel22" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" attributes="0">
-                                                  <Component id="jLabel70" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="patientOldPassword" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="jLabel72" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="patientNewPassword" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="jLabel73" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="patientNewPasswordConformation" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                  <Component id="changePassword" min="-2" pref="40" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" attributes="0">
-                                                  <Component id="jLabel22" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="patientFName" min="-2" pref="30" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
-                                                  <Component id="jLabel61" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="patientPhoneNo" min="-2" pref="30" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
-                                                  <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="patientLName" min="-2" pref="30" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="jLabel65" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="addNewUserAddress" min="-2" max="-2" attributes="0"/>
-                                              </Group>
+                                              <Component id="patientFName" min="-2" pref="30" max="-2" attributes="0"/>
+                                              <Component id="jLabel6" min="-2" pref="30" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="patientLName" min="-2" pref="30" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="jLabel61" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="patientPhoneNo" min="-2" pref="30" max="-2" attributes="0"/>
+                                              <Component id="jLabel20" min="-2" pref="30" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                                          <Component id="jLabel65" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="addNewUserAddress" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabel2" min="-2" pref="30" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="allergiesLabel" min="-2" pref="19" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="patientAllergies" min="-2" pref="29" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="patientAllergies" min="-2" pref="29" max="-2" attributes="0"/>
+                                      <Component id="jLabel18" min="-2" pref="30" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="savePatientBtnConformation" min="-2" pref="35" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -1912,6 +2183,7 @@
                         <Container class="keeptoo.KGradientPanel" name="kGradientPanel2">
                           <Properties>
                             <Property name="kBorderRadius" type="int" value="200"/>
+                            <Property name="kFillBackground" type="boolean" value="false"/>
                             <Property name="opaque" type="boolean" value="false"/>
                             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                               <Dimension value="[100, 100]"/>
@@ -1920,12 +2192,9 @@
 
                           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                           <SubComponents>
-                            <Component class="javax.swing.JLabel" name="jLabel18">
+                            <Component class="javax.swing.JLabel" name="profilePicture">
                               <Properties>
                                 <Property name="horizontalAlignment" type="int" value="0"/>
-                                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                                  <Image iconType="3" name="/icon/icons8_hospital_sign_24px.png"/>
-                                </Property>
                               </Properties>
                               <Constraints>
                                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
@@ -2139,10 +2408,83 @@
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="Montserrat" size="14" style="0"/>
                             </Property>
+                            <Property name="horizontalAlignment" type="int" value="2"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JButton" name="profilePicImgBrowse">
+                          <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Montserrat" size="12" style="0"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="Browse"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="profilePicImgBrowseMouseClicked"/>
+                          </Events>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel2">
+                          <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icon/icons8_home_address_25px.png"/>
+                            </Property>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel3">
+                          <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icon/icons8_password_25px.png"/>
+                            </Property>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel6">
+                          <Properties>
                             <Property name="horizontalAlignment" type="int" value="0"/>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icon/icons8_name_25px_2.png"/>
+                            </Property>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel18">
+                          <Properties>
+                            <Property name="horizontalAlignment" type="int" value="0"/>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icon/icons8_note_25px.png"/>
+                            </Property>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel20">
+                          <Properties>
+                            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/icon/icons8_phone_25px.png"/>
+                            </Property>
                           </Properties>
                         </Component>
                       </SubComponents>
+                    </Container>
+                    <Container class="javax.swing.JPanel" name="jPanel3">
+                      <Properties>
+                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="e7" green="0" red="5f" type="rgb"/>
+                        </Property>
+                      </Properties>
+                      <Constraints>
+                        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+                          <BorderConstraints direction="Last"/>
+                        </Constraint>
+                      </Constraints>
+
+                      <Layout>
+                        <DimensionLayout dim="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <EmptySpace min="0" pref="700" max="32767" attributes="0"/>
+                          </Group>
+                        </DimensionLayout>
+                        <DimensionLayout dim="1">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <EmptySpace min="0" pref="30" max="32767" attributes="0"/>
+                          </Group>
+                        </DimensionLayout>
+                      </Layout>
                     </Container>
                   </SubComponents>
                 </Container>

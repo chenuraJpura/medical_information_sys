@@ -1,2 +1,22 @@
-che,chenura,fernando,725414247,1,14/5/1999,mrt,AB,MALE,UNMARRIED,none
-kalpaniPer,kalpani,per,778598911,123,1/1/1990,mrt,B,FEMALE,MARRIED,none
+ovani,kushani,fernando,765477889,998756126V,12/5/1999,moratuwa,AB,FEMALE,UNMARRIED,none
+janithR,Janith,Rathnayake,712567456,995672345V,25/12/1999,Kandy,O,MALE,UNMARRIED,none
+deshanG,Deshan,Gunasinghe,778308002,990223456V,8/5/1999,Gampola,AB,MALE,UNMARRIED,none
+monaliPer,Monali,Perera,774567235,895764532V,14/6/1989,Gampaha,B,FEMALE,MARRIED,none
+hashiniDi,Hashini,Dilhara,754367896,997845673V,7/3/1999,Kurunegala,O,FEMALE,UNMARRIED,none
+Skumudu,Kumudu,Sanjeewani,763458745,753459876V,17/1/1975,Kegalle,O,FEMALE,MARRIED,food allergy
+SandPer,Sandun,Perera,776445194,867654967V,10/6/1986,Kelaniya,A,MALE,MARRIED,food allergies
+thusharaJP,Thushara,Josheph,713876654,756789363V,6/10/1975,Negambo,null,MALE,MARRIED,none
+nimalJaya,Nimal,Jayasuriya,728765996,657849674V,2/3/1965,Colombo,null,MALE,MARRIED,clorin
+Rizvi123,Mohammed ,Rizvi,775463987,765489657V,24/9/1976,Katugasthota,A,MALE,MARRIED,Hay fever
+anuShi,anushika,morayes,765477889,123456,12/1/2000,nuggegoda,AB,FEMALE,UNMARRIED,sulfer
+niwantha97,Niwantha,Kumarasinghe,701235600,976786543V,23/2/1997,Kurunagala,B_Negative,MALE,MARRIED,null
+pawaniS23,Pawani,Samarasinghe,754567324,873601056V,3/5/1987,Gampaha,B_Negative,FEMALE,MARRIED,null
+SupunP,Supun,Perera,776775635,992167897V,23/11/1999,Galaha,A,MALE,MARRIED,null
+ShammikaK,Shammika,Karunarathne,756345678,726770105V,14/2/1972,Gelioya,O,MALE,MARRIED,null
+navodR,Navod,Rathnayeka,715674890,964357892V,14/4/1996,Gampola,A_Negative,MALE,MARRIED,null
+arkam99,Mohomad,Arkam,722666789,564321087V,19/10/1956,Kandy,AB,MALE,MARRIED,null
+vinodS,Vinod,Silva,775422230,606582117V,2/7/1960,Kaluthara,B,MALE,MARRIED,null
+Prasadini25,Prasadini,Malika,783456789,995670956,25/9/1999,Mahakanda,O,FEMALE,UNMARRIED,null
+gayan89,Gayan,Kaldera,777072345,662610583V,5/8/1966,Kandy,O,MALE,MARRIED,null
+sandeepaniN00,Sandeepani,Nugaliyadda,715676433,19943603516V,29/1/1994,Mawanella,B,FEMALE,MARRIED,null
+ayesha97,Ayesha,Weerakoon,705648902,693178016V,9/9/1969,Mathara,A_Negative,FEMALE,MARRIED,null

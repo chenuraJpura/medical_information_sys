@@ -1,8 +1,6 @@
-
 package view;
 
-
-
+import com.itextpdf.text.DocumentException;
 import controllers.appointmentController;
 import controllers.complainsController;
 import controllers.date;
@@ -21,14 +19,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.FileNotFoundException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ButtonModel;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.table.TableModel;
+import medi_info_system.startLogin;
 import model.AppointmentModel;
 import model.ComplainModel;
 import model.DispatchModel;
@@ -36,23 +41,34 @@ import model.MedicalOfficerModel;
 import model.PatientModel;
 import model.ReceptionistModel;
 import model.RecievedPostModel;
+import model.ReferenceModel;
+import model.ReportModel;
 import model.UserModel;
 import model.VisitorModel;
 import model.dropDownFeederModel;
 
 
 public class homeAdminGUI extends javax.swing.JFrame {
-    private String userRole;
-    private String userName;
     private static int updateRow;
+    private static int referenceState;
     int mousePx;
     int mousePy;
 
-    public homeAdminGUI(String userRole,String userName) {
+    public homeAdminGUI(String userRole) {
         initComponents();
         setUndecorated(true);
         
         setBackground(new Color(0,0,0,0));
+        TableCellListener tcl0 = new TableCellListener(viewAppointmentTable, action);
+        TableCellListener tcl1 = new TableCellListener(viewVisitorsRecordTable, action);
+        TableCellListener tcl2 = new TableCellListener(ComplainViewTable, action);
+        TableCellListener tcl3 = new TableCellListener(viewRecivedTable, action);
+        TableCellListener tcl4 = new TableCellListener(viewDispatchTable, action);
+        TableCellListener tcl5 = new TableCellListener(patientDetailsTable, action);
+        TableCellListener tcl6 = new TableCellListener(MedicalOfficersTable, action);
+        TableCellListener tcl7 = new TableCellListener(ReceptiontistTable, action);
+        TableCellListener tcl8 = new TableCellListener(userLoginTable, action);
+
         //digital clock start----------------------------------
         new Thread(){
             public void run(){
@@ -67,8 +83,10 @@ public class homeAdminGUI extends javax.swing.JFrame {
                     int AM_PM=cal.get(Calendar.AM_PM);
                     String Am_Pm="";
                     if(AM_PM==1){
-                        
                         Am_Pm="PM";
+                        if(hour==0){
+                            hour+=12;
+                        }
                     }
                     else{
                         Am_Pm="AM";
@@ -78,7 +96,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
                    mainClockMinutes.setText(""+min+"");
                    mainClockSeconds.setText(""+sec+"");
                    mainClockAMPM.setText(Am_Pm);
-               
                 }
             }
         }.start();
@@ -86,8 +103,8 @@ public class homeAdminGUI extends javax.swing.JFrame {
         //-----------------------------------------------------
         date todayObj=new date();
         calenderYear.setText(""+todayObj.getYear()+"");
-        calenderMonth.setText(""+todayObj.getMonth()+"");
-        calenderDay.setText(""+todayObj.getDay()+"");
+        calenderMonth.setText("/"+todayObj.getMonth()+"");
+        calenderDay.setText("/"+todayObj.getDay()+"");
         //-----------------------------------------------------
         //intialy hide sections
         if(userType.getSelectedItem()=="Patient"){
@@ -136,6 +153,9 @@ public class homeAdminGUI extends javax.swing.JFrame {
         //login 
         loginDetailsConformationYes.setVisible(false);
         loginDetailsConformationNo.setVisible(false);
+        //reference
+        referenceDeleteConformationYes.setVisible(false);
+        referenceDeleteConformationNo.setVisible(false);
         
     }
 
@@ -176,6 +196,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel48 = new javax.swing.JLabel();
         home = new javax.swing.JPanel();
         jLabel75 = new javax.swing.JLabel();
+        logOutBtn = new javax.swing.JButton();
         content = new javax.swing.JPanel();
         homePannel = new javax.swing.JPanel();
         jPanel36 = new javax.swing.JPanel();
@@ -188,13 +209,14 @@ public class homeAdminGUI extends javax.swing.JFrame {
         hourHome = new keeptoo.KGradientPanel();
         mainClockHours = new javax.swing.JLabel();
         mainClockAMPM = new javax.swing.JLabel();
-        calenderMonth = new javax.swing.JLabel();
-        calenderYear = new javax.swing.JLabel();
-        calenderDay = new javax.swing.JLabel();
         jLabel85 = new javax.swing.JLabel();
         jLabel86 = new javax.swing.JLabel();
         jLabel87 = new javax.swing.JLabel();
         jLabel88 = new javax.swing.JLabel();
+        jLabel81 = new javax.swing.JLabel();
+        calenderMonth = new javax.swing.JLabel();
+        calenderYear = new javax.swing.JLabel();
+        calenderDay = new javax.swing.JLabel();
         appPanel = new javax.swing.JPanel();
         viewAppointmentBtn = new javax.swing.JTabbedPane();
         newAppPanel = new javax.swing.JPanel();
@@ -203,14 +225,12 @@ public class homeAdminGUI extends javax.swing.JFrame {
         addNewAppointmentPatientName = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         AddNewAppointmentBtn = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        addNewAppointmentConclution = new javax.swing.JTextField();
         AddNewAppointmentAMPM = new javax.swing.JComboBox<>();
         AddNewAppointmentMinutes = new javax.swing.JSpinner();
         AddNewAppointmentHours = new javax.swing.JSpinner();
@@ -224,6 +244,11 @@ public class homeAdminGUI extends javax.swing.JFrame {
         AddNewAppointmnetSpecializedAreaDropDown = new javax.swing.JComboBox<>();
         AddNewUserSpecializedAreaLabel1 = new javax.swing.JLabel();
         jLabel71 = new javax.swing.JLabel();
+        jLabel102 = new javax.swing.JLabel();
+        jLabel103 = new javax.swing.JLabel();
+        jLabel104 = new javax.swing.JLabel();
+        jLabel105 = new javax.swing.JLabel();
+        jLabel107 = new javax.swing.JLabel();
         jPanel33 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         addNewAppointmentNotficationLabel = new javax.swing.JLabel();
@@ -243,6 +268,12 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel36 = new javax.swing.JLabel();
         VisitorRecordNotification = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
+        jLabel108 = new javax.swing.JLabel();
+        jLabel109 = new javax.swing.JLabel();
+        jLabel110 = new javax.swing.JLabel();
+        jLabel111 = new javax.swing.JLabel();
+        jLabel112 = new javax.swing.JLabel();
+        jLabel113 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         VisitorRecordNIC = new javax.swing.JTextField();
         VisitorRecordName = new javax.swing.JTextField();
@@ -298,6 +329,12 @@ public class homeAdminGUI extends javax.swing.JFrame {
         RecievedPostMonth = new javax.swing.JSpinner();
         RecievedPostYear = new javax.swing.JSpinner();
         AddNewRecievedPost = new javax.swing.JButton();
+        jLabel114 = new javax.swing.JLabel();
+        jLabel115 = new javax.swing.JLabel();
+        jLabel116 = new javax.swing.JLabel();
+        jLabel117 = new javax.swing.JLabel();
+        jLabel118 = new javax.swing.JLabel();
+        jLabel119 = new javax.swing.JLabel();
         dispatchTab = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel54 = new javax.swing.JLabel();
@@ -361,6 +398,11 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel68 = new javax.swing.JLabel();
         AddNewComplainReferenceDepartment = new javax.swing.JComboBox<>();
         jLabel69 = new javax.swing.JLabel();
+        jLabel97 = new javax.swing.JLabel();
+        jLabel98 = new javax.swing.JLabel();
+        jLabel99 = new javax.swing.JLabel();
+        jLabel100 = new javax.swing.JLabel();
+        jLabel101 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
@@ -375,6 +417,8 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jPanel42 = new javax.swing.JPanel();
         jLabel79 = new javax.swing.JLabel();
         referenceNotification = new javax.swing.JLabel();
+        referenceDeleteConformationYes = new javax.swing.JButton();
+        referenceDeleteConformationNo = new javax.swing.JButton();
         jPanel43 = new javax.swing.JPanel();
         avalaibleDepartmentDropDown = new javax.swing.JComboBox<>();
         jLabel49 = new javax.swing.JLabel();
@@ -424,6 +468,10 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel60 = new javax.swing.JLabel();
         allergiesLabel = new javax.swing.JLabel();
         addNewUserAllergies = new javax.swing.JTextField();
+        jLabel70 = new javax.swing.JLabel();
+        jLabel89 = new javax.swing.JLabel();
+        jLabel92 = new javax.swing.JLabel();
+        jLabel93 = new javax.swing.JLabel();
         jPanel34 = new javax.swing.JPanel();
         AddNewUserSpecializedAreaLabel = new javax.swing.JLabel();
         emailLabel = new javax.swing.JLabel();
@@ -451,6 +499,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         patientAreYouWantToDelete = new javax.swing.JLabel();
         patientDeleteConformationYes = new javax.swing.JButton();
         patientDeleteConformationNo = new javax.swing.JButton();
+        resetPatientPassword = new javax.swing.JButton();
         MedicalOfficersDetailsViewTab = new javax.swing.JPanel();
         jScrollPane9 = new javax.swing.JScrollPane();
         MedicalOfficersTable = new javax.swing.JTable();
@@ -460,6 +509,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         medicalAreYouWantDelete = new javax.swing.JLabel();
         medicalDeleteConformationYes = new javax.swing.JButton();
         medicalDeleteConformationNo = new javax.swing.JButton();
+        resetMedicalOfficerPassword = new javax.swing.JButton();
         ReceptiontistDetailsViewTab = new javax.swing.JPanel();
         jScrollPane10 = new javax.swing.JScrollPane();
         ReceptiontistTable = new javax.swing.JTable();
@@ -469,6 +519,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         receptionAreYouWantToDelete = new javax.swing.JLabel();
         receptionConformationYes = new javax.swing.JButton();
         receptionConformationNo = new javax.swing.JButton();
+        resetReceptionPassword = new javax.swing.JButton();
         jPanel39 = new javax.swing.JPanel();
         jPanel40 = new javax.swing.JPanel();
         userLoginUpdateSaveBtn = new javax.swing.JButton();
@@ -479,19 +530,23 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jPanel41 = new javax.swing.JPanel();
         jScrollPane13 = new javax.swing.JScrollPane();
         userLoginTable = new javax.swing.JTable();
-        jPanel22 = new javax.swing.JPanel();
-        jPanel23 = new javax.swing.JPanel();
-        jPanel24 = new javax.swing.JPanel();
-        jPanel25 = new javax.swing.JPanel();
-        jLabel70 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jPasswordField2 = new javax.swing.JPasswordField();
-        jPasswordField3 = new javax.swing.JPasswordField();
-        jLabel72 = new javax.swing.JLabel();
-        jLabel73 = new javax.swing.JLabel();
-        jLabel74 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
         reportPanel = new javax.swing.JPanel();
+        jPanel22 = new javax.swing.JPanel();
+        jLabel82 = new javax.swing.JLabel();
+        jLabel83 = new javax.swing.JLabel();
+        saveToPdfApp = new javax.swing.JButton();
+        saveToJson = new javax.swing.JButton();
+        jLabel90 = new javax.swing.JLabel();
+        jLabel91 = new javax.swing.JLabel();
+        pdfMedicalOfficersDropDown = new javax.swing.JComboBox<>();
+        jLabel94 = new javax.swing.JLabel();
+        saveToJson1 = new javax.swing.JButton();
+        jLabel95 = new javax.swing.JLabel();
+        saveToJson2 = new javax.swing.JButton();
+        jLabel96 = new javax.swing.JLabel();
+        jLabel106 = new javax.swing.JLabel();
+        jPanel23 = new javax.swing.JPanel();
+        reportNotification = new javax.swing.JLabel();
         footer = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -531,7 +586,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         closeBtn.setkEndColor(new java.awt.Color(255, 0, 153));
         closeBtn.setkStartColor(new java.awt.Color(255, 0, 102));
         closeBtn.setOpaque(false);
-        closeBtn.setPreferredSize(new java.awt.Dimension(100, 30));
+        closeBtn.setPreferredSize(new java.awt.Dimension(100, 15));
         closeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 closeBtnMouseClicked(evt);
@@ -546,13 +601,13 @@ public class homeAdminGUI extends javax.swing.JFrame {
         );
         closeBtnLayout.setVerticalGroup(
             closeBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 15, Short.MAX_VALUE)
+            .addGap(0, 10, Short.MAX_VALUE)
         );
 
         maximumBtn.setkEndColor(new java.awt.Color(255, 204, 51));
         maximumBtn.setkStartColor(new java.awt.Color(255, 153, 0));
         maximumBtn.setOpaque(false);
-        maximumBtn.setPreferredSize(new java.awt.Dimension(100, 30));
+        maximumBtn.setPreferredSize(new java.awt.Dimension(100, 15));
         maximumBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 maximumBtnMouseClicked(evt);
@@ -567,14 +622,19 @@ public class homeAdminGUI extends javax.swing.JFrame {
         );
         maximumBtnLayout.setVerticalGroup(
             maximumBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 15, Short.MAX_VALUE)
+            .addGap(0, 10, Short.MAX_VALUE)
         );
 
         minimumBtn.setForeground(new java.awt.Color(204, 204, 204));
         minimumBtn.setkEndColor(new java.awt.Color(0, 255, 204));
         minimumBtn.setkStartColor(new java.awt.Color(0, 255, 204));
         minimumBtn.setOpaque(false);
-        minimumBtn.setPreferredSize(new java.awt.Dimension(100, 30));
+        minimumBtn.setPreferredSize(new java.awt.Dimension(100, 15));
+        minimumBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                minimumBtnMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout minimumBtnLayout = new javax.swing.GroupLayout(minimumBtn);
         minimumBtn.setLayout(minimumBtnLayout);
@@ -584,7 +644,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         );
         minimumBtnLayout.setVerticalGroup(
             minimumBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 15, Short.MAX_VALUE)
+            .addGap(0, 10, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout closeMaxMinPanelLayout = new javax.swing.GroupLayout(closeMaxMinPanel);
@@ -605,9 +665,9 @@ public class homeAdminGUI extends javax.swing.JFrame {
             .addGroup(closeMaxMinPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(closeMaxMinPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(minimumBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(maximumBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(closeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(minimumBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(maximumBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(closeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19))
         );
 
@@ -624,8 +684,8 @@ public class homeAdminGUI extends javax.swing.JFrame {
         headerTextMain.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
         headerTextMain.setForeground(new java.awt.Color(0, 102, 255));
         headerTextMain.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        headerTextMain.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_microscope_20px.png"))); // NOI18N
-        headerTextMain.setText("Medical Dashboard");
+        headerTextMain.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_name_25px.png"))); // NOI18N
+        headerTextMain.setText("Admin Dashboard");
 
         javax.swing.GroupLayout jPanel35Layout = new javax.swing.GroupLayout(jPanel35);
         jPanel35.setLayout(jPanel35Layout);
@@ -640,7 +700,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         );
         jPanel35Layout.setVerticalGroup(
             jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(headerTextClock, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+            .addComponent(headerTextClock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(headerTextMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -668,7 +728,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_shortlist_20px.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_health_checkup_15px.png"))); // NOI18N
         jLabel2.setLabelFor(appointment);
         jLabel2.setText("Appointment");
 
@@ -705,7 +765,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_conference_foreground_selected_20px.png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_waiting_room_15px.png"))); // NOI18N
         jLabel3.setLabelFor(visitors);
         jLabel3.setText("Visitors");
 
@@ -741,7 +801,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_envelope_20px.png"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_postcard_15px.png"))); // NOI18N
         jLabel4.setLabelFor(postal);
         jLabel4.setText("Postal");
 
@@ -752,7 +812,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
             .addGroup(postalLayout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addComponent(jLabel4)
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addContainerGap(85, Short.MAX_VALUE))
         );
         postalLayout.setVerticalGroup(
             postalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -777,7 +837,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_cardboard_box_20px.png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_documents_15px.png"))); // NOI18N
         jLabel5.setLabelFor(complain);
         jLabel5.setText("Complain");
         jLabel5.setMaximumSize(new java.awt.Dimension(94, 50));
@@ -815,7 +875,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         jLabel46.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel46.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel46.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_doughnut_chart_20px.png"))); // NOI18N
+        jLabel46.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_postcard_15px.png"))); // NOI18N
         jLabel46.setLabelFor(complain);
         jLabel46.setText("Reference");
         jLabel46.setPreferredSize(new java.awt.Dimension(98, 50));
@@ -852,7 +912,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         jLabel47.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel47.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel47.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_medical_doctor_20px.png"))); // NOI18N
+        jLabel47.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_name_15px_1.png"))); // NOI18N
         jLabel47.setLabelFor(complain);
         jLabel47.setText("User");
         jLabel47.setPreferredSize(new java.awt.Dimension(57, 50));
@@ -883,7 +943,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         jLabel48.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel48.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel48.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_business_report_20px.png"))); // NOI18N
+        jLabel48.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_documents_15px.png"))); // NOI18N
         jLabel48.setLabelFor(complain);
         jLabel48.setText("Report");
 
@@ -916,7 +976,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         jLabel75.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel75.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel75.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_home_20px.png"))); // NOI18N
+        jLabel75.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_home_15px_1.png"))); // NOI18N
         jLabel75.setText("Home");
         jLabel75.setPreferredSize(new java.awt.Dimension(68, 50));
 
@@ -936,6 +996,18 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         sideMenu.add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 50));
 
+        logOutBtn.setBackground(new java.awt.Color(255, 0, 102));
+        logOutBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        logOutBtn.setForeground(new java.awt.Color(255, 255, 255));
+        logOutBtn.setText("Logout");
+        logOutBtn.setPreferredSize(new java.awt.Dimension(160, 30));
+        logOutBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logOutBtnMouseClicked(evt);
+            }
+        });
+        sideMenu.add(logOutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 580, 180, 30));
+
         curvedMainPannel.add(sideMenu, java.awt.BorderLayout.LINE_START);
 
         content.setPreferredSize(new java.awt.Dimension(850, 620));
@@ -944,7 +1016,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         homePannel.setPreferredSize(new java.awt.Dimension(700, 620));
         homePannel.setLayout(new java.awt.BorderLayout());
 
-        jPanel36.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel36.setBackground(new java.awt.Color(0, 102, 255));
         jPanel36.setPreferredSize(new java.awt.Dimension(700, 30));
 
         javax.swing.GroupLayout jPanel36Layout = new javax.swing.GroupLayout(jPanel36);
@@ -960,7 +1032,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         homePannel.add(jPanel36, java.awt.BorderLayout.PAGE_START);
 
-        jPanel37.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel37.setBackground(new java.awt.Color(0, 102, 255));
         jPanel37.setPreferredSize(new java.awt.Dimension(700, 30));
 
         javax.swing.GroupLayout jPanel37Layout = new javax.swing.GroupLayout(jPanel37);
@@ -978,11 +1050,12 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         jPanel38.setBackground(new java.awt.Color(255, 255, 255));
 
-        kGradientPanel1.setkBorderRadius(50);
+        kGradientPanel1.setkBorderRadius(120);
         kGradientPanel1.setkGradientFocus(200);
         kGradientPanel1.setOpaque(false);
+        kGradientPanel1.setPreferredSize(new java.awt.Dimension(81, 81));
 
-        mainClockSeconds.setFont(new java.awt.Font("Oswald", 0, 70)); // NOI18N
+        mainClockSeconds.setFont(new java.awt.Font("Oswald", 0, 48)); // NOI18N
         mainClockSeconds.setForeground(new java.awt.Color(255, 255, 255));
         mainClockSeconds.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         mainClockSeconds.setText("00");
@@ -992,21 +1065,21 @@ public class homeAdminGUI extends javax.swing.JFrame {
         kGradientPanel1.setLayout(kGradientPanel1Layout);
         kGradientPanel1Layout.setHorizontalGroup(
             kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainClockSeconds, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+            .addComponent(mainClockSeconds, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
         );
         kGradientPanel1Layout.setVerticalGroup(
             kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainClockSeconds, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+            .addComponent(mainClockSeconds, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
         );
 
-        minutesHome.setkBorderRadius(50);
+        minutesHome.setkBorderRadius(120);
         minutesHome.setkEndColor(new java.awt.Color(9, 238, 221));
         minutesHome.setkGradientFocus(200);
         minutesHome.setkStartColor(new java.awt.Color(51, 102, 255));
         minutesHome.setkTransparentControls(false);
         minutesHome.setOpaque(false);
 
-        mainClockMinutes.setFont(new java.awt.Font("Oswald", 0, 70)); // NOI18N
+        mainClockMinutes.setFont(new java.awt.Font("Oswald", 0, 48)); // NOI18N
         mainClockMinutes.setForeground(new java.awt.Color(255, 255, 255));
         mainClockMinutes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         mainClockMinutes.setText("00");
@@ -1016,14 +1089,14 @@ public class homeAdminGUI extends javax.swing.JFrame {
         minutesHome.setLayout(minutesHomeLayout);
         minutesHomeLayout.setHorizontalGroup(
             minutesHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainClockMinutes, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+            .addComponent(mainClockMinutes, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
         );
         minutesHomeLayout.setVerticalGroup(
             minutesHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainClockMinutes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+            .addComponent(mainClockMinutes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
         );
 
-        hourHome.setkBorderRadius(60);
+        hourHome.setkBorderRadius(120);
         hourHome.setkEndColor(new java.awt.Color(9, 238, 221));
         hourHome.setkGradientFocus(200);
         hourHome.setkStartColor(new java.awt.Color(0, 51, 255));
@@ -1031,7 +1104,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         hourHome.setOpaque(false);
         hourHome.setPreferredSize(new java.awt.Dimension(120, 120));
 
-        mainClockHours.setFont(new java.awt.Font("Oswald", 0, 70)); // NOI18N
+        mainClockHours.setFont(new java.awt.Font("Oswald", 0, 48)); // NOI18N
         mainClockHours.setForeground(new java.awt.Color(255, 255, 255));
         mainClockHours.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         mainClockHours.setText("00");
@@ -1042,35 +1115,25 @@ public class homeAdminGUI extends javax.swing.JFrame {
         hourHome.setLayout(hourHomeLayout);
         hourHomeLayout.setHorizontalGroup(
             hourHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainClockHours, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+            .addComponent(mainClockHours, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
         );
         hourHomeLayout.setVerticalGroup(
             hourHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainClockHours, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(mainClockHours, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
         );
 
-        mainClockAMPM.setFont(new java.awt.Font("Montserrat", 0, 60)); // NOI18N
+        mainClockAMPM.setFont(new java.awt.Font("Montserrat", 0, 36)); // NOI18N
         mainClockAMPM.setForeground(new java.awt.Color(0, 102, 255));
         mainClockAMPM.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         mainClockAMPM.setText("AM");
         mainClockAMPM.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        calenderMonth.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
-        calenderMonth.setText("01");
-
-        calenderYear.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
-        calenderYear.setText("2021");
-        calenderYear.setPreferredSize(new java.awt.Dimension(100, 30));
-
-        calenderDay.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
-        calenderDay.setText("01");
-
-        jLabel85.setFont(new java.awt.Font("Montserrat", 0, 36)); // NOI18N
+        jLabel85.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
         jLabel85.setForeground(new java.awt.Color(153, 153, 153));
         jLabel85.setText("MEDICAL INFO SYS");
 
-        jLabel86.setFont(new java.awt.Font("Montserrat", 0, 60)); // NOI18N
-        jLabel86.setForeground(new java.awt.Color(0, 51, 255));
+        jLabel86.setFont(new java.awt.Font("Montserrat", 0, 48)); // NOI18N
+        jLabel86.setForeground(new java.awt.Color(0, 102, 255));
         jLabel86.setText("WELCOME!");
 
         jLabel87.setFont(new java.awt.Font("Montserrat", 0, 60)); // NOI18N
@@ -1081,70 +1144,84 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel88.setForeground(new java.awt.Color(0, 102, 255));
         jLabel88.setText(":");
 
+        jLabel81.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/home_main.png"))); // NOI18N
+
+        calenderMonth.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
+        calenderMonth.setForeground(new java.awt.Color(153, 153, 153));
+        calenderMonth.setText("01");
+
+        calenderYear.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
+        calenderYear.setForeground(new java.awt.Color(153, 153, 153));
+        calenderYear.setText("2021");
+        calenderYear.setPreferredSize(new java.awt.Dimension(100, 30));
+
+        calenderDay.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
+        calenderDay.setForeground(new java.awt.Color(153, 153, 153));
+        calenderDay.setText("01");
+
         javax.swing.GroupLayout jPanel38Layout = new javax.swing.GroupLayout(jPanel38);
         jPanel38.setLayout(jPanel38Layout);
         jPanel38Layout.setHorizontalGroup(
             jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel38Layout.createSequentialGroup()
-                .addGap(108, 108, 108)
+                .addContainerGap(114, Short.MAX_VALUE)
                 .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel38Layout.createSequentialGroup()
+                            .addComponent(jLabel81, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGap(79, 79, 79))
+                        .addGroup(jPanel38Layout.createSequentialGroup()
+                            .addComponent(hourHome, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jLabel87)
+                            .addGap(12, 12, 12)
+                            .addComponent(minutesHome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jLabel88)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(kGradientPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(mainClockAMPM)
+                                .addComponent(calenderYear, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(calenderMonth)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(calenderDay)))
                     .addGroup(jPanel38Layout.createSequentialGroup()
-                        .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel86, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel85, javax.swing.GroupLayout.Alignment.LEADING)))
-                    .addGroup(jPanel38Layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
                         .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(calenderYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel38Layout.createSequentialGroup()
-                                .addComponent(hourHome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel87)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel38Layout.createSequentialGroup()
-                                .addComponent(calenderMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(38, 38, 38)
-                                .addComponent(calenderDay, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel38Layout.createSequentialGroup()
-                                .addComponent(minutesHome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(4, 4, 4)
-                                .addComponent(jLabel88)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(kGradientPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(mainClockAMPM)
-                .addContainerGap(58, Short.MAX_VALUE))
+                            .addComponent(jLabel85)
+                            .addComponent(jLabel86))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(107, 107, 107))
         );
         jPanel38Layout.setVerticalGroup(
             jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel38Layout.createSequentialGroup()
-                .addContainerGap(60, Short.MAX_VALUE)
-                .addComponent(jLabel86)
+                .addContainerGap(91, Short.MAX_VALUE)
+                .addComponent(jLabel81, javax.swing.GroupLayout.PREFERRED_SIZE, 178, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel86, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel85)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(minutesHome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel87)
+                    .addComponent(jLabel88)
+                    .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(jPanel38Layout.createSequentialGroup()
-                            .addGap(37, 37, 37)
-                            .addComponent(jLabel88))
-                        .addGroup(jPanel38Layout.createSequentialGroup()
-                            .addGap(18, 18, 18)
-                            .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(hourHome, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(minutesHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(kGradientPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel38Layout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(mainClockAMPM)))
-                    .addGroup(jPanel38Layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(jLabel87)))
-                .addGap(41, 41, 41)
-                .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(calenderMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(calenderDay, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(calenderYear, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(156, Short.MAX_VALUE))
+                            .addComponent(mainClockAMPM)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(calenderYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(calenderDay)
+                                .addComponent(calenderMonth)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(hourHome, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(kGradientPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(115, Short.MAX_VALUE))
         );
 
         homePannel.add(jPanel38, java.awt.BorderLayout.CENTER);
@@ -1170,18 +1247,11 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jPanel2.setPreferredSize(new java.awt.Dimension(300, 531));
 
         addNewAppointmentSymptoms.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
-        addNewAppointmentSymptoms.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addNewAppointmentSymptomsActionPerformed(evt);
-            }
-        });
+        addNewAppointmentSymptoms.setPreferredSize(null);
 
         addNewAppointmentPatientName.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
-        addNewAppointmentPatientName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addNewAppointmentPatientNameActionPerformed(evt);
-            }
-        });
+        addNewAppointmentPatientName.setMinimumSize(new java.awt.Dimension(64, 30));
+        addNewAppointmentPatientName.setPreferredSize(null);
 
         jLabel8.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel8.setText("Appointment Time");
@@ -1190,10 +1260,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel9.setText("Patient Name");
 
-        jLabel10.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel10.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jLabel10.setText("Conclution");
-
         jLabel11.setBackground(new java.awt.Color(255, 255, 255));
         jLabel11.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel11.setText("Symptoms");
@@ -1201,16 +1267,13 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel12.setText("Appointment Date");
 
+        AddNewAppointmentBtn.setBackground(new java.awt.Color(95, 0, 231));
         AddNewAppointmentBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        AddNewAppointmentBtn.setForeground(new java.awt.Color(255, 255, 255));
         AddNewAppointmentBtn.setText("Add Appointment");
         AddNewAppointmentBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 AddNewAppointmentBtnMouseClicked(evt);
-            }
-        });
-        AddNewAppointmentBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddNewAppointmentBtnActionPerformed(evt);
             }
         });
 
@@ -1225,11 +1288,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         AddNewAppointmentAMPM.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         AddNewAppointmentAMPM.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AM", "PM" }));
-        AddNewAppointmentAMPM.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddNewAppointmentAMPMActionPerformed(evt);
-            }
-        });
 
         AddNewAppointmentMinutes.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         AddNewAppointmentMinutes.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
@@ -1248,23 +1306,19 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         MedicalOfficerDropDown.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         MedicalOfficerDropDown.setForeground(new java.awt.Color(51, 51, 51));
-        MedicalOfficerDropDown.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MedicalOfficerDropDownActionPerformed(evt);
-            }
-        });
+        MedicalOfficerDropDown.setPreferredSize(new java.awt.Dimension(52, 30));
 
         addNewAppointmentDay.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         addNewAppointmentDay.setModel(new javax.swing.SpinnerNumberModel(1, 1, 31, 1));
 
         addNewAppointmentMonth.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        addNewAppointmentMonth.setModel(new javax.swing.SpinnerNumberModel(1, 1, 1, 12));
+        addNewAppointmentMonth.setModel(new javax.swing.SpinnerNumberModel(1, 1, 12, 1));
 
         addNewAppointmentYear.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         addNewAppointmentYear.setModel(new javax.swing.SpinnerNumberModel(2020, 2020, 2030, 1));
 
         AddNewAppointmnetSpecializedAreaDropDown.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        AddNewAppointmnetSpecializedAreaDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Physician", "Pediatrician", "Obstetrician", "Psychiatrist", "Cardiologist", "Dermatologist", "Gastroenterologist", "Ophthalmologist", "Neurologist", "Radiologist", "Anesthesiologist   " }));
+        AddNewAppointmnetSpecializedAreaDropDown.setPreferredSize(new java.awt.Dimension(52, 30));
         AddNewAppointmnetSpecializedAreaDropDown.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 AddNewAppointmnetSpecializedAreaDropDownItemStateChanged(evt);
@@ -1277,35 +1331,66 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel71.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel71.setText("Dr.");
 
+        jLabel102.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel102.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_name_25px_2.png"))); // NOI18N
+
+        jLabel103.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel103.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_doctor_male_25px.png"))); // NOI18N
+
+        jLabel104.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel104.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_wheelchair_25px.png"))); // NOI18N
+
+        jLabel105.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel105.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_runny_nose_25px.png"))); // NOI18N
+
+        jLabel107.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel107.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_today_25px.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(78, 78, 78)
-                .addComponent(jLabel71)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(addNewAppointmentPatientName, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(MedicalOfficerDropDown, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(addNewAppointmentSymptoms, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(addNewAppointmentConclution, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel13)
-                            .addComponent(addNewAppointmentDay))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel14)
-                            .addComponent(addNewAppointmentMonth))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(addNewAppointmentYear)
-                            .addComponent(jLabel15))
-                        .addGap(134, 134, 134))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                            .addComponent(jLabel102, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel104, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel105, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel71)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel103, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(addNewAppointmentPatientName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(MedicalOfficerDropDown, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(AddNewUserSpecializedAreaLabel1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(AddNewAppointmnetSpecializedAreaDropDown, javax.swing.GroupLayout.Alignment.LEADING, 0, 300, Short.MAX_VALUE)
+                            .addComponent(addNewAppointmentSymptoms, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel107, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel13)
+                                    .addComponent(addNewAppointmentDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel14)
+                                    .addComponent(addNewAppointmentMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel15)
+                                    .addComponent(addNewAppointmentYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel12)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel16)
                                     .addComponent(AddNewAppointmentHours, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1316,60 +1401,65 @@ public class homeAdminGUI extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(AddNewAppointmentAMPM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel17)))
-                            .addComponent(AddNewAppointmentBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(AddNewUserSpecializedAreaLabel1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(AddNewAppointmnetSpecializedAreaDropDown, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(245, 245, 245))
+                            .addComponent(AddNewAppointmentBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))))
+                .addGap(0, 295, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
+                .addGap(16, 16, 16)
                 .addComponent(AddNewUserSpecializedAreaLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(AddNewAppointmnetSpecializedAreaDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel19)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(MedicalOfficerDropDown)
-                    .addComponent(jLabel71))
-                .addGap(4, 4, 4)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addNewAppointmentPatientName)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel11)
-                .addGap(5, 5, 5)
-                .addComponent(addNewAppointmentSymptoms)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addNewAppointmentConclution)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel13)
-                            .addComponent(jLabel14))
+                        .addComponent(AddNewAppointmnetSpecializedAreaDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(addNewAppointmentDay)
-                            .addComponent(addNewAppointmentMonth)))
+                        .addComponent(jLabel19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(MedicalOfficerDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(addNewAppointmentPatientName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel11))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel15)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addNewAppointmentYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel102, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel71, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(30, 30, 30)
+                                .addComponent(jLabel104, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(30, 30, 30)
+                                .addComponent(jLabel105))
+                            .addComponent(jLabel103, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(120, 120, 120)
+                                .addComponent(addNewAppointmentSymptoms, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel13)
+                                    .addComponent(jLabel14))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(addNewAppointmentDay)
+                                    .addComponent(addNewAppointmentMonth)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel15)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(addNewAppointmentYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel107, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1380,9 +1470,9 @@ public class homeAdminGUI extends javax.swing.JFrame {
                     .addComponent(AddNewAppointmentHours)
                     .addComponent(AddNewAppointmentMinutes)
                     .addComponent(AddNewAppointmentAMPM))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(AddNewAppointmentBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(134, 134, 134))
+                .addGap(597, 597, 597))
         );
 
         newAppPanel.add(jPanel2, java.awt.BorderLayout.CENTER);
@@ -1421,7 +1511,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         viewAppPanel.setBackground(new java.awt.Color(246, 250, 251));
         viewAppPanel.setLayout(new java.awt.BorderLayout());
 
-        jPanel18.setBackground(new java.awt.Color(246, 250, 251));
+        jPanel18.setBackground(new java.awt.Color(241, 246, 253));
         jPanel18.setPreferredSize(new java.awt.Dimension(700, 45));
 
         AppIntialSaveBtn.setBackground(new java.awt.Color(40, 167, 69));
@@ -1432,11 +1522,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
         AppIntialSaveBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 AppIntialSaveBtnMouseClicked(evt);
-            }
-        });
-        AppIntialSaveBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AppIntialSaveBtnActionPerformed(evt);
             }
         });
 
@@ -1450,11 +1535,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 AppIntialDeleteBtnMouseClicked(evt);
             }
         });
-        AppIntialDeleteBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AppIntialDeleteBtnActionPerformed(evt);
-            }
-        });
 
         areYouWantToDelete.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
 
@@ -1465,22 +1545,12 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 deleteConformationYesMouseClicked(evt);
             }
         });
-        deleteConformationYes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteConformationYesActionPerformed(evt);
-            }
-        });
 
         deleteConformationNo.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         deleteConformationNo.setText("No");
         deleteConformationNo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 deleteConformationNoMouseClicked(evt);
-            }
-        });
-        deleteConformationNo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteConformationNoActionPerformed(evt);
             }
         });
 
@@ -1523,7 +1593,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Patient name", "Medical Officer", "Appointment Date", "Appointment Time", "Symptoms", "Conclution", "Status"
+                "Patient name", "Medical Officer", "Appointment Date", "Appointment Time", "Symptoms", "Status", "AppRefID"
             }
         ) {
             Class[] types = new Class [] {
@@ -1563,7 +1633,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         addVisitors.setPreferredSize(new java.awt.Dimension(700, 627));
         addVisitors.setLayout(new java.awt.BorderLayout());
 
-        jPanel6.setBackground(new java.awt.Color(23, 35, 77));
+        jPanel6.setBackground(new java.awt.Color(0, 159, 255));
         jPanel6.setPreferredSize(new java.awt.Dimension(700, 45));
 
         jLabel36.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
@@ -1597,15 +1667,57 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         jPanel9.setBackground(new java.awt.Color(241, 246, 253));
 
+        jLabel108.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel108.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_name_25px_3.png"))); // NOI18N
+
+        jLabel109.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel109.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_identity_theft_25px_1.png"))); // NOI18N
+
+        jLabel110.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel110.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_question_mark_25px.png"))); // NOI18N
+
+        jLabel111.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel111.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_phone_25px_2.png"))); // NOI18N
+
+        jLabel112.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel112.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_time_25px.png"))); // NOI18N
+
+        jLabel113.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel113.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_note_25px_1.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addContainerGap(64, Short.MAX_VALUE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel108, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel110, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel111, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel112, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel113, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel109, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 582, Short.MAX_VALUE)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addComponent(jLabel108, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(60, 60, 60)
+                        .addComponent(jLabel110, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel111))
+                    .addComponent(jLabel109, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addComponent(jLabel112, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(jLabel113, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(193, 193, 193))
         );
 
         addVisitors.add(jPanel9, java.awt.BorderLayout.LINE_START);
@@ -1615,19 +1727,9 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         VisitorRecordNIC.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         VisitorRecordNIC.setPreferredSize(new java.awt.Dimension(303, 30));
-        VisitorRecordNIC.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VisitorRecordNICActionPerformed(evt);
-            }
-        });
 
         VisitorRecordName.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         VisitorRecordName.setPreferredSize(new java.awt.Dimension(303, 30));
-        VisitorRecordName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VisitorRecordNameActionPerformed(evt);
-            }
-        });
 
         jLabel37.setBackground(new java.awt.Color(255, 255, 255));
         jLabel37.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -1657,16 +1759,13 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel42.setForeground(new java.awt.Color(51, 51, 51));
         jLabel42.setText("Visitor Out Time");
 
+        AddNewVisitorRecord.setBackground(new java.awt.Color(0, 159, 255));
         AddNewVisitorRecord.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        AddNewVisitorRecord.setForeground(new java.awt.Color(255, 255, 255));
         AddNewVisitorRecord.setText("Add Record");
         AddNewVisitorRecord.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 AddNewVisitorRecordMouseClicked(evt);
-            }
-        });
-        AddNewVisitorRecord.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddNewVisitorRecordActionPerformed(evt);
             }
         });
 
@@ -1675,11 +1774,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         VisitorRecordAmPmState.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         VisitorRecordAmPmState.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AM", "PM" }));
-        VisitorRecordAmPmState.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VisitorRecordAmPmStateActionPerformed(evt);
-            }
-        });
 
         VisitorRecordOutMinutes.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         VisitorRecordOutMinutes.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
@@ -1812,6 +1906,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         viewVisitors.add(viewVisitorsTable, java.awt.BorderLayout.CENTER);
 
+        jPanel26.setBackground(new java.awt.Color(241, 246, 253));
         jPanel26.setPreferredSize(new java.awt.Dimension(700, 45));
 
         visitorUpdateIntialBtn.setBackground(new java.awt.Color(40, 167, 69));
@@ -1824,11 +1919,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 visitorUpdateIntialBtnMouseClicked(evt);
             }
         });
-        visitorUpdateIntialBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                visitorUpdateIntialBtnActionPerformed(evt);
-            }
-        });
 
         VisitorIntialDeleteBtn.setBackground(new java.awt.Color(220, 53, 69));
         VisitorIntialDeleteBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -1838,11 +1928,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
         VisitorIntialDeleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 VisitorIntialDeleteBtnMouseClicked(evt);
-            }
-        });
-        VisitorIntialDeleteBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VisitorIntialDeleteBtnActionPerformed(evt);
             }
         });
 
@@ -2027,12 +2112,38 @@ public class homeAdminGUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel114.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel114.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_google_calendar_25px_1.png"))); // NOI18N
+
+        jLabel115.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel115.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_date_from_25px_1.png"))); // NOI18N
+
+        jLabel116.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel116.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_touch_id_25px.png"))); // NOI18N
+
+        jLabel117.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel117.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_home_address_25px_1.png"))); // NOI18N
+
+        jLabel118.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel118.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_torrent_25px.png"))); // NOI18N
+
+        jLabel119.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel119.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_note_25px_2.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(101, 101, 101)
+                .addGap(59, 59, 59)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel114, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel115, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel116, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel117, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel118, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel119, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addComponent(jLabel28)
@@ -2060,46 +2171,64 @@ public class homeAdminGUI extends javax.swing.JFrame {
                         .addComponent(RecievedPostAddress, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(RecievedPostRefNo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(RecievedPostFrom, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(AddNewRecievedPost, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(AddNewRecievedPost, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(129, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addContainerGap(43, Short.MAX_VALUE)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel32)
-                    .addComponent(RecievedPostDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(RecievedPostMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(RecievedPostYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel33)
-                    .addComponent(jLabel34)
-                    .addComponent(jLabel35))
-                .addGap(7, 7, 7)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(RecievedPostFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(RecievedPostRefNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel28))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(RecievedPostAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel29))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(RecievedPostTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel30))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(jPanel8Layout.createSequentialGroup()
+                                                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                            .addComponent(jLabel32)
+                                                            .addComponent(RecievedPostDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(RecievedPostMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(RecievedPostYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                            .addComponent(jLabel33)
+                                                            .addComponent(jLabel34)
+                                                            .addComponent(jLabel35)))
+                                                    .addComponent(jLabel114, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(7, 7, 7)
+                                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                    .addComponent(RecievedPostFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jLabel6)))
+                                            .addComponent(jLabel115, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(RecievedPostRefNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel28)))
+                                    .addComponent(jLabel116, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(RecievedPostAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel29)))
+                            .addComponent(jLabel117, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(RecievedPostTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel30)))
+                    .addComponent(jLabel118, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel31)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(AddNewRecievedPost, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel31)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(AddNewRecievedPost, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel119, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(63, Short.MAX_VALUE))
         );
 
         jPanel5.add(jPanel8, java.awt.BorderLayout.CENTER);
@@ -2237,7 +2366,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
                         .addComponent(DispatchPostAddress, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(DispatchPostRefNo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(DispatchPostTo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(AddNewDispatchPost, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(AddNewDispatchPost, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(129, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
@@ -2274,9 +2403,9 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel23)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(AddNewDispatchPost, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(AddNewDispatchPost, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(63, Short.MAX_VALUE))
         );
 
         dispatchTab.add(jPanel13, java.awt.BorderLayout.CENTER);
@@ -2322,11 +2451,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
         recievedUpdateBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 recievedUpdateBtnMouseClicked(evt);
-            }
-        });
-        recievedUpdateBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                recievedUpdateBtnActionPerformed(evt);
             }
         });
 
@@ -2445,11 +2569,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
         dispatchUpdateBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 dispatchUpdateBtnMouseClicked(evt);
-            }
-        });
-        dispatchUpdateBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dispatchUpdateBtnActionPerformed(evt);
             }
         });
 
@@ -2592,37 +2711,22 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         AddNewComplainName.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
         AddNewComplainName.setPreferredSize(new java.awt.Dimension(64, 30));
-        AddNewComplainName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddNewComplainNameActionPerformed(evt);
-            }
-        });
 
         AddNewComplainPhoneNumber.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
         AddNewComplainPhoneNumber.setPreferredSize(new java.awt.Dimension(64, 30));
-        AddNewComplainPhoneNumber.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddNewComplainPhoneNumberActionPerformed(evt);
-            }
-        });
 
         AddNewComplainDesTextArea.setColumns(20);
         AddNewComplainDesTextArea.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         AddNewComplainDesTextArea.setRows(5);
         jScrollPane4.setViewportView(AddNewComplainDesTextArea);
 
-        AddNewComplainBtn.setBackground(new java.awt.Color(255, 0, 102));
+        AddNewComplainBtn.setBackground(new java.awt.Color(38, 99, 255));
         AddNewComplainBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         AddNewComplainBtn.setForeground(new java.awt.Color(255, 255, 255));
         AddNewComplainBtn.setText("Add Complain");
         AddNewComplainBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 AddNewComplainBtnMouseClicked(evt);
-            }
-        });
-        AddNewComplainBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddNewComplainBtnActionPerformed(evt);
             }
         });
 
@@ -2646,12 +2750,34 @@ public class homeAdminGUI extends javax.swing.JFrame {
         jLabel69.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel69.setText("Relvent Department");
 
+        jLabel97.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel97.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_name_25px_2.png"))); // NOI18N
+
+        jLabel98.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel98.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_mobile_25px.png"))); // NOI18N
+
+        jLabel99.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel99.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_dropdown_field_25px.png"))); // NOI18N
+
+        jLabel100.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel100.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_paste_as_text_25px.png"))); // NOI18N
+
+        jLabel101.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel101.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_note_25px.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addGap(169, 169, 169)
+                .addGap(127, 127, 127)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel97, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel101, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel99, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel100, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel98, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel51)
                     .addComponent(jLabel68, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2664,7 +2790,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
                         .addComponent(AddNewComplainReferenceDepartment, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(AddNewComplainPhoneNumber, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(AddNewComplainName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(AddNewComplainBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(AddNewComplainBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(191, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
@@ -2673,24 +2799,39 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addComponent(jLabel51)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(AddNewComplainName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addComponent(AddNewComplainName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1))
+                    .addComponent(jLabel97, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addComponent(AddNewComplainPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(7, 7, 7)
+                        .addComponent(jLabel69))
+                    .addComponent(jLabel98, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(AddNewComplainPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
-                .addComponent(jLabel69)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(AddNewComplainReferenceDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(AddNewComplainReferenceDepartment)
+                    .addComponent(jLabel99, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel67)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel68)
+                        .addGap(5, 5, 5))
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addComponent(jLabel100)
+                        .addGap(91, 91, 91)))
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel101, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel68)
-                .addGap(5, 5, 5)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(AddNewComplainBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(46, Short.MAX_VALUE))
         );
@@ -2712,22 +2853,14 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Complained By", "Phone No", "Date", "Description", "Action Take", "Note", "Reference No"
+                "Complained By", "Phone No", "Date", "Description", "Action Take", "Note", "Refer Dept", "Refer No"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                true, true, false, true, false, true, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         jScrollPane6.setViewportView(ComplainViewTable);
 
         jPanel19.add(jScrollPane6, java.awt.BorderLayout.CENTER);
 
-        jPanel29.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel29.setBackground(new java.awt.Color(241, 246, 253));
         jPanel29.setPreferredSize(new java.awt.Dimension(700, 45));
 
         complainUpdateSaveBtn.setBackground(new java.awt.Color(40, 167, 69));
@@ -2738,11 +2871,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
         complainUpdateSaveBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 complainUpdateSaveBtnMouseClicked(evt);
-            }
-        });
-        complainUpdateSaveBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                complainUpdateSaveBtnActionPerformed(evt);
             }
         });
 
@@ -2756,11 +2884,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 ComplainDeleteIntialBtnMouseClicked(evt);
             }
         });
-        ComplainDeleteIntialBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ComplainDeleteIntialBtnActionPerformed(evt);
-            }
-        });
 
         ComplainAreYouWantToDelete.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
 
@@ -2771,22 +2894,12 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 deleteComplainConformationYesMouseClicked(evt);
             }
         });
-        deleteComplainConformationYes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteComplainConformationYesActionPerformed(evt);
-            }
-        });
 
         deleteComplainConformationNo.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         deleteComplainConformationNo.setText("No");
         deleteComplainConformationNo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 deleteComplainConformationNoMouseClicked(evt);
-            }
-        });
-        deleteComplainConformationNo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteComplainConformationNoActionPerformed(evt);
             }
         });
 
@@ -2844,6 +2957,22 @@ public class homeAdminGUI extends javax.swing.JFrame {
         referenceNotification.setFont(new java.awt.Font("Montserrat", 0, 18)); // NOI18N
         referenceNotification.setForeground(new java.awt.Color(255, 255, 255));
 
+        referenceDeleteConformationYes.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        referenceDeleteConformationYes.setText("Yes");
+        referenceDeleteConformationYes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                referenceDeleteConformationYesMouseClicked(evt);
+            }
+        });
+
+        referenceDeleteConformationNo.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        referenceDeleteConformationNo.setText("No");
+        referenceDeleteConformationNo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                referenceDeleteConformationNoMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel42Layout = new javax.swing.GroupLayout(jPanel42);
         jPanel42.setLayout(jPanel42Layout);
         jPanel42Layout.setHorizontalGroup(
@@ -2851,13 +2980,24 @@ public class homeAdminGUI extends javax.swing.JFrame {
             .addGroup(jPanel42Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jLabel79, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addComponent(referenceNotification, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(referenceNotification, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(referenceDeleteConformationYes, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(referenceDeleteConformationNo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         jPanel42Layout.setVerticalGroup(
             jPanel42Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel79, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+            .addComponent(jLabel79, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(referenceNotification, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel42Layout.createSequentialGroup()
+                .addContainerGap(12, Short.MAX_VALUE)
+                .addGroup(jPanel42Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(referenceDeleteConformationYes)
+                    .addComponent(referenceDeleteConformationNo))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         referencePanel.add(jPanel42, java.awt.BorderLayout.PAGE_START);
@@ -2915,11 +3055,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 deleteComplainBtnMouseClicked(evt);
             }
         });
-        deleteComplainBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteComplainBtnActionPerformed(evt);
-            }
-        });
 
         jLabel84.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         jLabel84.setText("Delete Specialist Area");
@@ -2929,6 +3064,11 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         deleteSpecialAreaBtn.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         deleteSpecialAreaBtn.setText("Delete");
+        deleteSpecialAreaBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deleteSpecialAreaBtnMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel43Layout = new javax.swing.GroupLayout(jPanel43);
         jPanel43.setLayout(jPanel43Layout);
@@ -2995,22 +3135,20 @@ public class homeAdminGUI extends javax.swing.JFrame {
                     .addComponent(jLabel84))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel43Layout.createSequentialGroup()
-                        .addGap(0, 0, 0)
-                        .addComponent(deleteComplainDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(deleteComplainDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deleteSpecialArea, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(deleteComplainBtn)
                     .addComponent(deleteSpecialAreaBtn))
-                .addGap(201, 201, 201))
+                .addContainerGap(181, Short.MAX_VALUE))
         );
 
         referencePanel.add(jPanel43, java.awt.BorderLayout.CENTER);
 
         content.add(referencePanel, "card6");
 
-        userPanel.setBackground(new java.awt.Color(255, 255, 255));
+        userPanel.setBackground(new java.awt.Color(241, 246, 253));
         userPanel.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         userPanel.setPreferredSize(new java.awt.Dimension(700, 620));
         userPanel.setLayout(new java.awt.BorderLayout());
@@ -3098,11 +3236,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
         addNewUserLastName.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         addNewUserLastName.setMinimumSize(new java.awt.Dimension(80, 27));
         addNewUserLastName.setPreferredSize(new java.awt.Dimension(80, 27));
-        addNewUserLastName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addNewUserLastNameActionPerformed(evt);
-            }
-        });
 
         addNewUserPhoneNo.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         addNewUserPhoneNo.setPreferredSize(new java.awt.Dimension(64, 30));
@@ -3163,74 +3296,92 @@ public class homeAdminGUI extends javax.swing.JFrame {
         addNewUserAllergies.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         addNewUserAllergies.setPreferredSize(new java.awt.Dimension(64, 30));
 
+        jLabel70.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel70.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_name_25px_2.png"))); // NOI18N
+
+        jLabel89.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel89.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_mobile_25px.png"))); // NOI18N
+
+        jLabel92.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel92.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_identity_theft_25px.png"))); // NOI18N
+
+        jLabel93.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel93.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_birthday_25px.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
         jPanel21.setLayout(jPanel21Layout);
         jPanel21Layout.setHorizontalGroup(
             jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel21Layout.createSequentialGroup()
-                .addGap(54, 54, 54)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(addNewUserPhoneNo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(addNewUserLastName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(addNewUserFirstName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(addNewUserName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(userType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel21Layout.createSequentialGroup()
-                        .addComponent(jLabel64, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(178, 178, 178))
-                    .addGroup(jPanel21Layout.createSequentialGroup()
-                        .addComponent(allergiesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(188, 188, 188))
-                    .addGroup(jPanel21Layout.createSequentialGroup()
-                        .addComponent(jLabel58, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(224, 224, 224))
-                    .addGroup(jPanel21Layout.createSequentialGroup()
-                        .addComponent(jLabel62, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(197, 197, 197))
-                    .addComponent(addNewUserNIC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel21Layout.createSequentialGroup()
-                        .addComponent(jLabel53, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(175, 175, 175))
-                    .addGroup(jPanel21Layout.createSequentialGroup()
-                        .addComponent(jLabel61, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(177, 177, 177))
-                    .addGroup(jPanel21Layout.createSequentialGroup()
-                        .addComponent(jLabel56, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(172, 172, 172))
-                    .addGroup(jPanel21Layout.createSequentialGroup()
-                        .addComponent(jLabel57, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(170, 170, 170))
-                    .addComponent(addNewUserAllergies, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel21Layout.createSequentialGroup()
+                        .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel70, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel89, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel92, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addNewUserPhoneNo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(addNewUserLastName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(addNewUserFirstName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(addNewUserName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(userType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel21Layout.createSequentialGroup()
-                                .addComponent(jLabel66, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
-                                .addGap(71, 71, 71))
+                                .addComponent(jLabel64, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(178, 178, 178))
                             .addGroup(jPanel21Layout.createSequentialGroup()
-                                .addComponent(jLabel52)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(allergiesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(188, 188, 188))
                             .addGroup(jPanel21Layout.createSequentialGroup()
-                                .addComponent(AddNewUserDOBYear)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel62, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(197, 197, 197))
+                            .addComponent(addNewUserNIC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel21Layout.createSequentialGroup()
+                                .addComponent(jLabel53, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(175, 175, 175))
+                            .addGroup(jPanel21Layout.createSequentialGroup()
+                                .addComponent(jLabel61, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(177, 177, 177))
+                            .addGroup(jPanel21Layout.createSequentialGroup()
+                                .addComponent(jLabel56, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(172, 172, 172))
+                            .addGroup(jPanel21Layout.createSequentialGroup()
+                                .addComponent(jLabel57, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(170, 170, 170))
+                            .addComponent(addNewUserAllergies, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel21Layout.createSequentialGroup()
                                 .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(AddNewUserDOBMoth, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
                                     .addGroup(jPanel21Layout.createSequentialGroup()
-                                        .addComponent(jLabel60, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(23, 23, 23)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel66, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(119, 119, 119))
+                                    .addGroup(jPanel21Layout.createSequentialGroup()
+                                        .addComponent(jLabel52)
+                                        .addGap(68, 68, 68))
+                                    .addGroup(jPanel21Layout.createSequentialGroup()
+                                        .addComponent(jLabel58, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(126, 126, 126)))
                                 .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel21Layout.createSequentialGroup()
-                                        .addComponent(jLabel59, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-                                        .addGap(40, 40, 40))
-                                    .addComponent(AddNewUserDOBDay))
-                                .addGap(4, 4, 4))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel21Layout.createSequentialGroup()
-                                .addComponent(AddNewUserGenderMale)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(AddNewUserGenderFemale)))))
-                .addGap(46, 46, 46))
+                                        .addComponent(AddNewUserGenderMale)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(AddNewUserGenderFemale))
+                                    .addGroup(jPanel21Layout.createSequentialGroup()
+                                        .addGap(29, 29, 29)
+                                        .addComponent(jLabel59)))))
+                        .addGap(46, 46, 46))
+                    .addGroup(jPanel21Layout.createSequentialGroup()
+                        .addComponent(jLabel93, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(AddNewUserDOBYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel60)
+                            .addGroup(jPanel21Layout.createSequentialGroup()
+                                .addComponent(AddNewUserDOBMoth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(17, 17, 17)
+                                .addComponent(AddNewUserDOBDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel21Layout.setVerticalGroup(
             jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3246,7 +3397,9 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel57, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addNewUserFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(addNewUserFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel70, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel56, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -3254,11 +3407,15 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel61, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addNewUserPhoneNo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(addNewUserPhoneNo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel89, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
                 .addComponent(jLabel62, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addNewUserNIC, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(addNewUserNIC, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel92, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel66, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -3267,20 +3424,25 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel52, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel58, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel60, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel59, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(AddNewUserDOBYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(AddNewUserDOBMoth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(AddNewUserDOBDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel60, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel58, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel59, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(5, 5, 5)
+                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel21Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(AddNewUserDOBYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(AddNewUserDOBMoth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(AddNewUserDOBDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel93, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(allergiesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(addNewUserAllergies, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36))
+                .addGap(48, 48, 48))
         );
 
         jPanel17.add(jPanel21, java.awt.BorderLayout.LINE_START);
@@ -3473,22 +3635,17 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         patientDetailsTab.add(jScrollPane8, java.awt.BorderLayout.CENTER);
 
-        jPanel30.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel30.setPreferredSize(new java.awt.Dimension(700, 45));
+        jPanel30.setBackground(new java.awt.Color(241, 246, 253));
+        jPanel30.setPreferredSize(new java.awt.Dimension(700, 40));
 
         patientUpdateBtn.setBackground(new java.awt.Color(40, 167, 69));
         patientUpdateBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         patientUpdateBtn.setForeground(new java.awt.Color(255, 255, 255));
         patientUpdateBtn.setText("Save");
-        patientUpdateBtn.setPreferredSize(new java.awt.Dimension(72, 35));
+        patientUpdateBtn.setPreferredSize(new java.awt.Dimension(72, 26));
         patientUpdateBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 patientUpdateBtnMouseClicked(evt);
-            }
-        });
-        patientUpdateBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                patientUpdateBtnActionPerformed(evt);
             }
         });
 
@@ -3502,11 +3659,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 patientIntialDeleteBtnMouseClicked(evt);
             }
         });
-        patientIntialDeleteBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                patientIntialDeleteBtnActionPerformed(evt);
-            }
-        });
 
         patientAreYouWantToDelete.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
 
@@ -3515,11 +3667,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
         patientDeleteConformationYes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 patientDeleteConformationYesMouseClicked(evt);
-            }
-        });
-        patientDeleteConformationYes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                patientDeleteConformationYesActionPerformed(evt);
             }
         });
 
@@ -3536,18 +3683,30 @@ public class homeAdminGUI extends javax.swing.JFrame {
             }
         });
 
+        resetPatientPassword.setBackground(new java.awt.Color(255, 153, 0));
+        resetPatientPassword.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        resetPatientPassword.setForeground(new java.awt.Color(255, 255, 255));
+        resetPatientPassword.setText("Reset Pass");
+        resetPatientPassword.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                resetPatientPasswordMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel30Layout = new javax.swing.GroupLayout(jPanel30);
         jPanel30.setLayout(jPanel30Layout);
         jPanel30Layout.setHorizontalGroup(
             jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel30Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(patientUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(patientUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(patientIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 347, Short.MAX_VALUE)
-                .addComponent(patientAreYouWantToDelete)
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(resetPatientPassword)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(patientAreYouWantToDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(patientDeleteConformationYes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(patientDeleteConformationNo)
@@ -3557,14 +3716,14 @@ public class homeAdminGUI extends javax.swing.JFrame {
             jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel30Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(patientIntialDeleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                        .addComponent(patientAreYouWantToDelete)
-                        .addComponent(patientDeleteConformationYes)
-                        .addComponent(patientDeleteConformationNo))
-                    .addComponent(patientUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGroup(jPanel30Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(patientIntialDeleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(patientDeleteConformationYes)
+                    .addComponent(patientDeleteConformationNo)
+                    .addComponent(resetPatientPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(patientUpdateBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addComponent(patientAreYouWantToDelete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         patientDetailsTab.add(jPanel30, java.awt.BorderLayout.PAGE_START);
@@ -3599,7 +3758,8 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         MedicalOfficersDetailsViewTab.add(jScrollPane9, java.awt.BorderLayout.CENTER);
 
-        jPanel31.setPreferredSize(new java.awt.Dimension(700, 45));
+        jPanel31.setBackground(new java.awt.Color(241, 246, 253));
+        jPanel31.setPreferredSize(new java.awt.Dimension(700, 40));
 
         MedicalOfficerUpdateBtn.setBackground(new java.awt.Color(40, 167, 69));
         MedicalOfficerUpdateBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -3609,11 +3769,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
         MedicalOfficerUpdateBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 MedicalOfficerUpdateBtnMouseClicked(evt);
-            }
-        });
-        MedicalOfficerUpdateBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MedicalOfficerUpdateBtnActionPerformed(evt);
             }
         });
 
@@ -3661,18 +3816,30 @@ public class homeAdminGUI extends javax.swing.JFrame {
             }
         });
 
+        resetMedicalOfficerPassword.setBackground(new java.awt.Color(255, 153, 0));
+        resetMedicalOfficerPassword.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        resetMedicalOfficerPassword.setForeground(new java.awt.Color(255, 255, 255));
+        resetMedicalOfficerPassword.setText("Reset Pass");
+        resetMedicalOfficerPassword.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                resetMedicalOfficerPasswordMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel31Layout = new javax.swing.GroupLayout(jPanel31);
         jPanel31.setLayout(jPanel31Layout);
         jPanel31Layout.setHorizontalGroup(
             jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel31Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(MedicalOfficerUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(MedicalOfficerUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(medicalIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 347, Short.MAX_VALUE)
-                .addComponent(medicalAreYouWantDelete)
-                .addGap(27, 27, 27)
+                .addComponent(medicalIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(resetMedicalOfficerPassword)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addComponent(medicalAreYouWantDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(medicalDeleteConformationYes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(medicalDeleteConformationNo)
@@ -3682,14 +3849,16 @@ public class homeAdminGUI extends javax.swing.JFrame {
             jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel31Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(medicalIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(resetMedicalOfficerPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(medicalIntialDeleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                        .addComponent(medicalAreYouWantDelete)
                         .addComponent(medicalDeleteConformationYes)
                         .addComponent(medicalDeleteConformationNo))
-                    .addComponent(MedicalOfficerUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(MedicalOfficerUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
+            .addComponent(medicalAreYouWantDelete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         MedicalOfficersDetailsViewTab.add(jPanel31, java.awt.BorderLayout.PAGE_START);
@@ -3726,7 +3895,8 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         ReceptiontistDetailsViewTab.add(jScrollPane10, java.awt.BorderLayout.CENTER);
 
-        jPanel32.setPreferredSize(new java.awt.Dimension(700, 45));
+        jPanel32.setBackground(new java.awt.Color(241, 246, 253));
+        jPanel32.setPreferredSize(new java.awt.Dimension(700, 40));
 
         receptionistUpdateBtn.setBackground(new java.awt.Color(40, 167, 69));
         receptionistUpdateBtn.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
@@ -3736,11 +3906,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
         receptionistUpdateBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 receptionistUpdateBtnMouseClicked(evt);
-            }
-        });
-        receptionistUpdateBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                receptionistUpdateBtnActionPerformed(evt);
             }
         });
 
@@ -3788,18 +3953,30 @@ public class homeAdminGUI extends javax.swing.JFrame {
             }
         });
 
+        resetReceptionPassword.setBackground(new java.awt.Color(255, 153, 0));
+        resetReceptionPassword.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        resetReceptionPassword.setForeground(new java.awt.Color(255, 255, 255));
+        resetReceptionPassword.setText("Reset Pass");
+        resetReceptionPassword.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                resetReceptionPasswordMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel32Layout = new javax.swing.GroupLayout(jPanel32);
         jPanel32.setLayout(jPanel32Layout);
         jPanel32Layout.setHorizontalGroup(
             jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel32Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(receptionistUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(receptionistUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(receptionIntialDeleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 347, Short.MAX_VALUE)
-                .addComponent(receptionAreYouWantToDelete)
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(resetReceptionPassword)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(receptionAreYouWantToDelete, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(receptionConformationYes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(receptionConformationNo)
@@ -3809,14 +3986,14 @@ public class homeAdminGUI extends javax.swing.JFrame {
             jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel32Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(receptionIntialDeleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                        .addComponent(receptionAreYouWantToDelete)
-                        .addComponent(receptionConformationYes)
-                        .addComponent(receptionConformationNo))
-                    .addComponent(receptionistUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGroup(jPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(receptionIntialDeleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(receptionConformationYes)
+                    .addComponent(receptionConformationNo)
+                    .addComponent(resetReceptionPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(receptionistUpdateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
+            .addComponent(receptionAreYouWantToDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         ReceptiontistDetailsViewTab.add(jPanel32, java.awt.BorderLayout.PAGE_START);
@@ -3834,7 +4011,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         });
         jPanel39.setLayout(new java.awt.BorderLayout());
 
-        jPanel40.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel40.setBackground(new java.awt.Color(241, 246, 253));
         jPanel40.setPreferredSize(new java.awt.Dimension(700, 45));
 
         userLoginUpdateSaveBtn.setBackground(new java.awt.Color(40, 167, 69));
@@ -3845,11 +4022,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
         userLoginUpdateSaveBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 userLoginUpdateSaveBtnMouseClicked(evt);
-            }
-        });
-        userLoginUpdateSaveBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                userLoginUpdateSaveBtnActionPerformed(evt);
             }
         });
 
@@ -3946,132 +4118,176 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
         jTabbedPane5.addTab("EditLogin Details", jPanel39);
 
-        jPanel22.setLayout(new java.awt.BorderLayout());
+        userPanel.add(jTabbedPane5, java.awt.BorderLayout.CENTER);
 
-        jPanel23.setBackground(new java.awt.Color(255, 0, 102));
-        jPanel23.setPreferredSize(new java.awt.Dimension(700, 50));
+        content.add(userPanel, "card7");
+
+        reportPanel.setBackground(new java.awt.Color(255, 255, 255));
+        reportPanel.setLayout(new java.awt.BorderLayout());
+
+        jPanel22.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel82.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_json_download_120px.png"))); // NOI18N
+        jLabel82.setText("jLabel80");
+
+        jLabel83.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLabel83.setText("Save Patient Details");
+
+        saveToPdfApp.setBackground(new java.awt.Color(159, 2, 221));
+        saveToPdfApp.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        saveToPdfApp.setForeground(new java.awt.Color(255, 255, 255));
+        saveToPdfApp.setText("Save To PDF");
+        saveToPdfApp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                saveToPdfAppMouseClicked(evt);
+            }
+        });
+
+        saveToJson.setBackground(new java.awt.Color(159, 2, 221));
+        saveToJson.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        saveToJson.setForeground(new java.awt.Color(255, 255, 255));
+        saveToJson.setText("Save As JSON");
+        saveToJson.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                saveToJsonMouseClicked(evt);
+            }
+        });
+
+        jLabel90.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_pdf_120px.png"))); // NOI18N
+
+        jLabel91.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLabel91.setText("Select the Doctor");
+
+        pdfMedicalOfficersDropDown.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+
+        jLabel94.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLabel94.setText("Save Medical Details");
+
+        saveToJson1.setBackground(new java.awt.Color(159, 2, 221));
+        saveToJson1.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        saveToJson1.setForeground(new java.awt.Color(255, 255, 255));
+        saveToJson1.setText("Save As JSON");
+        saveToJson1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                saveToJson1MouseClicked(evt);
+            }
+        });
+
+        jLabel95.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLabel95.setText("Save Receptionist Details");
+
+        saveToJson2.setBackground(new java.awt.Color(159, 2, 221));
+        saveToJson2.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        saveToJson2.setForeground(new java.awt.Color(255, 255, 255));
+        saveToJson2.setText("Save As JSON");
+        saveToJson2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                saveToJson2MouseClicked(evt);
+            }
+        });
+
+        jLabel96.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_json_download_120px.png"))); // NOI18N
+        jLabel96.setText("jLabel80");
+
+        jLabel106.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_json_download_120px.png"))); // NOI18N
+        jLabel106.setText("jLabel80");
+
+        javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
+        jPanel22.setLayout(jPanel22Layout);
+        jPanel22Layout.setHorizontalGroup(
+            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel22Layout.createSequentialGroup()
+                .addGap(67, 67, 67)
+                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel22Layout.createSequentialGroup()
+                        .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(saveToJson, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel22Layout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel82, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel83))))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(saveToJson1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel94)
+                            .addComponent(jLabel106, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel96, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(saveToJson2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel95)))
+                    .addGroup(jPanel22Layout.createSequentialGroup()
+                        .addComponent(jLabel90, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel91)
+                            .addGroup(jPanel22Layout.createSequentialGroup()
+                                .addComponent(pdfMedicalOfficersDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(saveToPdfApp, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(100, Short.MAX_VALUE))
+        );
+        jPanel22Layout.setVerticalGroup(
+            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel22Layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel90)
+                    .addGroup(jPanel22Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel91)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(saveToPdfApp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(pdfMedicalOfficersDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(64, 64, 64)
+                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel82)
+                    .addComponent(jLabel96)
+                    .addComponent(jLabel106))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel22Layout.createSequentialGroup()
+                        .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel83)
+                            .addComponent(jLabel94))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(saveToJson1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(saveToJson, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel22Layout.createSequentialGroup()
+                        .addComponent(jLabel95)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(saveToJson2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(176, Short.MAX_VALUE))
+        );
+
+        reportPanel.add(jPanel22, java.awt.BorderLayout.CENTER);
+
+        jPanel23.setBackground(new java.awt.Color(217, 12, 254));
+        jPanel23.setPreferredSize(new java.awt.Dimension(0, 40));
+
+        reportNotification.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        reportNotification.setForeground(new java.awt.Color(255, 255, 255));
+        reportNotification.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
         jPanel23.setLayout(jPanel23Layout);
         jPanel23Layout.setHorizontalGroup(
             jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 700, Short.MAX_VALUE)
+            .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(reportNotification, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE))
         );
         jPanel23Layout.setVerticalGroup(
             jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addGap(0, 40, Short.MAX_VALUE)
+            .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(reportNotification, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
         );
 
-        jPanel22.add(jPanel23, java.awt.BorderLayout.PAGE_START);
-
-        javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
-        jPanel24.setLayout(jPanel24Layout);
-        jPanel24Layout.setHorizontalGroup(
-            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel24Layout.setVerticalGroup(
-            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 537, Short.MAX_VALUE)
-        );
-
-        jPanel22.add(jPanel24, java.awt.BorderLayout.LINE_START);
-
-        jLabel70.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jLabel70.setText("Enter Your Old Password");
-
-        jPasswordField1.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jPasswordField1.setMaximumSize(new java.awt.Dimension(500, 50));
-        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField1ActionPerformed(evt);
-            }
-        });
-
-        jPasswordField2.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jPasswordField2.setMaximumSize(new java.awt.Dimension(500, 50));
-        jPasswordField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField2ActionPerformed(evt);
-            }
-        });
-
-        jPasswordField3.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jPasswordField3.setMaximumSize(new java.awt.Dimension(500, 50));
-
-        jLabel72.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jLabel72.setText("Enter Your New Password");
-
-        jLabel73.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jLabel73.setText("Retype You New Password");
-
-        jLabel74.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jLabel74.setText("Change the password");
-
-        jButton3.setText("jButton3");
-
-        javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
-        jPanel25.setLayout(jPanel25Layout);
-        jPanel25Layout.setHorizontalGroup(
-            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel25Layout.createSequentialGroup()
-                .addGap(77, 77, 77)
-                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPasswordField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPasswordField3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel25Layout.createSequentialGroup()
-                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel70)
-                            .addComponent(jLabel72)
-                            .addComponent(jLabel73)
-                            .addComponent(jButton3)
-                            .addComponent(jLabel74))
-                        .addGap(0, 104, Short.MAX_VALUE)))
-                .addContainerGap(223, Short.MAX_VALUE))
-        );
-        jPanel25Layout.setVerticalGroup(
-            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel25Layout.createSequentialGroup()
-                .addGap(59, 59, 59)
-                .addComponent(jLabel70)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel72)
-                .addGap(7, 7, 7)
-                .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel73)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel74)
-                .addGap(76, 76, 76)
-                .addComponent(jButton3)
-                .addContainerGap(145, Short.MAX_VALUE))
-        );
-
-        jPanel22.add(jPanel25, java.awt.BorderLayout.CENTER);
-
-        jTabbedPane5.addTab("User Settings", jPanel22);
-
-        userPanel.add(jTabbedPane5, java.awt.BorderLayout.CENTER);
-
-        content.add(userPanel, "card7");
-
-        reportPanel.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout reportPanelLayout = new javax.swing.GroupLayout(reportPanel);
-        reportPanel.setLayout(reportPanelLayout);
-        reportPanelLayout.setHorizontalGroup(
-            reportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 700, Short.MAX_VALUE)
-        );
-        reportPanelLayout.setVerticalGroup(
-            reportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 620, Short.MAX_VALUE)
-        );
+        reportPanel.add(jPanel23, java.awt.BorderLayout.PAGE_START);
 
         content.add(reportPanel, "card8");
 
@@ -4099,6 +4315,13 @@ public class homeAdminGUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    //notification clear--------------------------------------------------------
+    private static void notificationClear(JLabel notificationLabel){   
+    new Timer(2500, (ActionEvent e) -> {
+        notificationLabel.setText("");
+    }).start();
+    }
+    
     private String[] stringSeparator(String commaSeparatedString){
             String[] dataRow = commaSeparatedString.split(",");
             return dataRow;
@@ -4172,6 +4395,8 @@ public class homeAdminGUI extends javax.swing.JFrame {
             referencePanel.setVisible(false);
             userPanel.setVisible(false);
             reportPanel.setVisible(false);
+            dropDownFeederModel specialAreaObj=new dropDownFeederModel("specializedArea.txt",AddNewAppointmnetSpecializedAreaDropDown);
+            specialAreaObj.dropFeeder(true);
         }
         if(evt.getSource()==postal){
             homePannel.setVisible(false);
@@ -4241,43 +4466,13 @@ public class homeAdminGUI extends javax.swing.JFrame {
             referencePanel.setVisible(false);
             userPanel.setVisible(false);
             reportPanel.setVisible(true);
+            dropDownFeederModel mediOfficerObj=new dropDownFeederModel("medicalOfficerDetails.txt",pdfMedicalOfficersDropDown);
+            mediOfficerObj.dropDownFeederMedical();
         }
         
         
         
     }//GEN-LAST:event_menuIconClick
-
-    private void addNewAppointmentSymptomsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewAppointmentSymptomsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addNewAppointmentSymptomsActionPerformed
-
-    private void addNewAppointmentPatientNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewAppointmentPatientNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addNewAppointmentPatientNameActionPerformed
-
-    private void AddNewAppointmentBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewAppointmentBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AddNewAppointmentBtnActionPerformed
-
-    private void AddNewAppointmentAMPMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewAppointmentAMPMActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AddNewAppointmentAMPMActionPerformed
-
-    private void MedicalOfficerDropDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MedicalOfficerDropDownActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_MedicalOfficerDropDownActionPerformed
-
-    private void AddNewComplainNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewComplainNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AddNewComplainNameActionPerformed
-
-    private void AddNewComplainPhoneNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewComplainPhoneNumberActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AddNewComplainPhoneNumberActionPerformed
-
-    private void AddNewComplainBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewComplainBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AddNewComplainBtnActionPerformed
 
     private void AddNewComplainBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddNewComplainBtnMouseClicked
         
@@ -4297,65 +4492,13 @@ public class homeAdminGUI extends javax.swing.JFrame {
                 AddNewComplainDesTextArea.getText(),
                 "no-action-taken",
                 AddNewComplainNote.getText(),
-                AddNewComplainReferenceDepartment.getSelectedItem().toString());
+                AddNewComplainReferenceDepartment.getSelectedItem().toString(),
+                ComplainModel.getNextReferenceNo());
                 ComplainModel.writingTXT(newComplain.toString());
         }else{
                 complainWarning.setText("Please fill all fields");
         }        
     }//GEN-LAST:event_AddNewComplainBtnMouseClicked
-
-    private void AddNewAppointmentBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddNewAppointmentBtnMouseClicked
-        boolean textField11=addNewAppointmentPatientName.getText().equals("");
-        boolean textField12=addNewAppointmentSymptoms.getText().equals("");
-        boolean textField13=addNewAppointmentConclution.getText().equals("");
-        
-        if(!(textField11 || textField12 || textField13)){
-                
-                addNewAppointmentNotficationLabel.setText("Sumbiting the Complain");
-                date appointmentDateObj=new date(
-                (Integer)addNewAppointmentDay.getValue(),
-                (Integer)addNewAppointmentMonth.getValue(),
-                (Integer)addNewAppointmentYear.getValue()
-                );
-                time appointmentTimeObj=new time(
-                (Integer)AddNewAppointmentMinutes.getValue(),
-                (Integer)AddNewAppointmentHours.getValue(),
-                AddNewAppointmentAMPM.getSelectedItem().toString()
-                );
-                appointmentController addNewApp=new appointmentController(
-                        addNewAppointmentPatientName.getText(),
-                        MedicalOfficerDropDown.getSelectedItem().toString(),
-                        appointmentDateObj,
-                        appointmentTimeObj,
-                        addNewAppointmentSymptoms.getText(),
-                        addNewAppointmentConclution.getText(),
-                        "incoming");
-                
-                              
-                AppointmentModel.writingTXT(addNewApp.toString());
-        
-                
-        }else{
-                addNewAppointmentNotficationLabel.setText("Please fill all fields");
-        }
-         
-    }//GEN-LAST:event_AddNewAppointmentBtnMouseClicked
-
-    private void VisitorRecordAmPmStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisitorRecordAmPmStateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_VisitorRecordAmPmStateActionPerformed
-
-    private void AddNewVisitorRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewVisitorRecordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AddNewVisitorRecordActionPerformed
-
-    private void VisitorRecordNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisitorRecordNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_VisitorRecordNameActionPerformed
-
-    private void VisitorRecordNICActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisitorRecordNICActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_VisitorRecordNICActionPerformed
 
     private void AddNewVisitorRecordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddNewVisitorRecordMouseClicked
         boolean textField14=VisitorRecordName.getText().equals("");
@@ -4470,13 +4613,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
        VisitorModel.viewVisitor(viewVisitorsRecordTable);
     }//GEN-LAST:event_viewVisitorsBtnMouseClicked
 
-    private void viewAppointmentBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewAppointmentBtnMouseClicked
-        AppointmentModel.viewAppointment(viewAppointmentTable);
-        
-        
-        
-    }//GEN-LAST:event_viewAppointmentBtnMouseClicked
-
     private void jPanel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel15MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel15MouseClicked
@@ -4499,55 +4635,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
         RecievedPostModel.viewRecievedPost(viewRecivedTable);
         DispatchModel.viewDispatchPost(viewDispatchTable);
     }//GEN-LAST:event_ViewRecievedDispatchPostMouseClicked
-
-    private void AppIntialSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AppIntialSaveBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AppIntialSaveBtnActionPerformed
-
-    private void AppIntialDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AppIntialDeleteBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AppIntialDeleteBtnActionPerformed
-
-    private void deleteConformationYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteConformationYesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_deleteConformationYesActionPerformed
-
-    private void deleteConformationNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteConformationNoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_deleteConformationNoActionPerformed
-
-    private void deleteConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteConformationYesMouseClicked
-        if(!viewAppointmentTable.getSelectionModel().isSelectionEmpty()){
-        
-          appointmentController deleteAppObj=new appointmentController(getSelectedRowStringFromReleventTable(viewAppointmentTable));
-          AppointmentModel.deleteAppointment(deleteAppObj);
-          AppointmentModel.viewAppointment(viewAppointmentTable);
-          deleteConformationYes.setVisible(false);
-          deleteConformationNo.setVisible(false);
-          areYouWantToDelete.setVisible(false);
-        
-        }else{
-        
-            areYouWantToDelete.setText("Please Select the Row to Delete");
-            deleteConformationYes.setVisible(false);
-            deleteConformationNo.setVisible(false);
-          
-        }
-          
-        
-    }//GEN-LAST:event_deleteConformationYesMouseClicked
-
-    private void AddNewAppointmnetSpecializedAreaDropDownItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_AddNewAppointmnetSpecializedAreaDropDownItemStateChanged
-        if(evt.getStateChange()==ItemEvent.SELECTED){
-        //remove the existing valus of drop down menu
-        MedicalOfficerDropDown.removeAllItems();
-        dropDownFeederModel medicalOfficerDropDownObj=new dropDownFeederModel("medicalOfficerDetails.txt",
-                MedicalOfficerDropDown, 
-                AddNewAppointmnetSpecializedAreaDropDown.getSelectedItem().toString());
-        medicalOfficerDropDownObj.dropFeeder();
-        
-        }
-    }//GEN-LAST:event_AddNewAppointmnetSpecializedAreaDropDownItemStateChanged
 
     private void userMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userMouseEntered
        user.setSize(new Dimension(180,50));
@@ -4598,36 +4685,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
         reference.setSize(new Dimension(200,50));
     }//GEN-LAST:event_referenceMouseExited
 
-    private void AppIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AppIntialDeleteBtnMouseClicked
-        if(!viewAppointmentTable.getSelectionModel().isSelectionEmpty()){
-        areYouWantToDelete.setVisible(true);
-        areYouWantToDelete.setText("Are you sure want to delete this record?");
-        deleteConformationYes.setVisible(true);
-        deleteConformationNo.setVisible(true);
-        }else{
-            areYouWantToDelete.setVisible(true);
-            areYouWantToDelete.setText("Please Select the Record To Delete");
-        }
-    }//GEN-LAST:event_AppIntialDeleteBtnMouseClicked
-
-    private void deleteConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteConformationNoMouseClicked
-        deleteConformationYes.setVisible(false);
-        deleteConformationNo.setVisible(false);
-        areYouWantToDelete.setVisible(false);
-    }//GEN-LAST:event_deleteConformationNoMouseClicked
-
-    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField1ActionPerformed
-
-    private void jPasswordField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField2ActionPerformed
-
-    private void visitorUpdateIntialBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visitorUpdateIntialBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_visitorUpdateIntialBtnActionPerformed
-
     private void VisitorIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_VisitorIntialDeleteBtnMouseClicked
         if(!viewVisitorsRecordTable.getSelectionModel().isSelectionEmpty()){
             VisitorAreYouWantToDelete.setVisible(true);
@@ -4640,10 +4697,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_VisitorIntialDeleteBtnMouseClicked
-
-    private void VisitorIntialDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisitorIntialDeleteBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_VisitorIntialDeleteBtnActionPerformed
 
     private void deleteVisitorRecordConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteVisitorRecordConformationYesMouseClicked
         if(!viewVisitorsRecordTable.getSelectionModel().isSelectionEmpty()){
@@ -4678,10 +4731,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private void deleteVisitorRecordConformationNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteVisitorRecordConformationNoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_deleteVisitorRecordConformationNoActionPerformed
-
-    private void recievedUpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recievedUpdateBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_recievedUpdateBtnActionPerformed
 
     private void RecivedPostIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RecivedPostIntialDeleteBtnMouseClicked
         if(!viewRecivedTable.getSelectionModel().isSelectionEmpty()){
@@ -4733,10 +4782,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private void RecievedDeleteConformationNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RecievedDeleteConformationNoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_RecievedDeleteConformationNoActionPerformed
-
-    private void dispatchUpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dispatchUpdateBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dispatchUpdateBtnActionPerformed
 
     private void DispatchIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DispatchIntialDeleteBtnMouseClicked
         // TODO add your handling code here:
@@ -4792,10 +4837,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_DispatchDeleteConformationNoActionPerformed
 
-    private void complainUpdateSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_complainUpdateSaveBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_complainUpdateSaveBtnActionPerformed
-
     private void ComplainDeleteIntialBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ComplainDeleteIntialBtnMouseClicked
         if(!ComplainViewTable.getSelectionModel().isSelectionEmpty()){
         ComplainAreYouWantToDelete.setVisible(true);
@@ -4808,10 +4849,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_ComplainDeleteIntialBtnMouseClicked
-
-    private void ComplainDeleteIntialBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComplainDeleteIntialBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ComplainDeleteIntialBtnActionPerformed
 
     private void deleteComplainConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteComplainConformationYesMouseClicked
         if(!ComplainViewTable.getSelectionModel().isSelectionEmpty()){
@@ -4833,23 +4870,11 @@ public class homeAdminGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_deleteComplainConformationYesMouseClicked
 
-    private void deleteComplainConformationYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteComplainConformationYesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_deleteComplainConformationYesActionPerformed
-
     private void deleteComplainConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteComplainConformationNoMouseClicked
         deleteComplainConformationYes.setVisible(false);
         deleteComplainConformationNo.setVisible(false);
         ComplainAreYouWantToDelete.setVisible(false);
     }//GEN-LAST:event_deleteComplainConformationNoMouseClicked
-
-    private void deleteComplainConformationNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteComplainConformationNoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_deleteComplainConformationNoActionPerformed
-
-    private void patientUpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientUpdateBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_patientUpdateBtnActionPerformed
 
     private void patientIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientIntialDeleteBtnMouseClicked
        if(!patientDetailsTable.getSelectionModel().isSelectionEmpty()){
@@ -4862,10 +4887,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
             patientAreYouWantToDelete.setText("Please Select the Record To Delete");
         } 
     }//GEN-LAST:event_patientIntialDeleteBtnMouseClicked
-
-    private void patientIntialDeleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientIntialDeleteBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_patientIntialDeleteBtnActionPerformed
 
     private void patientDeleteConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientDeleteConformationYesMouseClicked
         if(!patientDetailsTable.getSelectionModel().isSelectionEmpty()){
@@ -4881,15 +4902,12 @@ public class homeAdminGUI extends javax.swing.JFrame {
         }else{
         
             patientAreYouWantToDelete.setText("Please Select the Row to Delete");
+            notificationClear(patientAreYouWantToDelete);
             patientDeleteConformationYes.setVisible(false);
             patientDeleteConformationNo.setVisible(false);
           
         }
     }//GEN-LAST:event_patientDeleteConformationYesMouseClicked
-
-    private void patientDeleteConformationYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientDeleteConformationYesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_patientDeleteConformationYesActionPerformed
 
     private void patientDeleteConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientDeleteConformationNoMouseClicked
         patientDeleteConformationYes.setVisible(false);
@@ -4900,10 +4918,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private void patientDeleteConformationNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patientDeleteConformationNoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_patientDeleteConformationNoActionPerformed
-
-    private void MedicalOfficerUpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MedicalOfficerUpdateBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_MedicalOfficerUpdateBtnActionPerformed
 
     private void medicalIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_medicalIntialDeleteBtnMouseClicked
         if(!MedicalOfficersTable.getSelectionModel().isSelectionEmpty()){
@@ -4961,10 +4975,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_medicalDeleteConformationNoActionPerformed
 
-    private void receptionistUpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receptionistUpdateBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_receptionistUpdateBtnActionPerformed
-
     private void receptionIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_receptionIntialDeleteBtnMouseClicked
          if(!ReceptiontistTable.getSelectionModel().isSelectionEmpty()){
         receptionAreYouWantToDelete.setVisible(true);
@@ -5016,14 +5026,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_receptionConformationNoActionPerformed
 
-    private void viewAppointmentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewAppointmentTableMouseClicked
-        
-        if(!viewAppointmentTable.getSelectionModel().isSelectionEmpty()){
-            AppIntialDeleteBtn.setEnabled(true);
-            AppIntialSaveBtn.setEnabled(true);
-        }
-    }//GEN-LAST:event_viewAppointmentTableMouseClicked
-
     private void viewRecivedTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewRecivedTableMouseClicked
         
         if(!viewRecivedTable.getSelectionModel().isSelectionEmpty()){
@@ -5039,18 +5041,13 @@ public class homeAdminGUI extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_closeBtnMouseClicked
 
-    private void userLoginUpdateSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userLoginUpdateSaveBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_userLoginUpdateSaveBtnActionPerformed
-
     private void jPanel39MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel39MouseClicked
             UserModel.viewLoginDetails(userLoginTable);
-
     }//GEN-LAST:event_jPanel39MouseClicked
 
     private void loginDetailsConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginDetailsConformationYesMouseClicked
          if(!userLoginTable.getSelectionModel().isSelectionEmpty()){
-        
+                        
             loginController deleteAppObj=new loginController(stringSeparator(
             getSelectedRowStringFromReleventTable(userLoginTable)));
             UserModel.deleteUser(deleteAppObj);
@@ -5066,12 +5063,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
             loginDetailsConformationYes.setVisible(false);
           
         }
-        
-        
-        
-        
-        
-        
+     
     }//GEN-LAST:event_loginDetailsConformationYesMouseClicked
 
     private void loginDetailsConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginDetailsConformationNoMouseClicked
@@ -5108,7 +5100,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
     
     
     private void complainUpdateSaveBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_complainUpdateSaveBtnMouseClicked
-        TableCellListener tcl = new TableCellListener(ComplainViewTable, action);
         ComplainAreYouWantToDelete.setText("Record Has Been Updated");
                
         ComplainModel.updateComplain(updateRow,
@@ -5119,7 +5110,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_complainUpdateSaveBtnMouseClicked
 
     private void visitorUpdateIntialBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_visitorUpdateIntialBtnMouseClicked
-        TableCellListener tcl = new TableCellListener(viewVisitorsRecordTable, action);
         VisitorAreYouWantToDelete.setText("Record Has Been Updated");
         VisitorModel.updateVisitors(updateRow,
                 getUpdatedRowStringFromReleventTable(viewVisitorsRecordTable,updateRow)
@@ -5129,19 +5119,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_visitorUpdateIntialBtnMouseClicked
 
-    private void AppIntialSaveBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AppIntialSaveBtnMouseClicked
-        TableCellListener tcl = new TableCellListener(viewAppointmentTable, action);
-        areYouWantToDelete.setVisible(true);
-        areYouWantToDelete.setText("Record Has Been Updated");
-               
-        AppointmentModel.updateAppointment(updateRow,
-                getUpdatedRowStringFromReleventTable(viewAppointmentTable,updateRow)
-                        );
-        AppointmentModel.viewAppointment(viewAppointmentTable);
-    }//GEN-LAST:event_AppIntialSaveBtnMouseClicked
-
     private void recievedUpdateBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_recievedUpdateBtnMouseClicked
-       TableCellListener tcl = new TableCellListener(viewRecivedTable, action);
         recievedAreYouWantToDelete.setText("Record Has Been Updated");
                
         RecievedPostModel.updateRecieved(updateRow,
@@ -5151,7 +5129,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_recievedUpdateBtnMouseClicked
 
     private void dispatchUpdateBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dispatchUpdateBtnMouseClicked
-        TableCellListener tcl = new TableCellListener(viewDispatchTable, action);
         dispatchAreYouWantToDelete.setText("Record Has Been Updated");
                
                 DispatchModel.updateDispatch(updateRow,
@@ -5161,9 +5138,8 @@ public class homeAdminGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_dispatchUpdateBtnMouseClicked
 
     private void patientUpdateBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientUpdateBtnMouseClicked
-        TableCellListener tcl = new TableCellListener(patientDetailsTable, action);
         patientAreYouWantToDelete.setText("Record Has Been Updated");
-               
+        notificationClear(patientAreYouWantToDelete);       
                 PatientModel.updatePatient(updateRow,
                 getUpdatedRowStringFromReleventTable(patientDetailsTable,updateRow)
                         );
@@ -5171,7 +5147,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_patientUpdateBtnMouseClicked
 
     private void MedicalOfficerUpdateBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MedicalOfficerUpdateBtnMouseClicked
-        TableCellListener tcl = new TableCellListener(MedicalOfficersTable, action);
         medicalAreYouWantDelete.setText("Record Has Been Updated");
                
                 MedicalOfficerModel.updateMedicalOfficer(updateRow,
@@ -5181,7 +5156,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_MedicalOfficerUpdateBtnMouseClicked
 
     private void receptionistUpdateBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_receptionistUpdateBtnMouseClicked
-        TableCellListener tcl = new TableCellListener(ReceptiontistTable, action);
         receptionAreYouWantToDelete.setText("Record Has Been Updated");
                
                 ReceptionistModel.updateReceptionist(updateRow,
@@ -5192,7 +5166,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_receptionistUpdateBtnMouseClicked
 
     private void userLoginUpdateSaveBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userLoginUpdateSaveBtnMouseClicked
-        TableCellListener tcl = new TableCellListener(userLoginTable, action);
         loginDetailsAreYouWantToDelete.setText("Record Has Been Updated");
                
         UserModel.updateUser(updateRow,
@@ -5210,10 +5183,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
             this.setExtendedState(this.NORMAL);
         }
     }//GEN-LAST:event_maximumBtnMouseClicked
-
-    private void addNewUserLastNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewUserLastNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addNewUserLastNameActionPerformed
 
     private void userTypeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_userTypeItemStateChanged
         if(userType.getSelectedItem()=="Patient"){
@@ -5257,7 +5226,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_bloodSelActionPerformed
 
     private void addNewUserBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addNewUserBtnMouseClicked
-         //validation part
+        //validation part
         //checking the null state of the text fields
 
         boolean textField1=addNewUserName.getText().equals("");
@@ -5284,11 +5253,15 @@ public class homeAdminGUI extends javax.swing.JFrame {
 
                 if(addNewUserAllergies.getText().equals("")){
                     addNewUserFormNotificationLabel.setText("Please Fill The Data Fields");
+                    notificationClear(addNewUserFormNotificationLabel);
                 }else{
-
-                    addNewUserFormNotificationLabel.setText("Sumbiting A Requset");
+                    if(UserModel.userNameChecker(addNewUserName.getText())){
+                        addNewUserFormNotificationLabel.setText("UserName Already Taken!");
+                        notificationClear(addNewUserFormNotificationLabel);
+                    }else{
+                        addNewUserFormNotificationLabel.setText("Sumbiting A Requset");
+                        notificationClear(addNewUserFormNotificationLabel);
                     //setup a date
-
                     patient newPatient=new patient(
                         addNewUserName.getText(),
                         addNewUserFirstName.getText(),
@@ -5305,17 +5278,24 @@ public class homeAdminGUI extends javax.swing.JFrame {
                     //passing the value to model for write txt
                     PatientModel.writingTXT(newPatient.toString());
                     newPatient.newLoginPatient();
-                }
+                    }
+               }
 
             }
             if((userType.getSelectedItem()).toString()=="Receptionist"){
                 if(AddNewStaffID.getText().equals("")){
                     addNewUserFormNotificationLabel.setText("Please Fill The Data Fields");
+                    notificationClear(addNewUserFormNotificationLabel);
                 }else{
 
+                    if(UserModel.userNameChecker(addNewUserName.getText())){
+                    
+                        addNewUserFormNotificationLabel.setText("UserName Already Taken!");
+                        notificationClear(addNewUserFormNotificationLabel);
+                    }else{
                     addNewUserFormNotificationLabel.setText("Sumbiting A Requset");
+                    notificationClear(addNewUserFormNotificationLabel);
                     //setup a date
-
                     receptionist newReceptionist=new receptionist(
                         Integer.parseInt(AddNewStaffID.getText()),
                         emailText.getText(),
@@ -5332,17 +5312,22 @@ public class homeAdminGUI extends javax.swing.JFrame {
                     //passing the value to model for write txt
                     ReceptionistModel.writingTXT(newReceptionist.toString());
                     newReceptionist.newLoginReceptionist();
+                    }
                 }
             }
             if((userType.getSelectedItem()).toString()=="Medical officer"){
                 if(AddNewStaffID.getText().equals("") && emailText.getText().equals("")){
                     addNewUserFormNotificationLabel.setText("Please Fill The Data Fields");
+                    notificationClear(addNewUserFormNotificationLabel);
                 }else{
-
-                    addNewUserFormNotificationLabel.setText("Sumbiting A Requset");
+                    if(UserModel.userNameChecker(addNewUserName.getText())){
+                        addNewUserFormNotificationLabel.setText("UserName Already Taken!");
+                        notificationClear(addNewUserFormNotificationLabel);
+                    }else{
+                        addNewUserFormNotificationLabel.setText("Sumbiting A Requset");
+                        notificationClear(addNewUserFormNotificationLabel);
                     //setup a date
-
-                    medicalOfficers newMedicalOfficerObj=new medicalOfficers(
+                        medicalOfficers newMedicalOfficerObj=new medicalOfficers(
                         Integer.parseInt(AddNewStaffID.getText()),
                         emailText.getText(),
                         AddNewUserSpecializedAreaDropDown.getSelectedItem().toString(),
@@ -5359,20 +5344,14 @@ public class homeAdminGUI extends javax.swing.JFrame {
                     //passing the value to model for write txt
                     MedicalOfficerModel.writingTXT(newMedicalOfficerObj.toString());
                     newMedicalOfficerObj.newLoginMedicalOfficer();
-                }
- 
-
-            }
+                    }
+                    }
+             }
         }else{
-
             addNewUserFormNotificationLabel.setText("Please Fill The Data Fields");
-
+            notificationClear(addNewUserFormNotificationLabel);
         }
     }//GEN-LAST:event_addNewUserBtnMouseClicked
-
-    private void deleteComplainBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteComplainBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_deleteComplainBtnActionPerformed
 
     private void addNewComplainDepartmentBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addNewComplainDepartmentBtnMouseClicked
         referenceController newComplainDepartmentObj= new referenceController(addNewComplainDepartment.getText(),true); 
@@ -5380,7 +5359,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
         referenceNotification.setText("Department Added");
         dropDownFeederModel departmentObj=new dropDownFeederModel("departments.txt",avalaibleDepartmentDropDown);
         departmentObj.dropFeeder(true);
-                
     }//GEN-LAST:event_addNewComplainDepartmentBtnMouseClicked
 
     private void addNewSpecialistAreaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addNewSpecialistAreaBtnMouseClicked
@@ -5392,15 +5370,235 @@ public class homeAdminGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_addNewSpecialistAreaBtnMouseClicked
 
     private void deleteComplainBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteComplainBtnMouseClicked
-        // TODO add your handling code here:
+        referenceNotification.setText("Are You Want To Delete?");
+        referenceDeleteConformationYes.setVisible(true);
+        referenceDeleteConformationNo.setVisible(true);
+        referenceState=1;
     }//GEN-LAST:event_deleteComplainBtnMouseClicked
-    
 
+    private void minimumBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimumBtnMouseClicked
+        this.setState(JFrame.ICONIFIED);
+    }//GEN-LAST:event_minimumBtnMouseClicked
 
+    private void deleteSpecialAreaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteSpecialAreaBtnMouseClicked
+        referenceNotification.setText("Are You Want To Delete?");
+        referenceDeleteConformationYes.setVisible(true);
+        referenceDeleteConformationNo.setVisible(true);
+        referenceState=2;
+    }//GEN-LAST:event_deleteSpecialAreaBtnMouseClicked
 
+    private void referenceDeleteConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_referenceDeleteConformationNoMouseClicked
+        referenceNotification.setText("");
+        referenceDeleteConformationYes.setVisible(false);
+        referenceDeleteConformationNo.setVisible(false);
+    }//GEN-LAST:event_referenceDeleteConformationNoMouseClicked
 
-    
+    private void referenceDeleteConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_referenceDeleteConformationYesMouseClicked
+        if(referenceState==1){
+            try {
+                ReferenceModel.deleteRefRecord(1,deleteComplainDepartment.getSelectedItem().toString());
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            dropDownFeederModel departmentObj=new dropDownFeederModel("departments.txt",deleteComplainDepartment);
+            departmentObj.dropFeeder(true);
+       }else{
+        
+            try {
+                ReferenceModel.deleteRefRecord(2,deleteSpecialArea.getSelectedItem().toString());
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+            dropDownFeederModel specialAreaObj=new dropDownFeederModel("specializedArea.txt",deleteSpecialArea);
+            specialAreaObj.dropFeeder(true);
+        }
+        
+        referenceDeleteConformationYes.setVisible(false);
+        referenceDeleteConformationNo.setVisible(false);
+        referenceNotification.setText("Record Deleted!");
+    }//GEN-LAST:event_referenceDeleteConformationYesMouseClicked
 
+    private void logOutBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutBtnMouseClicked
+        new startLogin().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_logOutBtnMouseClicked
+
+    private void saveToJsonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveToJsonMouseClicked
+        ReportModel.patientToJson();
+        reportNotification.setText("JSON Saved");
+        notificationClear(reportNotification);
+    }//GEN-LAST:event_saveToJsonMouseClicked
+
+    private void resetPatientPasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resetPatientPasswordMouseClicked
+        if(!patientDetailsTable.getSelectionModel().isSelectionEmpty()){
+           UserModel.patientPassReset(getSelectedRowStringFromReleventTable(patientDetailsTable));
+            patientAreYouWantToDelete.setText("Password Reset");
+            notificationClear(patientAreYouWantToDelete);
+        }else{
+            patientAreYouWantToDelete.setText("Select the Row to Reset");
+            notificationClear(patientAreYouWantToDelete);
+        }
+    }//GEN-LAST:event_resetPatientPasswordMouseClicked
+
+    private void resetMedicalOfficerPasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resetMedicalOfficerPasswordMouseClicked
+        if(!MedicalOfficersTable.getSelectionModel().isSelectionEmpty()){
+             
+        UserModel.medicalPassReset(getSelectedRowStringFromReleventTable(MedicalOfficersTable));
+        medicalAreYouWantDelete.setText("Password Reset");
+        notificationClear(medicalAreYouWantDelete);
+        }else{
+            medicalAreYouWantDelete.setText("Select the Row to Reset");
+            notificationClear(medicalAreYouWantDelete);
+        }
+    }//GEN-LAST:event_resetMedicalOfficerPasswordMouseClicked
+
+    private void resetReceptionPasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resetReceptionPasswordMouseClicked
+        if(!ReceptiontistTable.getSelectionModel().isSelectionEmpty()){
+           UserModel.receptionistPassReset(getSelectedRowStringFromReleventTable(ReceptiontistTable));
+            receptionAreYouWantToDelete.setText("Password Reset");
+            notificationClear(receptionAreYouWantToDelete);
+        }else{
+            receptionAreYouWantToDelete.setText("Select the Row to Reset");
+            notificationClear(receptionAreYouWantToDelete);
+        }
+    }//GEN-LAST:event_resetReceptionPasswordMouseClicked
+
+    private void saveToPdfAppMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveToPdfAppMouseClicked
+        try {
+            ReportModel.appointmentToPDF(AppointmentModel.medicalOffierAppoinmentSelecter(pdfMedicalOfficersDropDown.getSelectedItem().toString()),pdfMedicalOfficersDropDown.getSelectedItem().toString());
+        } catch (FileNotFoundException | DocumentException ex) {
+            Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        reportNotification.setText("Pdf Saved");
+        notificationClear(reportNotification);
+    }//GEN-LAST:event_saveToPdfAppMouseClicked
+
+    private void viewAppointmentBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewAppointmentBtnMouseClicked
+        AppointmentModel.viewAppointment(viewAppointmentTable);
+
+    }//GEN-LAST:event_viewAppointmentBtnMouseClicked
+
+    private void viewAppointmentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewAppointmentTableMouseClicked
+
+        if(!viewAppointmentTable.getSelectionModel().isSelectionEmpty()){
+            AppIntialDeleteBtn.setEnabled(true);
+            AppIntialSaveBtn.setEnabled(true);
+        }
+    }//GEN-LAST:event_viewAppointmentTableMouseClicked
+
+    private void deleteConformationNoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteConformationNoMouseClicked
+        deleteConformationYes.setVisible(false);
+        deleteConformationNo.setVisible(false);
+        areYouWantToDelete.setVisible(false);
+    }//GEN-LAST:event_deleteConformationNoMouseClicked
+
+    private void deleteConformationYesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteConformationYesMouseClicked
+        if(!viewAppointmentTable.getSelectionModel().isSelectionEmpty()){
+
+            appointmentController deleteAppObj=new appointmentController(getSelectedRowStringFromReleventTable(viewAppointmentTable));
+            AppointmentModel.deleteAppointment(deleteAppObj);
+            AppointmentModel.viewAppointment(viewAppointmentTable);
+            deleteConformationYes.setVisible(false);
+            deleteConformationNo.setVisible(false);
+            areYouWantToDelete.setVisible(false);
+
+        }else{
+
+            areYouWantToDelete.setText("Please Select the Row to Delete");
+            deleteConformationYes.setVisible(false);
+            deleteConformationNo.setVisible(false);
+            notificationClear(areYouWantToDelete);
+
+        }
+
+    }//GEN-LAST:event_deleteConformationYesMouseClicked
+
+    private void AppIntialDeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AppIntialDeleteBtnMouseClicked
+        if(!viewAppointmentTable.getSelectionModel().isSelectionEmpty()){
+            areYouWantToDelete.setVisible(true);
+            areYouWantToDelete.setText("Are you sure want to delete this record?");
+            deleteConformationYes.setVisible(true);
+            deleteConformationNo.setVisible(true);
+        }else{
+            areYouWantToDelete.setVisible(true);
+            areYouWantToDelete.setText("Please Select the Record To Delete");
+            notificationClear(areYouWantToDelete);
+        }
+    }//GEN-LAST:event_AppIntialDeleteBtnMouseClicked
+
+    private void AppIntialSaveBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AppIntialSaveBtnMouseClicked
+        areYouWantToDelete.setVisible(true);
+        areYouWantToDelete.setText("Record Has Been Updated");
+        notificationClear(areYouWantToDelete);
+        AppointmentModel.updateAppointment(updateRow,
+            getUpdatedRowStringFromReleventTable(viewAppointmentTable,updateRow)
+        );
+        AppointmentModel.viewAppointment(viewAppointmentTable);
+    }//GEN-LAST:event_AppIntialSaveBtnMouseClicked
+
+    private void AddNewAppointmnetSpecializedAreaDropDownItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_AddNewAppointmnetSpecializedAreaDropDownItemStateChanged
+        if(evt.getStateChange()==ItemEvent.SELECTED){
+            //remove the existing valus of drop down menu
+            MedicalOfficerDropDown.removeAllItems();
+            dropDownFeederModel medicalOfficerDropDownObj=new dropDownFeederModel("medicalOfficerDetails.txt",
+                MedicalOfficerDropDown,
+                AddNewAppointmnetSpecializedAreaDropDown.getSelectedItem().toString());
+            medicalOfficerDropDownObj.dropFeeder();
+
+        }
+    }//GEN-LAST:event_AddNewAppointmnetSpecializedAreaDropDownItemStateChanged
+
+    private void AddNewAppointmentBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddNewAppointmentBtnMouseClicked
+        boolean textField11=addNewAppointmentPatientName.getText().equals("");
+        boolean textField12=addNewAppointmentSymptoms.getText().equals("");
+
+        if(!(textField11 || textField12)){
+
+            addNewAppointmentNotficationLabel.setText("Sumbiting the Appointment");
+            notificationClear(addNewAppointmentNotficationLabel);
+            date appointmentDateObj=new date(
+                (Integer)addNewAppointmentDay.getValue(),
+                (Integer)addNewAppointmentMonth.getValue(),
+                (Integer)addNewAppointmentYear.getValue()
+            );
+            time appointmentTimeObj=new time(
+                (Integer)AddNewAppointmentMinutes.getValue(),
+                (Integer)AddNewAppointmentHours.getValue(),
+                AddNewAppointmentAMPM.getSelectedItem().toString()
+            );
+            appointmentController addNewApp=new appointmentController(
+                addNewAppointmentPatientName.getText(),//0
+                MedicalOfficerDropDown.getSelectedItem().toString(),//1
+                appointmentDateObj,//2
+                appointmentTimeObj,//3
+                addNewAppointmentSymptoms.getText(),//4
+                "Pending",//5
+                AppointmentModel.getNextAppRefNo());//6
+
+            AppointmentModel.writingTXT(addNewApp.toString());
+
+        }else{
+            addNewAppointmentNotficationLabel.setText("Please fill all fields");
+            notificationClear(addNewAppointmentNotficationLabel);
+
+        }
+
+    }//GEN-LAST:event_AddNewAppointmentBtnMouseClicked
+
+    private void saveToJson1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveToJson1MouseClicked
+        ReportModel.medicalToJson();
+        reportNotification.setText("JSON Saved");
+        notificationClear(reportNotification);
+    }//GEN-LAST:event_saveToJson1MouseClicked
+
+    private void saveToJson2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveToJson2MouseClicked
+        ReportModel.receptionistToJson();
+        reportNotification.setText("JSON Saved");
+        notificationClear(reportNotification);
+    }//GEN-LAST:event_saveToJson2MouseClicked
+ 
     public static void main(String args[]) {
 
         /* Set the Nimbus look and feel */
@@ -5430,7 +5628,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 
-                //new homeAdminGUI("ADMIN","").setVisible(true);
+                new homeAdminGUI("ADMIN").setVisible(true);
                 
             }
         });
@@ -5507,7 +5705,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JSpinner VisitorRecordOutMinutes;
     private javax.swing.JTextField VisitorRecordPhoneNo;
     private javax.swing.JTextField VisitorRecordPurpose;
-    private javax.swing.JTextField addNewAppointmentConclution;
     private javax.swing.JSpinner addNewAppointmentDay;
     private javax.swing.JSpinner addNewAppointmentMonth;
     private javax.swing.JLabel addNewAppointmentNotficationLabel;
@@ -5573,10 +5770,28 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JPanel home;
     private javax.swing.JPanel homePannel;
     private keeptoo.KGradientPanel hourHome;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel100;
+    private javax.swing.JLabel jLabel101;
+    private javax.swing.JLabel jLabel102;
+    private javax.swing.JLabel jLabel103;
+    private javax.swing.JLabel jLabel104;
+    private javax.swing.JLabel jLabel105;
+    private javax.swing.JLabel jLabel106;
+    private javax.swing.JLabel jLabel107;
+    private javax.swing.JLabel jLabel108;
+    private javax.swing.JLabel jLabel109;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel110;
+    private javax.swing.JLabel jLabel111;
+    private javax.swing.JLabel jLabel112;
+    private javax.swing.JLabel jLabel113;
+    private javax.swing.JLabel jLabel114;
+    private javax.swing.JLabel jLabel115;
+    private javax.swing.JLabel jLabel116;
+    private javax.swing.JLabel jLabel117;
+    private javax.swing.JLabel jLabel118;
+    private javax.swing.JLabel jLabel119;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -5643,9 +5858,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel70;
     private javax.swing.JLabel jLabel71;
-    private javax.swing.JLabel jLabel72;
-    private javax.swing.JLabel jLabel73;
-    private javax.swing.JLabel jLabel74;
     private javax.swing.JLabel jLabel75;
     private javax.swing.JLabel jLabel76;
     private javax.swing.JLabel jLabel77;
@@ -5653,12 +5865,26 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel79;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel80;
+    private javax.swing.JLabel jLabel81;
+    private javax.swing.JLabel jLabel82;
+    private javax.swing.JLabel jLabel83;
     private javax.swing.JLabel jLabel84;
     private javax.swing.JLabel jLabel85;
     private javax.swing.JLabel jLabel86;
     private javax.swing.JLabel jLabel87;
     private javax.swing.JLabel jLabel88;
+    private javax.swing.JLabel jLabel89;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel90;
+    private javax.swing.JLabel jLabel91;
+    private javax.swing.JLabel jLabel92;
+    private javax.swing.JLabel jLabel93;
+    private javax.swing.JLabel jLabel94;
+    private javax.swing.JLabel jLabel95;
+    private javax.swing.JLabel jLabel96;
+    private javax.swing.JLabel jLabel97;
+    private javax.swing.JLabel jLabel98;
+    private javax.swing.JLabel jLabel99;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -5675,8 +5901,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;
-    private javax.swing.JPanel jPanel24;
-    private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel27;
     private javax.swing.JPanel jPanel28;
@@ -5702,9 +5926,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
-    private javax.swing.JPasswordField jPasswordField3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
@@ -5721,6 +5942,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane5;
     private keeptoo.KGradientPanel kGradientPanel1;
+    private javax.swing.JButton logOutBtn;
     private javax.swing.JLabel loginDetailsAreYouWantToDelete;
     private javax.swing.JButton loginDetailsConformationNo;
     private javax.swing.JButton loginDetailsConformationYes;
@@ -5745,6 +5967,7 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JTable patientDetailsTable;
     private javax.swing.JButton patientIntialDeleteBtn;
     private javax.swing.JButton patientUpdateBtn;
+    private javax.swing.JComboBox<String> pdfMedicalOfficersDropDown;
     private javax.swing.JPanel postal;
     private javax.swing.JPanel postalPanel;
     private javax.swing.JLabel receptionAreYouWantToDelete;
@@ -5757,10 +5980,20 @@ public class homeAdminGUI extends javax.swing.JFrame {
     private javax.swing.JPanel recievedTab;
     private javax.swing.JButton recievedUpdateBtn;
     private javax.swing.JPanel reference;
+    private javax.swing.JButton referenceDeleteConformationNo;
+    private javax.swing.JButton referenceDeleteConformationYes;
     private javax.swing.JLabel referenceNotification;
     private javax.swing.JPanel referencePanel;
     private javax.swing.JPanel report;
+    private javax.swing.JLabel reportNotification;
     private javax.swing.JPanel reportPanel;
+    private javax.swing.JButton resetMedicalOfficerPassword;
+    private javax.swing.JButton resetPatientPassword;
+    private javax.swing.JButton resetReceptionPassword;
+    private javax.swing.JButton saveToJson;
+    private javax.swing.JButton saveToJson1;
+    private javax.swing.JButton saveToJson2;
+    private javax.swing.JButton saveToPdfApp;
     private javax.swing.JPanel sideMenu;
     private javax.swing.JComboBox<String> specializedAreaDropDown;
     private javax.swing.JPanel user;

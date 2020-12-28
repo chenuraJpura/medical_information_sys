@@ -9,5 +9,5 @@ Ophthalmologist
 Neurologist
 Radiologist
 Anesthesiologist   
-Dentist
 Otorhinolaryngology
+Dentist

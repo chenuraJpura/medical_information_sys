@@ -57,7 +57,6 @@ private static String filePath = "userData\\medicalOfficerDetails.txt";
 	}
     }//end of the function
 //view function---------------------------------------------------------------------------
-
 public static void viewMedicalOfficers(JTable medicalOfficersViewTable){
             
             File file = new File(filePath);
@@ -78,6 +77,8 @@ public static void viewMedicalOfficers(JTable medicalOfficersViewTable){
                 String[] dataRow = line.split(",");
                 model.addRow(dataRow);
             }
+            
+            br.close();
                   
         }catch (Exception ex){
                     Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -86,7 +87,7 @@ public static void viewMedicalOfficers(JTable medicalOfficersViewTable){
     
     }
 //delete function-------------------------------------------------------------------------
-   public static void deleteMedical(medicalOfficers deleteObj){
+public static void deleteMedical(medicalOfficers deleteObj){
             File file = new File(filePath);
         
         try {
@@ -118,7 +119,7 @@ public static void viewMedicalOfficers(JTable medicalOfficersViewTable){
                 if(deleteObj.objectMathcer(loopObj)){
                    break;
                 }
-                deleteIndexNo=+1;
+                deleteIndexNo+=1;
                 
             }
           medicalObjList.remove(deleteIndexNo);
@@ -129,6 +130,8 @@ public static void viewMedicalOfficers(JTable medicalOfficersViewTable){
               writingTXT(loopObj.toString());
                 
           }
+          
+          br.close();
                   
         }catch (Exception ex){
                     Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -174,6 +177,8 @@ public static void viewMedicalOfficers(JTable medicalOfficersViewTable){
               writingTXT(loopObj.toString());
                 
             }
+            
+            br.close();
                   
         }catch (Exception ex){
                     Logger.getLogger(homeAdminGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -182,5 +187,4 @@ public static void viewMedicalOfficers(JTable medicalOfficersViewTable){
     
     }
 
-   
 }
