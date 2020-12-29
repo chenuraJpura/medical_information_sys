@@ -40,11 +40,13 @@ Hospital Management System is an integrated health information system, which add
 |monaliPer       |895764532V                     |dilmi97         |978655670V                     |sujeewaR        |708667545V                     |
 |hashiniDi       |997845673V                     |parami123       |956784456V                     |nimalR          |657845634V                     |
 
-## Class diagrams
+## Class diagram
 ![Image of Yaktocat](https://i.ibb.co/ZNRCjKJ/Class-diagram-HMS.png)
-## Use Case diagrams
+## Use Case diagram
 ![Image of Yaktocat](https://i.ibb.co/ssQnNbZ/Untitled-Document-1-2.png)
-## Context diagrams
+## Structure diagram
+![Image of Yaktocat](https://i.ibb.co/x5yk3pw/diagram.png)
+## Context diagram
 ![Image of Yaktocat](https://i.ibb.co/fxYzLVc/Contex-diagram-HIMS-1.jpg)
 
 
