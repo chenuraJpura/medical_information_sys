@@ -554,11 +554,6 @@ public class homePatientGUI extends javax.swing.JFrame {
         addNewAppointmentPatientName.setEditable(false);
         addNewAppointmentPatientName.setFont(new java.awt.Font("Montserrat", 0, 15)); // NOI18N
         addNewAppointmentPatientName.setPreferredSize(new java.awt.Dimension(250, 30));
-        addNewAppointmentPatientName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addNewAppointmentPatientNameActionPerformed(evt);
-            }
-        });
 
         jLabel8.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
         jLabel8.setText("Appointment Time");
@@ -1682,10 +1677,6 @@ public class homePatientGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_addNewAppointmentSymptomsActionPerformed
 
-    private void addNewAppointmentPatientNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewAppointmentPatientNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addNewAppointmentPatientNameActionPerformed
-
     private void AddNewAppointmentBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddNewAppointmentBtnMouseClicked
         boolean textField11=addNewAppointmentPatientName.getText().equals("");
         boolean textField12=addNewAppointmentSymptoms.getText().equals("");
@@ -1714,7 +1705,6 @@ public class homePatientGUI extends javax.swing.JFrame {
 
             AppointmentModel.writingTXT(addNewApp.toString());
             ArrayList<JTextField> textFieldList=new ArrayList<JTextField>();
-            textFieldList.add(addNewAppointmentPatientName);
             textFieldList.add(addNewAppointmentSymptoms);
             textFieldClear(textFieldList);
         }else{
@@ -1841,6 +1831,7 @@ public class homePatientGUI extends javax.swing.JFrame {
                 ComplainModel.getNextReferenceNo()
             );
             ComplainModel.writingTXT(newComplain.toString());
+
         }else{
             complainWarning.setText("Please fill all fields");
             notificationClear(complainWarning);

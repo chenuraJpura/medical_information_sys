@@ -154,6 +154,9 @@
                       <Dimension value="[100, 30]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="maximumBtnMouseClicked"/>
+                  </Events>
 
                   <Layout>
                     <DimensionLayout dim="0">
@@ -921,65 +924,63 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="1" attributes="0">
-                                          <Component id="jLabel2" alignment="1" min="-2" pref="30" max="-2" attributes="0"/>
-                                          <Component id="jLabel6" alignment="1" min="-2" pref="30" max="-2" attributes="0"/>
-                                          <Component id="jLabel20" alignment="1" min="-2" pref="30" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="medicalPhoneNo" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
-                                              <Component id="jLabel22" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel61" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel65" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="addNewUserAddress" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
-                                              <Component id="allergiesLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="medicalEmail" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
-                                              <Component id="medicalLName" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
-                                              <Component id="jLabel23" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="saveMedicalBtnConformation" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="1" attributes="0">
+                                                  <Component id="jLabel2" alignment="1" min="-2" pref="30" max="-2" attributes="0"/>
+                                                  <Component id="jLabel6" alignment="1" min="-2" pref="30" max="-2" attributes="0"/>
+                                                  <Component id="jLabel20" alignment="1" min="-2" pref="30" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="medicalFName" min="-2" pref="250" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="jLabel3" min="-2" pref="30" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="medicalOldPassword" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="medicalNewPassword" alignment="0" max="32767" attributes="0"/>
-                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Component id="medicalPhoneNo" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
+                                                      <Component id="jLabel22" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jLabel61" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="jLabel65" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="addNewUserAddress" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
+                                                      <Component id="allergiesLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="medicalEmail" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
+                                                      <Component id="medicalLName" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
+                                                      <Component id="jLabel23" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      <Component id="saveMedicalBtnConformation" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" alignment="0" attributes="0">
+                                                  <Component id="medicalFName" min="-2" pref="250" max="-2" attributes="0"/>
+                                                  <EmptySpace max="32767" attributes="0"/>
+                                                  <Component id="jLabel3" min="-2" pref="30" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
                                           <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="medicalOldPassword" alignment="0" min="-2" pref="240" max="-2" attributes="0"/>
+                                              <Component id="medicalNewPassword" alignment="0" min="-2" pref="240" max="-2" attributes="0"/>
                                               <Component id="jLabel70" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="jLabel72" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="jLabel73" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="medicalNewPasswordConformation" alignment="0" min="-2" pref="240" max="-2" attributes="0"/>
                                               <Component id="changePassword" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="-2" pref="225" max="-2" attributes="0"/>
+                                          <Component id="kGradientPanel2" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="medicalOfficerFullName" min="-2" pref="200" max="-2" attributes="0"/>
+                                              <Component id="profilePicImgBrowse" min="-2" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
                                   </Group>
-                                  <EmptySpace min="-2" pref="102" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="225" max="-2" attributes="0"/>
-                                  <Component id="kGradientPanel2" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="medicalOfficerFullName" min="-2" pref="200" max="-2" attributes="0"/>
-                                      <Component id="profilePicImgBrowse" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace min="102" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -1051,7 +1052,7 @@
                                           </Group>
                                       </Group>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="allergiesLabel" min="-2" pref="19" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -1430,10 +1431,8 @@
                               <Component id="logOutBtn" max="32767" attributes="0"/>
                               <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel7" alignment="0" max="32767" attributes="0"/>
-                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="heightText" alignment="0" pref="150" max="32767" attributes="0"/>
-                                  <Component id="weightText" alignment="0" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="heightText" alignment="0" max="32767" attributes="0"/>
+                              <Component id="weightText" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <Component id="bmiDisplayText" min="-2" pref="150" max="-2" attributes="0"/>
                       </Group>

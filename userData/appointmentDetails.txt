@@ -2,8 +2,11 @@ anuShi,Roy Silva,1/1/2020,1:0 AM,heart attack,Pending,1003
 anuShi,Roy Silva,1/1/2020,1:0 AM,firevr,Approved,1004
 hashiniDi,Roy Silva,1/1/2020,1:0 AM,blok,finished,1005
 thusharaJP,Roy Silva,1/1/2020,1:0 AM,headache,Pending,1006
-Kulasiri Amrathunga,Sujeewa Rathnayake,1/1/2020,5:30 PM,leg cracked,Pending,1007
-Anushka Udana,kushani fernando,31/1/2021,7:0 AM,arm injured,Pending,1008
+Kulasiri Amrathunga,Sujeewa Rathnayake,1/1/2020,5:30 PM,leg cracked,Approved,1007
+Anushka Udana,kushani fernando,31/1/2021,7:0 AM,arm injured,Approved,1008
 Dilith Jayaweera,kushani fernando,1/1/2020,4:30 PM,ear problem,Pending,1009
 Ishara Manimekala,Ajantha Dissanayake,1/1/2020,6:0 PM,head problem,Pending,1010
 ranuka fernando,imeshi silva,1/1/2021,5:30 PM,leg cracked,Approved,1011
+janithR,Mangalika Senevirathne,1/1/2020,4:30 PM,rash on skin,Pending,1012
+deshanG,Namal Diaz,1/1/2020,4:30 PM,damged finger,Approved,1013
+monaliPer,Pavithra Wanniarachchi,1/1/2020,1:0 AM,finger pain,Pending,1014

@@ -2,3 +2,5 @@ anuShi,765477889,23/12/2020,departmt is dirty,taken,mad on the floor,Radiology D
 Ridmi Perera,713342453,20/12/2020,Pharamacists take long time to give medicines.,taken,take an action.,Pharmacy Department,1003
 Namal Kumara,776675467,20/12/2020,Take care of the workers healthful manners.,maybe taken,Tell them to wear masks every time,Human Resources Department,1004
 hashiniDi,754367896,27/12/2020,some thing wrong with workers,no-action-taken,blame my child,Pathology Department,1005
+janithR,712567456,29/12/2020,reception not talk nicely,no-action-taken,they blamed me,Out-Patient & Front-Office Department,1006
+monaliPer,774567235,29/12/2020,they talk their workers badly,no-action-taken,do something,Human Resources Department,1007

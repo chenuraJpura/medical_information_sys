@@ -1,6 +1,4 @@
 ovani,kushani,fernando,765477889,998756126V,12/5/1999,moratuwa,AB,FEMALE,UNMARRIED,none
-janithR,Janith,Rathnayake,712567456,995672345V,25/12/1999,Kandy,O,MALE,UNMARRIED,none
-deshanG,Deshan,Gunasinghe,778308002,990223456V,8/5/1999,Gampola,AB,MALE,UNMARRIED,none
 monaliPer,Monali,Perera,774567235,895764532V,14/6/1989,Gampaha,B,FEMALE,MARRIED,none
 hashiniDi,Hashini,Dilhara,754367896,997845673V,7/3/1999,Kurunegala,AB,FEMALE,UNMARRIED,none
 Skumudu,Kumudu,Sanjeewani,763458745,753459876V,17/1/1975,Kegalle,O,FEMALE,MARRIED,food allergy
@@ -20,3 +18,5 @@ Prasadini25,Prasadini,Malika,783456789,995670956,25/9/1999,Mahakanda,O,FEMALE,UN
 gayan89,Gayan,Kaldera,777072345,662610583V,5/8/1966,Kandy,O,MALE,MARRIED,null
 sandeepaniN00,Sandeepani,Nugaliyadda,715676433,19943603516V,29/1/1994,Mawanella,B,FEMALE,MARRIED,null
 ayesha97,Ayesha,Weerakoon,705648902,693178016V,9/9/1969,Mathara,A,FEMALE,MARRIED,null
+janithR,Janith,Rathnayake,712567456,995672345V,25/12/1999,Gampola,O,MALE,UNMARRIED,none
+deshanG,Deshan,Gunasinghe,778308002,990223456V,8/5/1999,Kandy,AB,MALE,UNMARRIED,none

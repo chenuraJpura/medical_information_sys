@@ -584,7 +584,6 @@ public class homeAdminGUI extends javax.swing.JFrame {
         closeMaxMinPanel.setMinimumSize(new java.awt.Dimension(250, 40));
         closeMaxMinPanel.setOpaque(false);
 
-        closeBtn.setkBorderRadius(20);
         closeBtn.setkEndColor(new java.awt.Color(255, 0, 153));
         closeBtn.setkStartColor(new java.awt.Color(255, 0, 102));
         closeBtn.setOpaque(false);

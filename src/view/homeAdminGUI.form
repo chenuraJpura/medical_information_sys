@@ -127,7 +127,6 @@
               <SubComponents>
                 <Container class="keeptoo.KGradientPanel" name="closeBtn">
                   <Properties>
-                    <Property name="kBorderRadius" type="int" value="20"/>
                     <Property name="kEndColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="99" green="0" red="ff" type="rgb"/>
                     </Property>
