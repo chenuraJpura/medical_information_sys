@@ -45,7 +45,7 @@ Hospital Management System is an integrated health information system, which add
 ## Use Case diagram
 ![Image of Yaktocat](https://i.ibb.co/ssQnNbZ/Untitled-Document-1-2.png)
 ## Structure diagram
-![Image of Yaktocat](https://i.ibb.co/x5yk3pw/diagram.png)
+![Image of Yaktocat](https://i.ibb.co/N1fhgdq/diagram.png)
 ## Context diagram
 ![Image of Yaktocat](https://i.ibb.co/fxYzLVc/Contex-diagram-HIMS-1.jpg)
 
